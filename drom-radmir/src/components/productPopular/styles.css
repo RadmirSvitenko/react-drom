@@ -1,0 +1,41 @@
+.product-popular-swiper {
+  width: 100%;
+  padding: 100px 0px;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-button-prev {
+  color: #acbecf;
+  margin-left: 20px;
+}
+
+.swiper-button-next {
+  color: #acbecf;
+  margin-right: 20px;
+}
+
+.swiper-pagination-bullet {
+  color: #acbecf;
+  background-color: #acbecf;
+  transition: 0.5s;
+}
+
+.swiper-pagination-bullet-active {
+  padding: 2px;
+  transition: 0.5s;
+}
+
+.swiper-pagination {
+  margin: 0px;
+  padding: 0px;
+  bottom: 0;
+}
