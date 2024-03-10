@@ -15,12 +15,11 @@ export const AuthorizationContainer = styled(Box)(() => ({
 }));
 
 export const AuthorizationTitle = styled(Box)(() => ({
-  fontFamily: theme.fonts.Trebuchet,
+  fontFamily: theme.typography.fontFamily[1],
   fontSize: '18px',
-  textTransform: 'uppercase',
   fontWeight: '600',
   letterSpacing: '1px',
-  color: '#fff',
+  color: '#000',
 }));
 
 export const AuthorizationContent = styled(Box)(() => ({
@@ -45,22 +44,22 @@ export const AuthorizationForm = styled('form')(() => ({
 export const AuthorizationField = styled(TextField)(() => ({
   color: '#fff',
   background: theme.palette.secondary.main,
-  fontSize: '12px',
+  fontSize: '11px',
   transition: '0.5s',
-  letterSpacing: '1.5px',
-  borderRadius: '10px',
 
   '& .MuiOutlinedInput-root': {
     color: '#000',
     letterSpacing: '1.5px',
     padding: '0px 10px 0px 5px',
-    fontFamily: theme.fonts.Trebuchet,
+    fontFamily: theme.typography.fontFamily[1],
     fontWeight: '800',
+    borderRadius: '5px',
 
     '& fieldset': {
       color: '#000',
       transition: '0.5s',
       letterSpacing: '1.5px',
+      borderRadius: '5px',
     },
     '&:hover fieldset': {
       color: '#000',
@@ -74,18 +73,19 @@ export const AuthorizationField = styled(TextField)(() => ({
 }));
 
 export const AuthorizationEnterButton = styled(Button)(() => ({
-  margin: '20px 0px',
+  margin: '10px 0px',
   color: '#000',
   background: theme.palette.secondary.main,
   padding: '10px 15px',
-  fontFamily: theme.fonts.Trebushet,
+  fontFamily: theme.typography.fontFamily[1],
   letterSpacing: '1px',
   transition: '0.6s',
   borderRadius: '10px',
+  textTransform: 'capitalize',
 
   ':hover': {
     transition: '0.6s',
-    background: '#C4C2BE',
+    background: '#B6A99E',
     color: '#000',
   },
 }));
@@ -99,14 +99,31 @@ export const AuthorizationHelperBox = styled(Box)(() => ({
 }));
 
 export const AuthorizationHelperText = styled(Box)(() => ({
-  color: '#fff',
+  color: '#000',
+  fontFamily: theme.typography.fontFamily[1],
 }));
 
 export const AuthorizationHelperButton = styled(Button)(() => ({
-  color: '#fff',
   textTransform: 'capitalize',
+  color: '#000',
+  fontFamily: theme.typography.fontFamily[1],
+
   ':hover': {
     textDecoration: 'underline',
-    color: '#ff2222',
+    color: '#B6A99E',
   },
+}));
+
+export const InputMessage = styled('span')(() => ({
+  color: 'red',
+  letterSpacing: '1px',
+  textAlign: 'center',
+}));
+
+export const InputMessageBox = styled('div')(() => ({
+  width: '300px',
+  display: 'flex',
+  justifyContent: 'center',
+  overflowWrap: 'break-word',
+  flexWrap: 'wrap',
 }));

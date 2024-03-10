@@ -1,12 +1,30 @@
 import styled from '@emotion/styled';
 import { AppBar, Box, Drawer } from '@mui/material';
+import theme from 'theme';
+
+const { sm, md, lg, xl } = theme.breakpoints.values;
 
 export const Container = styled(Box)(() => ({
   display: 'flex',
 }));
 
 export const CustomDrawer = styled(Drawer)(({ adminDrawer }) => ({
-  width: '300px',
+  [sm]: {
+    width: '100%',
+  },
+
+  [md]: {
+    width: '300px',
+  },
+
+  [lg]: {
+    width: '300px',
+  },
+
+  [xl]: {
+    width: '300px',
+  },
+
   flexShrink: '0',
   display: adminDrawer ? 'flex' : 'none',
   transition: '1s',
@@ -18,7 +36,22 @@ export const CustomDrawer = styled(Drawer)(({ adminDrawer }) => ({
 }));
 
 export const CustomDrawerHeader = styled(Box)(() => ({
-  width: '300px',
+  [sm]: {
+    width: '0%',
+  },
+
+  [md]: {
+    width: '300px',
+  },
+
+  [lg]: {
+    width: '300px',
+  },
+
+  [xl]: {
+    width: '300px',
+  },
+
   height: '70px',
   display: 'flex',
   justifyContent: 'flex-end',
@@ -26,6 +59,17 @@ export const CustomDrawerHeader = styled(Box)(() => ({
 }));
 
 export const CustomAppBar = styled(AppBar)(({ adminDrawer }) => ({
+  [sm]: {
+    ...(adminDrawer && {
+      width: '0px',
+      height: '0px',
+    }),
+  },
+
+  [md]: {
+    width: '300px',
+  },
+
   ...(adminDrawer && {
     width: `calc(100% - 300px)`,
     height: '70px',
@@ -40,4 +84,7 @@ export const MenuContainer = styled(Box)(() => ({
   justifyContent: 'center',
   alignItems: 'center',
   marginTop: '70px',
+  [theme.breakpoints.down('sm')]: {
+    width: 'auto',
+  },
 }));

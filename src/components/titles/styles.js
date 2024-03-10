@@ -1,15 +1,12 @@
 import styled from '@emotion/styled';
-import { Box } from '@mui/material';
+import { Typography } from '@mui/material';
 import theme from 'theme';
 
-export const TitleBox = styled(Box)(() => ({
-  width: '100%',
-  height: 'auto',
-  fontFamily: theme.fonts.Trebuchet,
-  textAlign: 'center',
-  fontSize: '30px',
-  padding: '15px 0px',
+export const CustomTitle = styled(Typography)(() => ({
+  fontFamily: theme.typography.fontFamily[1],
+  fontSize: '20px',
+  padding: '5px',
+  color: '#000',
   textTransform: 'uppercase',
-  letterSpacing: '2px',
-  fontWeight: '700',
+  letterSpacing: '1px',
 }));

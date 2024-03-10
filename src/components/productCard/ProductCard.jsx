@@ -2,39 +2,38 @@ import React from 'react';
 import {
   ProductCardButton,
   ProductCardContainer,
+  ProductCardDetails,
   ProductCardImageBox,
   ProductCardInfoBox,
   ProductCardTitleText,
 } from './styles';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getProduct } from 'reducers/productSlice';
+import { Typography } from '@mui/material';
 
-const ProductCard = ({ product, onClose }) => {
+const ProductCard = ({ product }) => {
   const navigate = useNavigate();
+
   const toDetails = (id) => {
     navigate(`/catalog/${id}`);
-    onClose
-      ? onClose() && navigate(`/catalog/${id}`)
-      : navigate(`/catalog/${id}`);
   };
   return (
-    <>
-      <ProductCardContainer>
-        <ProductCardImageBox product={product}>
-          <img
-            width={'250px'}
-            height={'250px'}
-            src={product.images[0]}
-            alt={product.title}
-          />
-        </ProductCardImageBox>
-        <ProductCardInfoBox>
-          <ProductCardTitleText>{product.title}</ProductCardTitleText>
-        </ProductCardInfoBox>
-        <ProductCardButton fullWidth onClick={() => toDetails(product.id)}>
+    <ProductCardContainer onClick={() => navigate('/catalog')}>
+      <ProductCardImageBox image={product?.images[0]?.image}>
+        <ProductCardDetails>
+          <Typography>{product?.title}</Typography>
+          <Typography>${product?.price}</Typography>
+          <Typography>Подробнее</Typography>
+        </ProductCardDetails>
+      </ProductCardImageBox>
+      <ProductCardInfoBox>
+        <ProductCardTitleText>{product.name}</ProductCardTitleText>
+      </ProductCardInfoBox>
+      {/* <ProductCardButton fullWidth onClick={() => toDetails(product.id)}>
           Подробнее
-        </ProductCardButton>
-      </ProductCardContainer>
-    </>
+        </ProductCardButton> */}
+    </ProductCardContainer>
   );
 };
 

@@ -1,275 +1,104 @@
-import React from "react";
+import React from 'react';
 import {
-  CustomListBox,
+  Container,
+  CustomCategoryBox,
   CustomListBoxIcon,
+  CustomSubcategoryBox,
   CustomSwipeableDrawer,
-  CustomSwipeableDrawerBox,
   CustomUl,
   CustomUlSubMenu,
-} from "./styles";
-import { EastRounded } from "@mui/icons-material";
-import { Box, Collapse } from "@mui/material";
-import { useTranslation } from "react-i18next";
+} from './styles';
+import { EastRounded } from '@mui/icons-material';
+import { Collapse } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { getProducts } from 'reducers/productSlice';
 
-const allowedLists = [
-  "tables",
-  "chairs",
-  "armChairs",
-  "sofas",
-  "decor",
-  "bedding",
-  "finishMaterials",
-];
+const MenuCategory = ({ open, onClose, visibility, setVisibility }) => {
+  const categories =
+    useSelector((state) => state.categoryReducer.categories) || [];
 
-const CATEGORIES = {
-  tables: [
-    "Мебель 1",
-    "Хорека 1",
-    "Свет 1",
-    "Декор 1",
-    "Отделочные материалы 1",
-  ],
+  const subcategories =
+    useSelector((state) => state.subcategoryReducer.subcategories) || [];
 
-  chairs: [
-    "Мебель 2",
-    "Хорека 2",
-    "Свет 2",
-    "Декор 2",
-    "Отделочные материалы 2",
-  ],
-  armChairs: [
-    "Мебель 3",
-    "Хорека 3",
-    "Свет 3",
-    "Декор 3",
-    "Отделочные материалы 3",
-  ],
+  const navigate = useNavigate();
 
-  sofas: [
-    "Мебель 4",
-    "Хорека 4",
-    "Свет 4",
-    "Декор 4",
-    "Отделочные материалы 4",
-  ],
+  const toCatalog = (name, id) => {
+    navigate(`/catalog/${name}/${id}`);
+    onClose();
+  };
 
-  decor: [
-    "Мебель 5",
-    "Хорека 5",
-    "Свет 5",
-    "Декор 5",
-    "Отделочные материалы 5",
-  ],
-
-  bedding: [
-    "Мебель 6",
-    "Хорека 6",
-    "Свет 6",
-    "Декор 6",
-    "Отделочные материалы 6",
-  ],
-
-  finishMaterials: [
-    "Мебель 7",
-    "Хорека 7",
-    "Свет 7",
-    "Декор 7",
-    "Отделочные материалы 7",
-  ],
-};
-
-const MenuCategory = ({
-  open,
-  onClose,
-  visibilityList,
-  setVisibilityList,
-  visibilityDesignList,
-  setVisibilityDesignList,
-}) => {
-  console.log("visibilityList: ", visibilityList);
-  const { t } = useTranslation();
-
-  const handleVisibilityCategory = (category) => {
-    switch (category) {
-      case "tables": {
-        setVisibilityList("tables");
-        setVisibilityDesignList({ tables: true });
-        break;
-      }
-
-      case "chairs": {
-        setVisibilityList("chairs");
-        setVisibilityDesignList({ chairs: true });
-
-        break;
-      }
-
-      case "armChairs": {
-        setVisibilityList("armChairs");
-        setVisibilityDesignList({ armChairs: true });
-
-        break;
-      }
-
-      case "sofas": {
-        setVisibilityList("sofas");
-        setVisibilityDesignList({ sofas: true });
-
-        break;
-      }
-
-      case "decor": {
-        setVisibilityList("decor");
-        setVisibilityDesignList({ decor: true });
-
-        break;
-      }
-
-      case "bedding": {
-        setVisibilityList("bedding");
-        setVisibilityDesignList({ bedding: true });
-
-        break;
-      }
-
-      case "finishMaterials": {
-        setVisibilityList("finishMaterials");
-        setVisibilityDesignList({ finishMaterials: true });
-
-        break;
-      }
-      default:
-        setVisibilityList(null);
-    }
+  const handleVisibilityCategory = (id, name) => {
+    setVisibility({
+      bind: id,
+      checkedNameCategory: name,
+      checkedNameSubcategory: '',
+      design: true,
+    });
   };
 
   return (
     <>
       <CustomSwipeableDrawer
         transitionDuration={700}
-        anchor={"left"}
+        anchor={'left'}
         open={open}
         onClose={onClose}
       >
-        <CustomSwipeableDrawerBox>
-          <Box>
-            <CustomUl>
-              {/* <CustomListImageBox>
-                <img width={"140px"} src={logotype} alt="Drom" />
-              </CustomListImageBox> */}
-
-              <CustomListBox
-                onMouseOver={() => handleVisibilityCategory("tables")}
-                // onMouseLeave={() => handleVisibilityCategory}
-                visibilityDesignList={visibilityDesignList.tables}
-              >
-                {t("categoryTables")}
-                <CustomListBoxIcon
-                  visibilityDesignList={visibilityDesignList.tables}
+        <Container>
+          <CustomUl>
+            {categories?.map(({ id, name }) => (
+              <React.Fragment key={id}>
+                <CustomCategoryBox
+                  name={name}
+                  checkedNameCategory={visibility.checkedNameCategory}
+                  design={visibility.design}
+                  onMouseOver={() => handleVisibilityCategory(id, name)}
+                  onClick={() => toCatalog('category', id)}
                 >
-                  <EastRounded />
-                </CustomListBoxIcon>
-              </CustomListBox>
-
-              <CustomListBox
-                onMouseOver={() => handleVisibilityCategory("chairs")}
-                visibilityDesignList={visibilityDesignList.chairs}
-              >
-                {t("categoryChairs")}
-
-                <CustomListBoxIcon
-                  visibilityDesignList={visibilityDesignList.chairs}
-                >
-                  <EastRounded />
-                </CustomListBoxIcon>
-              </CustomListBox>
-
-              <CustomListBox
-                onMouseOver={() => handleVisibilityCategory("armChairs")}
-                visibilityDesignList={visibilityDesignList.armChairs}
-              >
-                {t("categoryArmChairs")}
-
-                <CustomListBoxIcon
-                  visibilityDesignList={visibilityDesignList.armChairs}
-                >
-                  <EastRounded />
-                </CustomListBoxIcon>
-              </CustomListBox>
-
-              <CustomListBox
-                onMouseOver={() => handleVisibilityCategory("sofas")}
-                visibilityDesignList={visibilityDesignList.sofas}
-              >
-                {t("categorySofas")}
-
-                <CustomListBoxIcon
-                  visibilityDesignList={visibilityDesignList.sofas}
-                >
-                  <EastRounded />
-                </CustomListBoxIcon>
-              </CustomListBox>
-
-              <CustomListBox
-                onMouseOver={() => handleVisibilityCategory("decor")}
-                visibilityDesignList={visibilityDesignList.decor}
-              >
-                {t("categoryDecor")}
-
-                <CustomListBoxIcon
-                  visibilityDesignList={visibilityDesignList.decor}
-                >
-                  <EastRounded />
-                </CustomListBoxIcon>
-              </CustomListBox>
-
-              <CustomListBox
-                onMouseOver={() => handleVisibilityCategory("bedding")}
-                visibilityDesignList={visibilityDesignList.bedding}
-              >
-                {t("categoryBedding")}
-
-                <CustomListBoxIcon
-                  visibilityDesignList={visibilityDesignList.bedding}
-                >
-                  <EastRounded />
-                </CustomListBoxIcon>
-              </CustomListBox>
-
-              <CustomListBox
-                onMouseOver={() => handleVisibilityCategory("finishMaterials")}
-                visibilityDesignList={visibilityDesignList.finishMaterials}
-              >
-                {t("categoryFinishMaterials")}
-
-                <CustomListBoxIcon
-                  visibilityDesignList={visibilityDesignList.finishMaterials}
-                >
-                  <EastRounded />
-                </CustomListBoxIcon>
-              </CustomListBox>
-            </CustomUl>
-          </Box>
-          {/* Sub_Menu */}
+                  {name}
+                  {name === visibility.checkedNameCategory && (
+                    <CustomListBoxIcon
+                      name={name}
+                      checkedNameCategory={visibility.checkedNameCategory}
+                    >
+                      <EastRounded />
+                    </CustomListBoxIcon>
+                  )}
+                </CustomCategoryBox>
+              </React.Fragment>
+            ))}
+          </CustomUl>
 
           <Collapse
             orientation="horizontal"
-            in={allowedLists.includes(visibilityList)}
             timeout={2000}
-            // timeout={{
-            //   appear: 1000,
-            //   // enter: 1000,
-            //   exit: 1000,
-            // }}
+            in={visibility.bind}
           >
-            <CustomUlSubMenu type="tables" visibility={visibilityList}>
-              {visibilityList &&
-                CATEGORIES[visibilityList]?.map((item) => (
-                  <CustomListBox>{item}</CustomListBox>
+            <CustomUlSubMenu design={visibility.design} type="tables">
+              {subcategories
+                ?.filter(
+                  (subcategory) => subcategory.category === visibility.bind
+                )
+                .map(({ id: subId, name: subName }) => (
+                  <CustomSubcategoryBox
+                    key={subId}
+                    onClick={() => toCatalog('subcategory', subId)}
+                    onMouseOver={() =>
+                      setVisibility((prevValue) => ({
+                        ...prevValue,
+                        checkedNameSubcategory: subName,
+                      }))
+                    }
+                    name={subName}
+                    subcategory={visibility.checkedNameSubcategory}
+                  >
+                    {subName}
+                  </CustomSubcategoryBox>
                 ))}
             </CustomUlSubMenu>
           </Collapse>
-        </CustomSwipeableDrawerBox>
+        </Container>
       </CustomSwipeableDrawer>
     </>
   );

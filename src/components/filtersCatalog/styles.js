@@ -51,7 +51,7 @@ export const FiltersColorBox = styled(Box)(() => ({
 }));
 
 export const FiltersCatalogListTitle = styled(Box)(() => ({
-  fontFamily: theme.fonts.Trebuchet,
+   fontFamily: theme.typography.fontFamily[1],
   fontSize: "18px",
   letterSpacing: "2px",
   fontWeight: "700",
@@ -67,7 +67,7 @@ export const FiltersCatalogListTitle = styled(Box)(() => ({
 export const FiltersCatalogList = styled(Box)(() => ({}));
 
 export const FiltersCatalogSection = styled(Box)(({ visibility }) => ({
-  fontFamily: theme.fonts.Trebuchet,
+   fontFamily: theme.typography.fontFamily[1],
   fontSize: "16px",
   letterSpacing: "1px",
   padding: "10px 20px",

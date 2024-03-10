@@ -20,28 +20,41 @@ import {
 import {
   AddRounded,
   ChevronLeftRounded,
+  InventoryRounded,
   ListRounded,
   MenuRounded,
-  ScheduleRounded,
-  TrendingUpRounded,
+  ViewQuiltRounded,
 } from '@mui/icons-material';
-import AdminStatistics from 'components/adminStatistics/AdminStatistics';
 import AdminProductList from 'components/adminProductList/AdminProductList';
 import AdminAddProductForm from 'components/adminAddProductForm/AdminAddProductForm';
 
+import theme from 'theme';
+import AdminCategory from 'components/adminCategory/AdminCategory';
+import AdminSubcategory from 'components/adminSubcategory/AdminSubcategory';
+import AdminColors from 'components/adminColors/AdminColors';
+import AdminImages from 'components/adminImages/AdminImages';
+import AdminStatistics from 'components/adminStatistics/AdminStatistics';
+
 const Admin = () => {
+  const { sm } = theme.breakpoints.values;
+
   const adminList = [
-    { name: 'cтатистика', icon: <TrendingUpRounded /> },
-    { name: 'cписок товаров', icon: <ListRounded /> },
+    { name: 'редактировать', icon: <ViewQuiltRounded /> },
     { name: 'cоздать товар', icon: <AddRounded /> },
-    { name: 'недавние действия', icon: <ScheduleRounded /> },
+    { name: 'управление категориями', icon: <InventoryRounded /> },
+    { name: 'управление подкатегориями', icon: <InventoryRounded /> },
+    { name: 'управление цветами', icon: <InventoryRounded /> },
+    { name: 'управление изображениями', icon: <InventoryRounded /> },
   ];
 
   const [adminDrawer, setAdminDrawer] = useState(false);
   const [currentMenu, setCurrentMenu] = useState(0);
 
+  console.log('adminDrawer: ', adminDrawer);
+
   const handleChangeForm = (id) => {
     setCurrentMenu(id);
+    setAdminDrawer(false);
   };
 
   return (
@@ -57,7 +70,12 @@ const Admin = () => {
           >
             <MenuRounded />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={sm && { display: 'none' }}
+          >
             Панель администратора
           </Typography>
         </Toolbar>
@@ -90,13 +108,19 @@ const Admin = () => {
 
       <MenuContainer>
         {currentMenu === 0 ? (
-          <AdminStatistics />
-        ) : currentMenu === 1 ? (
-          <AdminProductList />
-        ) : currentMenu === 2 ? (
           <AdminAddProductForm />
+        ) : currentMenu === 1 ? (
+          <AdminAddProductForm />
+        ) : currentMenu === 2 ? (
+          <AdminCategory />
+        ) : currentMenu === 3 ? (
+          <AdminSubcategory />
+        ) : currentMenu === 4 ? (
+          <AdminColors />
+        ) : currentMenu === 5 ? (
+          <AdminImages />
         ) : (
-          <AdminStatistics />
+          <AdminAddProductForm />
         )}
       </MenuContainer>
     </Container>

@@ -8,7 +8,7 @@ export const CategoryCardContainer = styled(Box)(() => ({
 }));
 
 export const CategoryTitle = styled(Box)(() => ({
-  fontFamily: theme.fonts.Trebuchet,
+  fontFamily: theme.typography.fontFamily[1],
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',

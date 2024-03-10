@@ -1,14 +1,17 @@
-import IsLoading from 'components/isLoading/IsLoading';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { getProduct } from 'reducers/productSlice';
+import { useNavigate, useParams } from 'react-router-dom';
+import { addProductCart, getCart, getProduct } from 'reducers/productSlice';
 import {
+  BreadcrumbsBox,
   ButtonAddCart,
-  CustomIconButton,
+  CardContainer,
+  ColorBox,
+  DescriptionContainer,
   DetailsContainer,
+  InfoBox,
   InfoContainer,
-  LoadingContainer,
+  Link,
   Slide,
   SliderBoxSwicther,
   SliderContainer,
@@ -17,79 +20,82 @@ import {
   TextTitleStyle,
 } from './styles';
 import { t } from 'i18next';
-import { Box, Typography } from '@mui/material';
-import { AddRounded, RemoveRounded } from '@mui/icons-material';
+import {
+  Box,
+  Breadcrumbs,
+  Tabs,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import ReactImageMagnify from 'react-image-magnify';
+import Loading from 'components/loading/Loading';
+import { toUpPage } from 'globalFunction';
+
+import minus from 'assets/images/minus.png';
+import plus from 'assets/images/plus.png';
+import { Done } from '@mui/icons-material';
+import './styles';
+import theme from 'theme';
 
 const ProductDetails = () => {
   const product = useSelector((state) => state.productReducer.product);
-  const isLoading = useSelector((state) => state.productReducer.isLoading);
-
-  const [currentSlide, setCurrentSlide] = useState();
-  const [counter, setCounter] = useState(0);
-
-  const productTest = {
-    discount: 15,
-    materials: [
-      {
-        id: 1,
-        name: 'дуб',
-        image:
-          'https://avatars.dzeninfra.ru/get-zen_doc/1917783/pub_6287b6f0d6720b5746eb4d3a_6287b70bd6720b5746eb7c0a/scale_1200',
-      },
-
-      {
-        id: 2,
-        name: 'красное дерево',
-        image: 'https://www.mebelcompass.ru/images/a2013_1/2-021819022013.jpg',
-      },
-
-      {
-        id: 3,
-        name: 'лдсп',
-        image: 'https://mebcorp.ru/foto-material/1.jpg',
-      },
-    ],
-
-    colors: [
-      {
-        id: 1,
-        name: 'берюзовый',
-        value: '#2bf7cb',
-      },
-
-      {
-        id: 2,
-        name: 'бежевый',
-        value: '#dadada',
-      },
-
-      {
-        id: 3,
-        name: 'красный',
-        value: '#ff0000',
-      },
-    ],
-  };
+  const isLoading = useSelector(
+    (state) => state.productReducer.isLoadingProducts
+  );
 
   const { id } = useParams();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleGetProduct = useCallback(async () => {
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const [currentSlide, setCurrentSlide] = useState();
+  const [colorSelected, setColorSelected] = useState({
+    design: false,
+    name: '',
+    value: '',
+  });
+  const [counter, setCounter] = useState(0);
+  const [breadcrumbs, setBreadcrumbs] = useState([
+    { name: 'Home', value: '/' },
+    { name: 'Catalog', value: '/catalog' },
+    { name: product.title, value: product.id },
+  ]);
+
+  const handleGetData = useCallback(async () => {
     await dispatch(getProduct({ id: id }));
     toUpPage();
   }, [dispatch]);
 
-  const toUpPage = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+  const handleAddProductCart = async (e) => {
+    e.preventDefault();
+    await dispatch(
+      addProductCart({
+        id: product.id,
+        data: colorSelected.value
+          ? colorSelected.value
+          : product?.colors[0]?.id,
+        quantity: counter > 0 ? counter : 1,
+      })
+    );
+    dispatch(getCart());
+  };
+
+  const handleChangeLinks = (link) => () => {
+    navigate(link);
   };
 
   const handleChangeSlide = (slide) => {
-    setCurrentSlide(slide);
+    setTimeout(() => {
+      setCurrentSlide(slide);
+    }, 350);
+  };
+
+  const handleSelectColor = (id, name) => {
+    console.log('name: ', name);
+    console.log('id: ', id);
+    setColorSelected({ design: id, value: id, name: name });
   };
 
   const handleChangeCounter = (value) => {
@@ -100,121 +106,168 @@ const ProductDetails = () => {
     }
   };
 
-  const handleSetSlide = () => {
-    if (product && product.images && product.images.length > 0) {
-      setCurrentSlide(product.images[0]);
-    }
-  };
-
   useEffect(() => {
-    handleSetSlide();
-  }, [product]);
-
-  useEffect(() => {
-    handleGetProduct();
-  }, [handleGetProduct]);
-
-  if (isLoading || !product) {
-    return (
-      <LoadingContainer>
-        <IsLoading />
-      </LoadingContainer>
-    );
-  }
+    handleGetData();
+  }, [handleGetData, id]);
 
   return (
-    <DetailsContainer>
-      <SliderContainer>
-        <SliderBoxSwicther>
-          {product?.images.map((image) => (
-            <Slide
-              src={image}
-              alt={product.title}
-              onMouseOver={() => handleChangeSlide(image)}
-            />
+    <DetailsContainer
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: '#FAFAFA',
+      }}
+    >
+      <BreadcrumbsBox>
+        <Breadcrumbs aria-label="breadcrumb">
+          {breadcrumbs?.map(({ name, value }) => (
+            <Link onClick={handleChangeLinks(value)}>{name}</Link>
           ))}
-        </SliderBoxSwicther>
+        </Breadcrumbs>
+      </BreadcrumbsBox>
 
-        <ReactImageMagnify
-          {...{
-            smallImage: {
-              alt: 'Product Image',
-              width: 500,
-              height: 500,
-              src: currentSlide,
-            },
-            largeImage: {
-              src: currentSlide,
-              width: 1500,
-              height: 1500,
-            },
-            isHintEnabled: true,
-          }}
-        />
-      </SliderContainer>
+      <form onSubmit={handleAddProductCart}>
+        <CardContainer>
+          {product && product.images && product.images.length > 0 ? (
+            <SliderContainer>
+              <Tabs
+                variant="scrollable"
+                scrollButtons="auto"
+                aria-label="scrollable auto tabs example"
+                orientation="vertical"
+              >
+                <SliderBoxSwicther>
+                  {isLoading || !product
+                    ? product?.images?.map(({ image }) => (
+                        <Loading width={100} height={100} />
+                      ))
+                    : product?.images?.map(({ id, image, product }) => (
+                        <Slide
+                          key={id}
+                          src={image}
+                          alt={product.title}
+                          onMouseOver={() => handleChangeSlide(image)}
+                        />
+                      ))}
+                </SliderBoxSwicther>
+              </Tabs>
 
-      <InfoContainer>
-        <TextTitleStyle>{product.title}</TextTitleStyle>
-        <TextStyle>{product.description}</TextStyle>
+              <ReactImageMagnify
+                className="main-image"
+                {...{
+                  smallImage: {
+                    src: currentSlide || product?.images[0]?.image,
+                    alt: 'Product Image',
+                    width: isSmallScreen ? 300 : 450,
+                    height: isSmallScreen ? 300 : 450,
+                  },
+                  largeImage: {
+                    src: currentSlide,
+                    alt: 'Product Image',
+                    width: isSmallScreen ? 600 : 900,
+                    height: isSmallScreen ? 600 : 900,
+                  },
+                  isHintEnabled: true,
+                }}
+              />
+            </SliderContainer>
+          ) : (
+            <Loading width={500} height={500} />
+          )}
 
-        <TextMergeBox>
-          <TextStyle sx={{ fontWeight: '900' }}>
-            ${Math.floor((100 - productTest.discount) * (product.price / 100))}
-          </TextStyle>
-          <TextStyle sx={{ fontWeight: '700', textDecoration: 'line-through' }}>
-            ${product.price}
-          </TextStyle>
-          <TextStyle>
-            Ваша выгода: ${productTest.discount}%<TextStyle></TextStyle>
-          </TextStyle>
-        </TextMergeBox>
+          <InfoContainer>
+            <InfoBox>
+              <Box display={'flex'} flexDirection={'column'} gap={'50px'}>
+                <Box lineHeight={'30px'}>
+                  {isLoading || !product ? (
+                    <Loading width={'300px'} height={'50px'} />
+                  ) : (
+                    <TextTitleStyle>{product.title}</TextTitleStyle>
+                  )}
 
-        <TextStyle>{t('filterTitleMaterial')}</TextStyle>
-        <TextMergeBox>
-          {productTest.materials?.map(({ id, name, image }) => (
-            <img
-              key={id}
-              src={image}
-              alt={name}
-              width={'50px'}
-              height={'50px'}
-              onMouseOver={() => handleChangeSlide(image)}
-            />
-          ))}
-        </TextMergeBox>
+                  {isLoading || !product ? (
+                    <Loading width={'200px'} height={'50px'} />
+                  ) : (
+                    <TextStyle>${product.price}</TextStyle>
+                  )}
+                </Box>
 
-        <TextStyle>{t('filterTitleColor')}</TextStyle>
-        <TextMergeBox>
-          {productTest.colors?.map(({ id, name, value }) => (
-            <Box
-              key={id}
-              sx={{
-                width: '50px',
-                height: '50px',
-                backgroundColor: `${value}`,
-              }}
-            />
-          ))}
-        </TextMergeBox>
+                <Box lineHeight={'50px'}>
+                  <TextStyle>{t('titleSelectMaterial')}</TextStyle>
 
-        <TextMergeBox>
-          <Box display={'flex'} alignItems={'center'} gap={'15px'}>
-            <CustomIconButton onClick={() => handleChangeCounter('-')}>
-              <RemoveRounded />
-            </CustomIconButton>
+                  <TextMergeBox
+                    sx={
+                      product?.colors?.length > 10 && {
+                        overflowY: 'scroll',
+                      }
+                    }
+                  >
+                    {product?.colors?.map(({ id, name, image }) => (
+                      <React.Fragment key={id}>
+                        {isLoading || !product?.colors ? (
+                          <Loading width={'50px'} height={'50px'} />
+                        ) : (
+                          <ColorBox
+                            image={image}
+                            onClick={() => handleSelectColor(id, name)}
+                            onMouseOver={() => handleChangeSlide(image)}
+                          >
+                            {colorSelected.design === id && (
+                              <Done
+                                fontSize="large"
+                                sx={{
+                                  color: '#7c0245',
+                                }}
+                              />
+                            )}
+                          </ColorBox>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </TextMergeBox>
+                </Box>
+              </Box>
 
-            <Typography fontSize={'20px'}>{counter}</Typography>
+              <Box display={'flex'} justifyContent={'space-between'}>
+                <TextMergeBox>
+                  <TextStyle paddingRight={'80px'}>${product.price}</TextStyle>
 
-            <CustomIconButton onClick={() => handleChangeCounter('+')}>
-              <AddRounded />
-            </CustomIconButton>
-          </Box>
+                  <Box display={'flex'} alignItems={'center'} gap={'15px'}>
+                    <div onClick={() => handleChangeCounter('-')}>
+                      <img src={minus} alt="-" />
+                    </div>
 
-          <ButtonAddCart sx={{ margin: '0px 20px' }} variant="contained">
-            {t('detailsButttonAdd')}
-          </ButtonAddCart>
-        </TextMergeBox>
-      </InfoContainer>
+                    <Typography>{counter}</Typography>
+
+                    <div onClick={() => handleChangeCounter('+')}>
+                      <img src={plus} alt="-" />
+                    </div>
+                  </Box>
+
+                  <ButtonAddCart
+                    sx={{ margin: '0px 20px' }}
+                    variant="contained"
+                    onClick={(e) => handleAddProductCart(e)}
+                  >
+                    {t('detailsButttonAdd')}
+                  </ButtonAddCart>
+                </TextMergeBox>
+              </Box>
+            </InfoBox>
+          </InfoContainer>
+          <DescriptionContainer>
+            <Box>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              Assumenda et aut, similique doloremque odio provident facilis
+              animi non consequatur omnis ipsam vitae tempora fuga eligendi
+              quidem iure adipisci reprehenderit possimus. Lorem ipsum dolor sit
+              amet consectetur adipisicing elit. Aliquid ipsum, corporis nam
+              odio nesciunt eaque laboriosam, quae error temporibus deleniti,
+              mollitia soluta in recusandae eos quaerat iure vero dolores at?
+            </Box>
+          </DescriptionContainer>
+        </CardContainer>
+      </form>
     </DetailsContainer>
   );
 };

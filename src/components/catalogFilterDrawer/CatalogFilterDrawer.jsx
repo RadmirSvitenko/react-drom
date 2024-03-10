@@ -1,98 +1,169 @@
-import React, { useState } from 'react';
-import { FiltersContainer, FiltersTextStyle, SliderBox } from './styles';
+import React, { useCallback, useEffect, useState } from 'react';
+import {
+  ButtonReset,
+  FiltersContainer,
+  FiltersSelectedButton,
+  FiltersTextStyle,
+  SliderBox,
+} from './styles';
 import { t } from 'i18next';
-import { Accordion, AccordionSummary, Checkbox, Slider } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Checkbox,
+  Slider,
+} from '@mui/material';
 import { ExpandMoreRounded } from '@mui/icons-material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from 'reducers/productSlice';
+import { getCategories } from 'reducers/categorySlice';
+import { getSubcategories } from 'reducers/subcategorySlice';
+import { getColors } from 'reducers/colorsSlice';
+import Loading from 'components/loading/Loading';
+import { useNavigate } from 'react-router-dom';
 
-const CatalogFilterDrawer = ({ filterDrawer }) => {
-  const [priceValue, setPriceValue] = useState([1000, 50000]);
+const CatalogFilterDrawer = ({ filterDrawer, isLoading }) => {
+  const categories =
+    useSelector((state) => state.categoryReducer.categories) || [];
+
+  const subcategories =
+    useSelector((state) => state.subcategoryReducer.subcategories) || [];
+  const colors = useSelector((state) => state.colorReducer.colors) || [];
+
+  const [priceValue, setPriceValue] = useState([1, 100000]);
+  const [filtersData, setFiltersData] = useState({});
+  const [filtersChecked, setFiltersChecked] = useState({
+    category: [],
+    name: '',
+  });
+  console.log('filtersChecked: ', filtersChecked);
 
   const dispatch = useDispatch();
 
   const filterList = [
     {
-      id: 1,
-      name: t('filterTitleCategory'),
-      value: [
-        t('categoryTables'),
-        t('categoryChairs'),
-        t('categoryArmChairs'),
-        t('categorySofas'),
-        t('categoryDecor'),
-        t('categoryBedding'),
-        t('categoryFinishMaterials'),
-      ],
+      listName: t('titleCategories'),
+      filterName: 'category',
+      array: categories,
     },
     {
-      id: 2,
-      name: t('filterTitleMaterial'),
-      value: ['дуб', 'железо', 'красное дерево', 'лдсп'],
+      listName: t('titleSubcategories'),
+      filterName: 'subcategory',
+      array: subcategories,
     },
     {
-      id: 3,
-      name: t('filterTitleColor'),
-      value: ['красный', 'берюзовый', 'синий', 'зеленый'],
+      listName: t('filterTitleColor'),
+      filterName: 'colors',
+      array: colors,
     },
-    {
-      id: 4,
-      name: t('filterTitleSort'),
-      value: ['по возрастанию', 'по убыванию'],
-    },
-    {
-      id: 5,
-      name: t('filterTitlePrice'),
-      value: 'price',
-    },
+    { listName: t('filterTitlePrice'), array: [] },
   ];
 
-  const handleChangePrice = (e, newValue) => {
+  const handleChangePrice = async (event, newValue) => {
     setPriceValue(newValue);
+    console.log('priceValue: ', priceValue);
   };
 
-  const handlePriceRequest = async () => {
-    // await dispatch(
-    //   getProducts({
-    //     page: 1,
-    //     min_price: priceValue[0],
-    //     max_price: priceValue[1],
-    //     limit: 400,
-    //   })
-    // );
-    // setCurrentPage(1);
+  const handleFiltersReset = async () => {
+    console.log('zsszszsz');
+    await dispatch(getProducts({ category: '' }));
   };
+
+  const handleFiltersChange = async (event, valueName) => {
+    const { name, checked, value } = event.target;
+    console.log('name: ', name);
+    console.log('value: ', value);
+    console.log('checked: ', checked);
+
+    let updateFiltersData;
+
+    if (checked || priceValue) {
+      updateFiltersData = {
+        ...filtersData,
+        [name]: value,
+        min_price: priceValue[0],
+        max_price: priceValue[1],
+      };
+      await setFiltersData(updateFiltersData);
+
+      await setFiltersChecked((prevData) => ({
+        category: [...prevData.name, name],
+        name: valueName,
+      }));
+
+      await dispatch(getProducts(updateFiltersData));
+    } else {
+      updateFiltersData = {
+        ...filtersData,
+        [name]: '',
+      };
+      setFiltersData(updateFiltersData);
+      await dispatch(getProducts(updateFiltersData));
+    }
+  };
+
+  const handleGetProductData = useCallback(async () => {
+    await dispatch(getCategories());
+    await dispatch(getSubcategories());
+    await dispatch(getColors());
+  }, [dispatch]);
+
+  useEffect(() => {
+    handleGetProductData();
+  }, [handleGetProductData]);
 
   return (
     <FiltersContainer filterDrawer={filterDrawer}>
-      {filterList?.map(({ id, name, value }) => (
-        <Accordion sx={{ width: '100%' }}>
+      {filterList?.map(({ listName, filterName, array }, index) => (
+        <Accordion key={index} sx={{ width: '100%' }}>
           <AccordionSummary expandIcon={<ExpandMoreRounded />}>
-            <FiltersTextStyle key={name} value={name}>
-              {name}
-            </FiltersTextStyle>
+            <FiltersTextStyle value={listName}>{listName}</FiltersTextStyle>
           </AccordionSummary>
-          {value === 'price' ? (
-            <SliderBox>
-              <Slider
-                valueLabelDisplay="auto"
-                color="warning"
-                value={priceValue}
-                onChange={handleChangePrice}
-                onMouseUp={handlePriceRequest}
-                min={1000}
-                max={50000}
+
+          {array?.map((value, index) => (
+            <FiltersTextStyle key={index}>
+              <Checkbox
+                checked={
+                  filtersChecked?.category?.includes(filterName) &&
+                  filtersChecked?.name === value.name
+                }
+                name={filterName}
+                value={value.id}
+                onChange={(e) => handleFiltersChange(e, value.name)}
+                color="success"
               />
-            </SliderBox>
-          ) : (
-            value?.map((name, index) => (
-              <FiltersTextStyle>
-                <Checkbox sx={{ color: '#000' }} color="success" /> {name}
-              </FiltersTextStyle>
-            ))
+              {value.name}
+            </FiltersTextStyle>
+          ))}
+
+          {listName === t('filterTitlePrice') && (
+            <AccordionDetails>
+              <SliderBox>
+                <Slider
+                  valueLabelDisplay="auto"
+                  color="warning"
+                  value={priceValue}
+                  onChange={handleChangePrice}
+                  onMouseUp={handleFiltersChange}
+                  min={1000}
+                  max={100000}
+                />
+              </SliderBox>
+            </AccordionDetails>
           )}
         </Accordion>
       ))}
+      <Accordion
+        sx={{
+          width: '100%',
+        }}
+        expandIcon={<ExpandMoreRounded />}
+      >
+        <ButtonReset onClick={() => handleFiltersReset()} fullWidth>
+          {t('filterTitleReset')}
+        </ButtonReset>
+      </Accordion>
     </FiltersContainer>
   );
 };

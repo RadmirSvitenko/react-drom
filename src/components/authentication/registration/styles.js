@@ -4,7 +4,6 @@ import theme from 'theme';
 
 export const RegistrationContainer = styled(Box)(() => ({
   minWidth: '300px',
-  minHeight: '300px',
   display: 'flex',
   flexDirection: 'column',
   flexWrap: 'wrap',
@@ -14,12 +13,11 @@ export const RegistrationContainer = styled(Box)(() => ({
 }));
 
 export const RegistrationTitle = styled(Box)(() => ({
-  fontFamily: theme.fonts.Trebuchet,
+  fontFamily: theme.typography.fontFamily[1],
   fontSize: '18px',
-  textTransform: 'uppercase',
   fontWeight: '600',
   letterSpacing: '1px',
-  color: '#fff',
+  color: '#000',
 }));
 
 export const RegistrationContent = styled(Box)(() => ({
@@ -44,7 +42,7 @@ export const RegistrationForm = styled('form')(() => ({
 export const RegistrationField = styled(TextField)(() => ({
   color: '#000',
   background: theme.palette.secondary.main,
-  fontSize: '12px',
+  fontSize: '11px',
   transition: '0.5s',
   letterSpacing: '1.5px',
   borderRadius: '10px',
@@ -52,7 +50,7 @@ export const RegistrationField = styled(TextField)(() => ({
   '& .MuiOutlinedInput-root': {
     color: '#000',
     padding: '0px 10px 0px 5px',
-    fontFamily: theme.fonts.Trebuchet,
+    fontFamily: theme.typography.fontFamily[1],
     letterSpacing: '1.5px',
     fontWeight: '800',
 
@@ -75,17 +73,18 @@ export const RegistrationField = styled(TextField)(() => ({
 
 export const RegistrationEnterButton = styled(Button)(() => ({
   color: '#000',
-  margin: '20px 0px',
+  margin: '10px 0px',
   background: theme.palette.secondary.main,
   padding: '10px 15px',
-  fontFamily: theme.fonts.Trebushet,
+  fontFamily: theme.typography.fontFamily[1],
   letterSpacing: '1px',
   transition: '0.6s',
   borderRadius: '10px',
+  textTransform: 'capitalize',
 
   ':hover': {
     transition: '0.6s',
-    background: '#C4C2BE',
+    background: '#B6A99E',
     color: '#000',
   },
 }));
@@ -94,19 +93,37 @@ export const RegistrationHelperBox = styled(Box)(() => ({
   width: '100%',
   height: 'auto',
   display: 'flex',
+  fontFamily: theme.typography.fontFamily[1],
   justifyContent: 'space-evenly',
   alignItems: 'center',
 }));
 
 export const RegistrationHelperText = styled(Box)(() => ({
-  color: '#fff',
+  color: '#000',
+  fontFamily: theme.typography.fontFamily[1],
 }));
 
 export const RegistrationHelperButton = styled(Button)(() => ({
-  color: '#fff',
+  color: '#000',
   textTransform: 'capitalize',
+  fontFamily: theme.typography.fontFamily[1],
+
   ':hover': {
     textDecoration: 'underline',
-    color: '#ff2222',
+    color: '#B6A99E',
   },
+}));
+
+export const InputMessage = styled('span')(() => ({
+  color: '#fff',
+  letterSpacing: '1px',
+  textAlign: 'center',
+}));
+
+export const InputMessageBox = styled('div')(() => ({
+  width: '300px',
+  display: 'flex',
+  justifyContent: 'center',
+  overflowWrap: 'break-word',
+  flexWrap: 'wrap',
 }));

@@ -1,34 +1,60 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { API } from "requester";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getTokenFromCookies } from 'cookies';
+import { setRefreshTokenToCookies } from 'cookies';
+import { setTokenFromCookies } from 'cookies';
+import { API } from 'requester';
 
 const initialState = {
-  catalog: [],
+  account: null,
   isLoading: false,
   error: false,
+  message: '',
 };
 
-export const getProducts = createAsyncThunk("getProducts/get", async () => {
-  const response = await API.get("products/");
-  console.log(response.data);
-  return response.data;
-});
-const mainPageSlice = createSlice({
-  name: "mainPageSlice",
+export const selectErrorMessage = (errorMessage) => {
+  return errorMessage;
+};
+
+export const userAuthorization = createAsyncThunk(
+  'userAuthorization/post',
+  async (params) => {
+    try {
+      const response = await API.post('login/', {
+        email: params.data.email,
+        password: params.data.password,
+      });
+
+      await setTokenFromCookies(response.data.access_token);
+      await setRefreshTokenToCookies(response.data.refresh_token);
+      return response.data.message;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+
+      return error.response.data.message;
+    }
+  }
+);
+
+const authSlice = createSlice({
+  name: 'authSlice',
   initialState,
 
   extraReducers: (builder) => {
-    builder.addCase(getProducts.pending, (state) => {
+    builder.addCase(userAuthorization.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(getProducts.fulfilled, (state, action) => {
+    builder.addCase(userAuthorization.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.catalog = action.payload.products;
+      state.account = action.payload;
     });
-    builder.addCase(getProducts.rejected, (state, action) => {
+    builder.addCase(userAuthorization.rejected, (state, action) => {
       state.isLoading = false;
+      state.message = action.payload;
       state.error = action.error;
     });
   },
 });
 
-export default mainPageSlice.reducer;
+export default authSlice.reducer;

@@ -1,8 +1,8 @@
 import { ThemeProvider } from '@emotion/react';
+import { CssBaseline } from '@mui/material';
 import AdminLayout from 'layout/AdminLayout';
 import MainLayout from 'layout/MainLayout';
 import Admin from 'pages/admin/Admin';
-import Cart from 'pages/cart/Cart';
 import Catalog from 'pages/catalog/Catalog';
 import Contacts from 'pages/contacts/Contacts';
 import MainPage from 'pages/mainPage/MainPage';
@@ -20,17 +20,18 @@ function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <BrowserRouter>
           <Routes>
             <Route element={<MainLayout />}>
               <Route path="/" element={<MainPage />} />
               <Route path="/our-story" element={<OurStory />} />
               <Route path="/reviews" element={<Reviews />} />
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/catalog/:id" element={<ProductDetails />} />
               <Route path="/payment" element={<Payment />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/catalog" element={<Catalog />} />
+              <Route path="/contacts" element={<Contacts />} />
+              <Route path="/catalog/" element={<Catalog />} />
+              <Route path="/catalog/:filter/:value" element={<Catalog />} />
+              <Route path="/catalog/product/:id" element={<ProductDetails />} />
             </Route>
 
             <Route element={<AdminLayout />}>

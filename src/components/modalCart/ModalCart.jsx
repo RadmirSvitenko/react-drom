@@ -1,30 +1,75 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   CartContainer,
   ContentBox,
+  Counter,
+  FooterBox,
+  FunctionBox,
+  OrderButton,
   ProductContainer,
-  ProductFunctionBox,
   ProductImageBox,
   ProductInfoBox,
   Title,
   TitleBox,
 } from './styles';
 import { t } from 'i18next';
-import { IconButton, SwipeableDrawer } from '@mui/material';
-import { AddRounded, Close, RemoveRounded } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  IconButton,
+  SwipeableDrawer,
+  Typography,
+} from '@mui/material';
+import { Close } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addProductCart,
+  getCart,
+  removeProductCart,
+} from 'reducers/productSlice';
+
+import minus from 'assets/images/minus.png';
+import plus from 'assets/images/plus.png';
+import theme from 'theme';
+import { useNavigate } from 'react-router-dom';
 
 const ModalCart = ({ open, onClose }) => {
-  const products = useSelector((state) => state.productReducer.catalog);
-  const [counter, setCounter] = useState(1);
+  const [cartData, setCartData] = useState([]);
+  const cart = useSelector((state) => state.productReducer.cart) || [];
+  const isLoading = useSelector((state) => state.productReducer.isLoadingCart);
 
-  const handleChangeCounter = (value) => {
-    if (value === '-' && counter > 0) {
-      setCounter(counter - 1);
-    } else if (value === '+') {
-      setCounter(counter + 1);
-    }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleAddProductCart = async (id, color) => {
+    await dispatch(addProductCart({ id: id, color: color }));
+    await handleGetCart();
   };
+
+  const handleRemoveProductCart = async (id, color) => {
+    await dispatch(removeProductCart({ id: id, color: color }));
+    await handleGetCart();
+  };
+
+  const toCatalog = () => {
+    navigate('/catalog');
+    onClose();
+  };
+
+  const toPayment = () => {
+    navigate('/payment');
+    onClose();
+  };
+
+  const handleGetCart = useCallback(async () => {
+    const cartList = await dispatch(getCart());
+    setCartData(cartList?.payload);
+  }, [dispatch]);
+
+  useEffect(() => {
+    handleGetCart();
+  }, [handleGetCart]);
 
   return (
     <SwipeableDrawer
@@ -35,28 +80,129 @@ const ModalCart = ({ open, onClose }) => {
     >
       <CartContainer>
         <TitleBox>
-          <Title>{t('headerButtonCart')}</Title>
+          <Title>{t('titleCart')}</Title>
           <IconButton onClick={onClose}>
             <Close />
           </IconButton>
         </TitleBox>
-        {products?.map((product, index) => (
+
+        {!cartData ||
+          (cartData.length < 0 && (
+            <Box
+              display={'flex'}
+              width={'100%'}
+              height={'100%'}
+              justifyContent={'center'}
+              alignItems={'center'}
+              flexDirection={'column'}
+            >
+              <h4
+                style={{
+                  fontFamily: theme.typography.fontFamily[1],
+                  color: '#000',
+                }}
+              >
+                Ваша корзина пока пуста
+              </h4>
+
+              <Button
+                sx={{
+                  fontFamily: theme.typography.fontFamily[1],
+                  color: '#fafafa',
+                  backgroundColor: '#5D5146',
+                  '&:hover': {
+                    backgroundColor: '#534537',
+                  },
+                }}
+                onClick={() => toCatalog()}
+              >
+                Перейти в каталог
+              </Button>
+            </Box>
+          ))}
+        {cartData?.map(({ product, quantity, color }, index) => (
           <ContentBox key={index}>
             <ProductContainer>
-              <ProductImageBox preview={product.images[0]} />
-              <ProductInfoBox>{product.title}</ProductInfoBox>
-              <ProductFunctionBox>
-                <IconButton onClick={() => handleChangeCounter('+')}>
-                  <AddRounded />
-                </IconButton>
-                {counter}
-                <IconButton onClick={() => handleChangeCounter('-')}>
-                  <RemoveRounded />
-                </IconButton>
-              </ProductFunctionBox>
+              <ProductImageBox preview={product?.images[0]?.image} />
+              <ProductInfoBox>
+                <div>
+                  <Typography>Наименование: {product.title}</Typography>
+                  <Typography>Цена: ${product.price * quantity}</Typography>
+                  <Box display={'flex'}>
+                    <Typography marginRight={'10px'}>Цвет: </Typography>
+
+                    <img
+                      style={{
+                        borderRadius: '5px',
+                      }}
+                      src={color?.image}
+                      alt="color"
+                      width={'40px'}
+                      height={'40px'}
+                    />
+                  </Box>
+                </div>
+
+                <Box display={'flex'}>
+                  <img
+                    src={minus}
+                    alt="minus"
+                    onClick={() => handleRemoveProductCart(product.id, color)}
+                  />
+
+                  <Counter>
+                    {isLoading ? (
+                      <CircularProgress
+                        size={16}
+                        sx={{
+                          color: '#000',
+                        }}
+                      />
+                    ) : (
+                      quantity
+                    )}
+                  </Counter>
+
+                  <img
+                    src={plus}
+                    alt="plus"
+                    onClick={() => handleAddProductCart(product.id, color)}
+                  />
+                </Box>
+              </ProductInfoBox>
+
+              <FunctionBox>
+                <Box
+                  sx={{
+                    '&:hover': {
+                      transition: '0.5s',
+                      textDecoration: 'underline',
+                      cursor: 'pointer',
+                    },
+                  }}
+                >
+                  удалить
+                </Box>
+              </FunctionBox>
             </ProductContainer>
           </ContentBox>
         ))}
+
+        <FooterBox>
+          <span>
+            {t('titleSumm')}: $
+            {cartData?.reduce(
+              (acc, { quantity, product }) => acc + quantity * product.price,
+              0
+            )}
+          </span>
+          <OrderButton
+            disabled={cartData && cartData.length > 0 ? false : true}
+            onClick={() => toPayment()}
+          >
+            {t('titleToGoPayment')}
+          </OrderButton>
+        </FooterBox>
       </CartContainer>
     </SwipeableDrawer>
   );

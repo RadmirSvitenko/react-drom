@@ -1,17 +1,17 @@
 import styled from '@emotion/styled';
-import { Box, Button, IconButton } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import theme from 'theme';
-import bg_details from 'assets/images/bg_details.jpg';
+
+export const CardContainer = styled(Box)(() => ({
+  height: 'auto',
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'space-evenly',
+  alignContent: 'space-between',
+}));
 
 export const DetailsContainer = styled(Box)(() => ({
-  height: 'auto',
-  marginTop: '130px',
   display: 'flex',
-  justifyContent: 'space-between',
-  padding: '50px',
-  alignContent: 'space-between',
-  backgroundImage: `url(${bg_details})`,
-  backgroundSize: '100% 100%',
 }));
 
 export const LoadingContainer = styled(Box)(() => ({
@@ -23,12 +23,13 @@ export const LoadingContainer = styled(Box)(() => ({
 }));
 
 export const SliderContainer = styled(Box)(() => ({
-  width: '600px',
-  minHeight: '100vh',
   gap: '50px',
   display: 'flex',
-  zIndex: '1000',
-  justifyContent: 'space-between',
+  zIndex: '500',
+
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column-reverse',
+  },
 }));
 
 export const SliderBox = styled(Box)(() => ({
@@ -46,13 +47,18 @@ export const SliderBox = styled(Box)(() => ({
 export const Slider = styled('img')(() => ({}));
 
 export const SliderBoxSwicther = styled(Box)(() => ({
-  width: '100px',
+  minWidth: '100px',
   display: 'flex',
-  height: '100%',
+  height: '500px',
   flexDirection: 'column',
   gap: '20px',
   alignItems: 'flex-start',
   flexWrap: 'wrap',
+
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'row',
+    height: 'auto',
+  },
 }));
 
 export const Slide = styled('img')(() => ({
@@ -61,30 +67,68 @@ export const Slide = styled('img')(() => ({
   display: 'flex',
   justifyContent: 'flex-start',
   alignItems: 'center',
+  transition: '0.6s',
 }));
 
 export const InfoContainer = styled(Box)(() => ({
-  width: '600px',
+  height: '500px',
+  maxHeight: '500px',
   display: 'flex',
-  justifyContent: 'flex-start',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexWrap: 'wrap',
+}));
+
+export const DescriptionContainer = styled(Box)(() => ({
+  width: '100%',
+  height: 'auto',
+  padding: '50px 200px',
+  borderTop: '1px solid gray',
+  backgroundColor: '#F5F3EE',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  fontFamily: theme.typography.fontFamily[1],
+  letterSpacing: '1px',
+  fontWeight: '500',
+  lineHeight: '30px',
+
+  [theme.breakpoints.down('md')]: {
+    padding: '50px 100px',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    padding: '20px',
+  },
+}));
+
+export const InfoBox = styled(Box)(() => ({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  justifyContent: 'space-between',
   alignItems: 'flex-start',
+  flexWrap: 'wrap',
   flexDirection: 'column',
   gap: '30px',
-  padding: '0px 50px',
+  padding: '20px 50px',
   boxSizing: 'border-box',
+
+  [theme.breakpoints.down('lg')]: {
+    alignItems: 'center',
+  },
 }));
 
 export const TextStyle = styled(Box)(() => ({
-  fontFamily: theme.fonts.Trebuchet,
+  fontFamily: theme.typography.fontFamily[1],
   fontSize: '16px',
   fontWeight: '550',
   letterSpacing: '2px',
   color: '#000',
-  backgroundColor: theme.palette.secondary.main,
 }));
 
 export const TextTitleStyle = styled(Box)(() => ({
-  fontFamily: theme.fonts.Trebuchet,
+  fontFamily: theme.typography.fontFamily[1],
   fontSize: '20px',
   fontWeight: '700',
   letterSpacing: '2px',
@@ -94,28 +138,66 @@ export const TextTitleStyle = styled(Box)(() => ({
 
 export const TextMergeBox = styled(Box)(() => ({
   width: '100%',
+  // justifyContent: 'space-between',
+  justifyContent: 'flex-start',
   display: 'flex',
   alignItems: 'center',
-  gap: '10px',
+  flexWrap: 'wrap',
+  gap: '20px',
+  borderRadius: '5px',
 }));
 
 export const ButtonAddCart = styled(Button)(() => ({
-  borderRadius: '10px',
-  outline: theme.palette.secondary.main,
-  fontFamily: theme.fonts.Trebuchet,
-  fontWeight: '700',
-  letterSpacing: '2px',
-  color: '#000',
-  textTransform: 'uppercase',
+  backgroundColor: '#5D5146',
+  fontFamily: theme.typography.fontFamily[1],
+  color: '#FAFAFA',
   zIndex: '0',
+
+  '&:hover': {
+    boxShadow: 'none',
+    backgroundColor: '#5D5146',
+  },
 }));
 
 export const CustomIconButton = styled(IconButton)(() => ({
-  backgroundColor: theme.palette.secondary.main,
   transition: '0.6s',
   zIndex: '0',
   '&:hover': {
     transition: '0.6s',
-    backgroundColor: 'red',
+    borderRadius: '5px',
+  },
+}));
+
+export const ColorBox = styled(Box)(({ image }) => ({
+  width: '50px',
+  height: '50px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundImage: `url(${image})`,
+  backgroundSize: '100% 100%',
+  backgroundRepeat: 'no-repet',
+  transition: '0.6s',
+  borderRadius: '5px',
+  filter: 'blur(4)',
+  boxShadow: '4px 4px 8px 0px rgba(34, 60, 80, 0.2)',
+}));
+
+export const BreadcrumbsBox = styled(Box)(() => ({
+  padding: '20px 0px 20px 80px',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+}));
+
+export const Link = styled(Typography)(() => ({
+  fontFamily: theme.typography.fontFamily[1],
+  fontSize: '14px',
+  fontWeight: '500',
+  letterSpacing: '1px',
+
+  '&:hover': {
+    textDecoration: 'underline',
+    cursor: 'pointer',
   },
 }));

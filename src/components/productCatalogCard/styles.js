@@ -1,58 +1,88 @@
 import styled from '@emotion/styled';
-import { Box, Paper } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import theme from 'theme';
 
 export const CardContainer = styled(Paper)(() => ({
-  width: '250px',
-  height: '400px',
+  width: '300px',
+  height: '450px',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'space-evenly',
-  boxShadow: '0px 0px 5px 10px rgba(0, 0, 0, 0.53)',
+  borderRadius: '10px',
+  justifyContent: 'space-between',
+  padding: '20px',
+  backgroundColor: '#FAFAFA',
+  outline: '1px solid #000',
+  boxShadow: '0px 5px 6px 0px rgba(34, 60, 80, 0.32)',
 }));
 
 export const CardImageBox = styled(Box)(({ image }) => ({
-  width: '250px',
-  height: '250px',
+  width: '100%',
+  height: '300px',
   backgroundImage: `url(${image})`,
+  position: 'relative',
   backgroundSize: '100% 100%',
+  borderRadius: '10px',
+}));
+
+export const ProductClassBox = styled(Box)(() => ({
+  backgroundColor: '#F5F3EE',
+  padding: '5px',
+  borderRadius: '5px',
+  color: '#000',
+  fontFamily: theme.typography.fontFamily[1],
+  letterSpacing: '1px',
+  fontWeight: '500',
+  position: 'absolute',
+  margin: '10px',
+  top: '0',
+  left: '0',
 }));
 
 export const CardInfoBox = styled(Box)(() => ({
-  width: '250px',
-  height: '150px',
+  width: '100%',
+  height: 'auto',
   display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-evenly',
   flexWrap: 'wrap',
+  flexDirection: 'column',
+  backgroundColor: '#F5F3EE',
+  color: '#000',
+  alignItems: 'flex-start',
+  justifyContent: 'space-between',
   boxSizing: 'border-box',
-  padding: '10px 20px',
+  padding: '10px 0px 10px 5px',
+  gap: '20px',
+  borderRadius: '10px',
 }));
 
 export const CardText = styled(Box)(() => ({
-  fontFamily: theme.fonts.Trebuchet,
+  fontFamily: theme.typography.fontFamily[1],
   fontSize: '14px',
-  fontWeight: '600',
   letterSpacing: '1px',
   boxSizing: 'border-box',
+  width: '100%',
 }));
 
-export const CardButton = styled(Box)(() => ({
-  fontFamily: theme.fonts.Trebuchet,
+export const CardButton = styled(Box)(({ viasableButton }) => ({
+  fontFamily: theme.typography.fontFamily[1],
   fontSize: '14px',
   fontWeight: '800',
   letterSpacing: '2px',
   textTransform: 'uppercase',
-  padding: '9px 15px',
-  backgroundColor: '#000',
-  transition: '0.6s',
+  backgroundColor: '#F5F5F5',
   textAlign: 'center',
-  outline: '0.5px solid #000',
-  color: '#fff',
-  ':hover': {
-    // background: theme.palette.primary.dark,
-    backgroundColor: 'red',
-    outline: 'none',
+  color: '#000',
+  position: 'absolute',
+  bottom: '0',
+  borderRadius: '10px',
+  width: '100%',
+  opacity: viasableButton ? '1' : '0',
+  padding: viasableButton ? '9px 15px' : '0px',
+  transition: '0.5s',
+
+  '&:hover': {
+    backgroundColor: '#5D5146',
+    color: '#F5F5F5',
+    outline: '1px solid #F5F5F5',
     cursor: 'pointer',
     transition: '0.6s',
   },

@@ -35,8 +35,8 @@ export const ContactsPageMapBox = styled(Box)(() => ({
 }));
 
 export const ContactsPageText = styled(Box)(() => ({
-  fontFamily: theme.fonts.Trebuchet,
-  fontSize: "18px",
-  fontWeight: "500",
-  letterSpacing: "1px",
+  fontFamily: theme.typography.fontFamily[1],
+  fontSize: '18px',
+  fontWeight: '500',
+  letterSpacing: '1px',
 }));

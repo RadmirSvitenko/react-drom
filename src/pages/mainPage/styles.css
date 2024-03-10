@@ -1,0 +1,29 @@
+.main-page-slider {
+  width: 100%;
+  padding: 20px 0px 0px 0px !important;
+  margin: 0px !important;
+  height: 80vh;
+}
+
+.swiper {
+  padding: 0px;
+  padding: 0px;
+}
+
+.slide {
+  width: 100%;
+  height: 120vh;
+}
+
+@media screen and (max-width: 600px) {
+  .slide {
+    width: 100%;
+    height: 60vh;
+  }
+
+  .swiper {
+    height: 40vh;
+    padding: 0px;
+    padding: 0px;
+  }
+}

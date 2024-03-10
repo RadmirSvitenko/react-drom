@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import theme from 'theme';
 
 export const CartContainer = styled(Box)(() => ({
@@ -18,28 +18,26 @@ export const TitleBox = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  fontFamily: theme.fonts.Trebuchet,
+  fontFamily: theme.typography.fontFamily[1],
   fontSize: '18px',
-  textTransform: 'uppercase',
   letterSpacing: '2px',
 }));
 
 export const Title = styled(Box)(() => ({
-  fontFamily: theme.fonts.Trebuchet,
+  fontFamily: theme.typography.fontFamily[1],
   fontSize: '18px',
-  textTransform: 'uppercase',
+  fontWeight: '550',
   letterSpacing: '2px',
 }));
 
 export const ContentBox = styled(Box)(() => ({
   width: '100%',
-  height: 'auto',
   padding: '20px',
   display: 'flex',
   flexDirection: 'column',
   flexWrap: 'wrap',
   gap: '30px',
-  justifyContent: 'space-between',
+  justifyContent: 'flex-start',
   alignItems: 'center',
 }));
 
@@ -47,7 +45,6 @@ export const ProductContainer = styled(Box)(() => ({
   width: '100%',
   height: '120px',
   display: 'flex',
-  outline: `1px solid ${theme.palette.secondary.main}`,
 }));
 
 export const ProductImageBox = styled(Box)(({ preview }) => ({
@@ -55,6 +52,7 @@ export const ProductImageBox = styled(Box)(({ preview }) => ({
   height: '120px',
   backgroundImage: `url(${preview})`,
   backgroundSize: '100% 100%',
+  outline: '1px solid #000',
 }));
 
 export const ProductInfoBox = styled(Box)(() => ({
@@ -63,13 +61,51 @@ export const ProductInfoBox = styled(Box)(() => ({
   display: 'flex',
   flexDirection: 'column',
   flexWrap: 'wrap',
-  justifyContent: 'space-evenly',
+  justifyContent: 'space-between',
+  padding: '0px 16px',
+}));
+
+export const Counter = styled(Box)(() => ({
+  margin: '0px 30px',
+}));
+
+export const FunctionBox = styled(Box)(() => ({
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'flex-start',
+  transition: '0.5s',
+}));
+
+export const LoadingBox = styled(Box)(() => ({
+  width: '100%',
+  height: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
   alignItems: 'center',
 }));
 
-export const ProductFunctionBox = styled(Box)(() => ({
-  height: '120px',
+export const FooterBox = styled(Box)(() => ({
+  width: '100%',
+  padding: '20px 30px',
   display: 'flex',
-  justifyContent: 'space-evenly',
-  alignItems: 'center',
+  justifyContent: 'space-between',
+  alignItems: 'flex-end',
+  fontFamily: theme.typography.fontFamily[1],
+  fontSize: '18px',
+  letterSpacing: '2px',
+}));
+
+export const OrderButton = styled(Button)(() => ({
+  backgroundColor: '#5D5146',
+  fontFamily: theme.typography.fontFamily[1],
+  letterSpacing: '1px',
+  fontSize: '14px',
+  fontWeight: '500',
+  color: '#FAFAFA',
+
+  '&:hover': {
+    backgroundColor: '#5D5146',
+    color: '#FAFAFA',
+    outline: '1px solid #FAFAFA',
+  },
 }));

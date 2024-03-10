@@ -1,125 +1,113 @@
-import styled from "@emotion/styled";
-import { AppBar, Box, Button, TextField, Toolbar } from "@mui/material";
-import theme from "theme";
+import styled from '@emotion/styled';
+import { Box, Menu, TextField } from '@mui/material';
+import theme from 'theme';
+import avatar from 'assets/images/account-avatar.png';
 
-export const HeaderAppBar = styled(AppBar)(() => ({
-  width: "100%",
-  height: "130px",
-  display: "flex",
-  position: "absolute",
-  top: "0",
-}));
-
-export const HeaderToolbar = styled(Toolbar)(() => ({
-  height: "100%",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  flexDirection: "column",
-}));
-
-export const HeaderContentBox = styled(Box)(() => ({
-  display: "flex",
-  justifyContent: "space-evenly",
-  alignItems: "center",
-}));
-
-export const HeaderBox = styled(Box)(() => ({
-  display: "flex",
-  width: "100%",
-  height: "100%",
-  justifyContent: "space-between",
-  alignItems: "center",
-}));
-
-export const SearchBox = styled(Button)(() => ({
-  background: "#fff",
-  borderRadius: "25px",
-  padding: "10px 20px",
-  fontSize: "12px",
-  width: "300px",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  margin: "0px 15px",
-  transition: "0.5s",
-  ":hover": {
-    transition: "0.5s",
-    background: "#fff",
+export const HeaderAppBar = styled('header')(() => ({
+  width: '100%',
+  height: '90px',
+  backgroundColor: '#FAFAFA',
+  display: 'flex',
+  flexDirection: 'column',
+  position: 'relative',
+  zIndex: '1000',
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
   },
 }));
 
-export const HeaderCustomSearchContainer = styled(Box)(() => ({
-  width: "100%",
-  height: "auto",
-  minHeight: "400px",
-  outline: "1px solid #000",
+export const HeaderToolbar = styled('nav')(() => ({
+  height: '100%',
+  alignItems: 'center',
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+  },
 }));
 
-export const SearchLabel = styled(Box)(() => ({
-  color: "#000",
-  fontSize: "12px",
-  ":hover": {
-    textDecoration: "underline",
+export const HeaderContentBox = styled(Box)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+}));
+
+export const HeaderIconBox = styled(Box)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
+  },
+}));
+
+export const HeaderBox = styled(Box)(() => ({
+  display: 'flex',
+  width: '100%',
+  height: '100%',
+
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  boxSizing: 'border-box',
+  padding: '0px 50px',
+
+  [theme.breakpoints.down('sm')]: {
+    padding: '10px',
   },
 }));
 
 export const LogoBox = styled(Box)(() => ({
-  "&:hover": {
-    cursor: "pointer",
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
+  },
+
+  '&:hover': {
+    cursor: 'pointer',
   },
 }));
 
-export const HeaderButtonAccount = styled(Button)(() => ({
-  margin: "0px 10px",
-  transition: "0.5s",
-  fontSize: "12px",
-  borderRadius: "25px",
-  display: "inline-block",
-  padding: "0px 15px ",
-  letterSpacing: "2px",
-  ":hover": {
-    transition: "0.5s",
-  },
-}));
+export const HeaderAccount = styled(Box)(() => ({
+  borderRadius: '50%',
+  backgroundImage: `url(${avatar})`,
+  backgroundSize: '100% 100%',
+  display: 'flex',
+  padding: '20px',
+  justifyContent: 'center',
+  alignItems: 'center',
 
-export const HeaderButtonCart = styled(Button)(() => ({
-  margin: "0px 10px",
-  background: "#fff",
-  boxShadow: "none",
-  borderRadius: "25px",
-  fontSize: "12px",
-  display: "inline-block",
-  padding: "0px 15px ",
-  transition: "0.5s",
-  ":hover": {
-    transition: "0.5s",
-    background: "#fff",
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
   },
 }));
 
 export const HeaderTextStyle = styled(Box)(() => ({
-  fontFamily: theme.fonts.Trebuchet,
-  letterSpacing: "1px",
-  fontWeight: "500",
-  fontSize: "14px",
-  textTransform: "uppercase",
-  borderRadius: "15px",
-  padding: "10px 20px",
-  transition: "0.7s",
-  ":hover": {
-    cursor: "pointer",
-    background: "#fff",
-    transition: "0.7s",
+  fontFamily: theme.typography.fontFamily[1],
+  letterSpacing: '1px',
+  fontWeight: '500',
+  fontSize: '14px',
+  textTransform: 'uppercase',
+  borderRadius: '5px',
+  color: '#FAFAFA',
+  padding: '5px 15px',
+  transition: '0.5s',
+  ':hover': {
+    cursor: 'pointer',
+    background: '#FAFAFA',
+    color: '#5D5146',
+    transition: '0.5s',
   },
 }));
 
-export const HeaderCategoryBox = styled(Box)(() => ({
-  display: "flex",
-  width: "100%",
-  height: "100px",
-  justifyContent: "space-evenly",
-  alignItems: "center",
+export const HeaderCategoryBox = styled('div')(() => ({
+  display: 'flex',
+  width: '100%',
+  height: '40px',
+  borderBottom: '2px solid #A49989',
+  justifyContent: 'space-evenly',
+  alignItems: 'center',
+  backgroundColor: '#5D5146',
+  position: 'sticky',
+  top: '0',
+  zIndex: '1000',
 }));
 
 export const HeaderContentText = styled(Box)(() => ({
@@ -127,25 +115,48 @@ export const HeaderContentText = styled(Box)(() => ({
 }));
 
 export const SearchField = styled(TextField)(() => ({
-  "& .MuiOutlinedInput-root": {
-    color: "#000",
-    borderRadius: "25px",
+  outline: '1px solid #000',
+  borderRadius: '4px',
 
-    "& fieldset": {
-      borderColor: theme.palette.secondary.main,
-      transition: "0.5s",
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      transition: '0.5s',
     },
-    "&:hover fieldset": {
-      borderColor: "#000",
-      transition: "0.5s",
+
+    '&:hover fieldset': {
+      transition: '0.5s',
     },
-    "&.Mui-focused fieldset": {
-      borderColor: "#000",
-      transition: "0.5s",
+
+    '&.Mui-focused fieldset': {
+      transition: '0.5s',
     },
-    "& .MuiInputLabel-outlined": {
-      color: "#000",
-      background: theme.palette.secondary.second,
+    '& .MuiInputLabel-outlined': {
+      color: '#000',
     },
+
+    padding: '0px 10px',
+    margin: 0,
+    transition: '0.5s',
   },
+
+  [theme.breakpoints.down('xl')]: {
+    width: '540px',
+  },
+
+  [theme.breakpoints.down('lg')]: {
+    width: '300px',
+  },
+
+  [theme.breakpoints.down('md')]: {
+    width: '400px',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    width: '200px',
+  },
+}));
+
+export const CustomAccountMenu = styled(Menu)(() => ({
+  position: 'absolute',
+  top: '0',
 }));

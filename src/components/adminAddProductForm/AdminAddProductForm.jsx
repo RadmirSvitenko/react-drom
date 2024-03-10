@@ -1,419 +1,332 @@
-import React, { useState } from 'react';
 import {
   AddImages,
-  AddProductContainer,
-  BoxForFields,
   ButtonSubmit,
+  Container,
   CustomInput,
-  CustomTextarea,
-  FormAddProduct,
-  Image,
+  CustomTitle,
+  ErrorMessage,
+  ErrorMessageBox,
+  Form,
+  ImageBox,
   ImagesContainer,
+  SubcategoriesContainer,
 } from './styles';
+import { useForm } from 'react-hook-form';
 import {
+  Breadcrumbs,
+  Chip,
+  FormControl,
   IconButton,
   InputLabel,
-  ListItemIcon,
   MenuItem,
-  Typography,
+  Select,
 } from '@mui/material';
-import { AddRounded, CloseRounded } from '@mui/icons-material';
-import moment from 'moment';
+import { AddRounded, CloseRounded, Done } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories } from 'reducers/categorySlice';
+import { getSubcategories } from 'reducers/subcategorySlice';
+import React, { useCallback, useEffect, useState } from 'react';
+import { createProduct } from 'reducers/productSlice';
 
 const AdminAddProductForm = () => {
-  const [productData, setProductData] = useState();
-  const [productImages, setProductImages] = useState([]);
-  const [materialImage, setMaterialImage] = useState({ image: '' });
-  const [materialData, setMaterialData] = useState({
-    id: '',
-    name: '',
+  const categories =
+    useSelector((state) => state.categoryReducer.categories) || [];
+
+  const subcategories =
+    useSelector((state) => state.subcategoryReducer.subcategories) || [];
+
+  const colors = useSelector((state) => state.colorReducer.colors) || [];
+
+  const [bindCategories, setBindCategories] = useState();
+  const [colorVisibility, setColorVisibility] = useState(false);
+  const [productData, setProductData] = useState({
+    productImages: [],
+    productColors: [],
+    productSubcategories: {
+      values: [],
+      ids: [],
+    },
   });
+  console.log(productData.productSubcategories);
 
-  const [colorData, setColorData] = useState({
-    id: '',
-    name: '',
-    color: '',
-  });
-  const [productCategoryValue, setProductCategoryValue] = useState(0);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const currentDate = moment().format('DD-MM-YYYY');
+  const dispatch = useDispatch();
 
-  const category = [
-    {
-      id: 1,
-      name: 'столы',
-    },
-
-    {
-      id: 2,
-      name: 'стулья',
-    },
-
-    {
-      id: 3,
-      name: 'кресла',
-    },
-
-    {
-      id: 4,
-      name: 'диваны',
-    },
-
-    {
-      id: 5,
-      name: 'декор',
-    },
-
-    {
-      id: 6,
-      name: 'постельное бельё',
-    },
-
-    {
-      id: 7,
-      name: 'отделочные материалы',
-    },
+  const variantInStock = [
+    { name: 'да', value: true },
+    { name: 'нет', value: false },
   ];
 
-  const subcategory = [
-    {
-      id: 1,
-      name: [
-        'мебель1',
-        'мебель1',
-        'мебель1',
-        'мебель1',
-        'мебель1',
-        'мебель1',
-        'мебель1',
-      ],
-    },
+  const handleGetAllCategories = useCallback(async () => {
+    await dispatch(getCategories());
+    await dispatch(getSubcategories());
+  }, [dispatch]);
 
-    {
-      id: 2,
-      name: [
-        'мебель2',
-        'мебель2',
-        'мебель2',
-        'мебель2',
-        'мебель2',
-        'мебель2',
-        'мебель2',
-      ],
-    },
-    {
-      id: 3,
-      name: [
-        'мебель3',
-        'мебель3',
-        'мебель3',
-        'мебель3',
-        'мебель3',
-        'мебель3',
-        'мебель3',
-      ],
-    },
-    {
-      id: 4,
-      name: [
-        'мебель4',
-        'мебель4',
-        'мебель4',
-        'мебель4',
-        'мебель4',
-        'мебель4',
-        'мебель4',
-      ],
-    },
+  const handleChangeCategories = (id, name) => () => {
+    setBindCategories(id);
+  };
 
-    {
-      id: 5,
-      name: [
-        'мебель5',
-        'мебель5',
-        'мебель5',
-        'мебель5',
-        'мебель5',
-        'мебель5',
-        'мебель5',
-      ],
-    },
+  const handleChangeSubcategory = (e) => {
+    const { value } = e.target;
+    const newSubcategory = value.name;
+    const idSubcategory = value.id;
 
-    {
-      id: 6,
-      name: [
-        'мебель6',
-        'мебель6',
-        'мебель6',
-        'мебель6',
-        'мебель6',
-        'мебель6',
-        'мебель6',
-      ],
-    },
+    if (
+      !productData.productSubcategories.values.includes(newSubcategory) &&
+      !productData.productSubcategories.ids.includes(idSubcategory)
+    ) {
+      setProductData((prevValue) => ({
+        ...prevValue,
+        productSubcategories: {
+          values: [...prevValue.productSubcategories.values, newSubcategory],
+          ids: [...prevValue.productSubcategories.ids, idSubcategory],
+        },
+      }));
+    }
+  };
 
-    {
-      id: 7,
-      name: [
-        'мебель7',
-        'мебель7',
-        'мебель7',
-        'мебель7',
-        'мебель7',
-        'мебель7',
-        'мебель7',
-      ],
-    },
-  ];
-
-  const colors = [
-    { id: 1, name: 'красный', color: '#ff0000' },
-    { id: 2, name: 'синий', color: '#001aff' },
-    { id: 3, name: 'берюзовый', color: '#2bd887' },
-    { id: 4, name: 'бежевый', color: '#e6b9b9' },
-    { id: 5, name: 'черный', color: '#000' },
-  ];
-
-  const materials = [
-    { id: 1, name: 'дуб', image: '' },
-    { id: 2, name: 'железо', image: '' },
-    { id: 3, name: 'ЛДСП', image: '' },
-    { id: 4, name: 'смешаный', image: '' },
-    { id: 5, name: 'красное дерево', image: '' },
-  ];
+  const handleBreadcrumbsDelete = (valueToDelete, idToDelte) => {
+    setProductData((prevData) => {
+      if (prevData && prevData.productSubcategories) {
+        return {
+          ...prevData,
+          productSubcategories: {
+            values: prevData.productSubcategories.values.filter(
+              (data) => data.toLowerCase() !== valueToDelete.toLowerCase()
+            ),
+            ids: prevData.productSubcategories.ids.filter(
+              (id) => id !== idToDelte
+            ),
+          },
+        };
+      } else {
+        setProductData((prevTags) => ({
+          productSubcategories: prevTags.productSubcategories.values.filter(
+            (tag) => tag.toLowerCase() !== valueToDelete.toLowerCase()
+          ),
+        }));
+      }
+      return prevData;
+    });
+  };
 
   const handleAddImages = (e) => {
     const images = e.target.files;
     if (images.length > 0) {
-      const newImages = Array.from(images).map((image) =>
-        URL.createObjectURL(image)
+      const newImages = Array.from(images).map((file) =>
+        URL.createObjectURL(file)
       );
-      setProductImages((prevImages) => [...prevImages, ...newImages]);
+      setProductData((prevData) => ({
+        ...prevData,
+        productImages: [...prevData.productImages, ...newImages],
+      }));
     }
   };
 
-  const handleAddMaterialImage = (e) => {
-    const selectimage = e.target.files[0];
-    if (selectimage) {
-      const newImage = URL.createObjectURL(selectimage);
-      setMaterialImage({ image: newImage });
-    }
-  };
-
-  const handleDeleteImage = (ImageToDelete) => {
-    setProductImages((prevImages) =>
-      prevImages.filter((image) => ImageToDelete !== image)
-    );
-  };
-
-  const handleDeleteMaterialData = () => {
-    setMaterialImage({ image: '' });
-  };
-
-  const handleChangeProduct = (e) => {
-    const { name, value } = e.target;
+  const handleRemoveImages = (ImageToDelete) => {
     setProductData((prevData) => ({
       ...prevData,
-      [name]: value,
-      created_at: currentDate,
-      updated_at: currentDate,
-      photo: productImages || [],
+      productImages: prevData.productImages.filter(
+        (image) => ImageToDelete !== image
+      ),
     }));
   };
 
-  console.log(productData);
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    const submitData = {
-      ...productData,
-      materials: { ...materialData, ...materialImage },
-      colors: colorData,
-    };
-    console.log('submitData: ', submitData);
-    // await dispatch(postProduct())
+  const handleAddImagesColors = (e) => {
+    const images = e.target.files;
+    if (images.length > 0) {
+      const newImages = Array.from(images).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setProductData((prevData) => ({
+        ...prevData,
+        productColors: [...prevData.productColors, ...newImages],
+      }));
+    }
   };
-  return (
-    <AddProductContainer>
-      <FormAddProduct onSubmit={handleFormSubmit}>
-        <CustomInput
-          onChange={handleChangeProduct}
-          placeholder="Введите название"
-          fullWidth
-          name="name"
-        />
-        <CustomTextarea
-          maxLength={300}
-          minRows={30}
-          onChange={handleChangeProduct}
-          placeholder="Введите описание обьявления"
-          name="descroption"
-        />
-        <BoxForFields>
-          <CustomInput
-            onChange={handleChangeProduct}
-            fullWidth
-            select
-            placeholder="Выберите категорию"
-            name="category"
-          >
-            <InputLabel>Выберите категорию товара</InputLabel>
 
-            {category.map(({ id, name }, index) => (
-              <MenuItem
-                key={id}
-                value={name}
-                onClick={() => setProductCategoryValue(index)}
-              >
+  const handleRemoveImagesColors = (ImageToDelete) => {
+    setProductData((prevData) => ({
+      ...prevData,
+      productColors: prevData.productColors.filter(
+        (image) => ImageToDelete !== image
+      ),
+    }));
+  };
+
+  const handleSelectedColors = (id) => {
+    setProductData((prevData) => ({
+      ...prevData,
+      productColors: [...prevData.productColors, id],
+    }));
+  };
+
+  const onSubmit = async (data) => {
+    const newProductData = {
+      ...data,
+      ...productData,
+      categoryId: bindCategories,
+    };
+    await dispatch(createProduct({ data: newProductData }));
+  };
+
+  useEffect(() => {
+    handleGetAllCategories();
+  }, [handleGetAllCategories]);
+
+  const variantProductClass = ['стандарт', 'премиум', 'vip', 'уникальное'];
+
+  return (
+    <Container>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <CustomTitle variant="h4">Создание товара</CustomTitle>
+
+        <CustomInput
+          type="text"
+          fullWidth
+          placeholder="Введите название товара"
+          {...register('title', {
+            required: 'Это поле обязательное!',
+            minLength: {
+              value: 1,
+              message: 'Минимальное количество символов: 1',
+            },
+
+            maxLength: {
+              value: '255',
+              message: 'Максимальное количество символов: 255',
+            },
+          })}
+        />
+
+        <ErrorMessageBox>
+          {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
+        </ErrorMessageBox>
+
+        <CustomInput
+          type="text"
+          multiline
+          rows={20}
+          fullWidth
+          placeholder="Введите описание товара"
+          {...register('description', {
+            required: 'Это поле обязательное',
+            minLength: {
+              value: 1,
+              message: 'Минимальное количество символов: 1',
+            },
+          })}
+        />
+
+        <ErrorMessageBox>
+          {errors.description && (
+            <ErrorMessage>{errors.description.message}</ErrorMessage>
+          )}
+        </ErrorMessageBox>
+
+        <CustomInput
+          type="number"
+          fullWidth
+          placeholder="цена товара"
+          {...register('price')}
+        />
+
+        <CustomInput
+          type="number"
+          fullWidth
+          placeholder="скидка на товар (в процентах)"
+          {...register('discount', {
+            required: 'Это поле обязательное',
+            minLength: {
+              value: 1,
+              message: 'Минимальное количество символов: 1',
+            },
+          })}
+        />
+
+        <ErrorMessageBox>
+          {errors.discount && (
+            <ErrorMessage>{errors.discount.message}</ErrorMessage>
+          )}
+        </ErrorMessageBox>
+
+        <FormControl fullWidth>
+          <InputLabel id="in_stock_select">В наличии</InputLabel>
+          <Select
+            labelId="in_stock_select"
+            {...register('in_stock', {
+              required: 'Это поле обязательное',
+            })}
+          >
+            {variantInStock?.map(({ name, value }, index) => (
+              <MenuItem key={index} value={value}>
                 {name}
               </MenuItem>
             ))}
-          </CustomInput>
+          </Select>
+        </FormControl>
 
-          <CustomInput
-            onChange={handleChangeProduct}
-            name="subcategory"
-            select
-            fullWidth
-          >
-            <InputLabel>Выберите подкатегорию товара</InputLabel>
-            {subcategory.map(({ id, name }, index) => {
-              if (index === productCategoryValue) {
-                return name.map((name) => (
-                  <MenuItem key={id} value={name}>
-                    {name}
-                  </MenuItem>
-                ));
-              } else {
-                return null;
-              }
+        <ErrorMessageBox>
+          {errors.in_stock && (
+            <ErrorMessage>{errors.in_stock.message}</ErrorMessage>
+          )}
+        </ErrorMessageBox>
+
+        <FormControl fullWidth>
+          <InputLabel id="product_class_select">
+            Классификация товара
+          </InputLabel>
+          <Select
+            labelId="product_class_select"
+            {...register('product_class', {
+              required: 'Это поле обязательное',
             })}
-          </CustomInput>
-        </BoxForFields>
+          >
+            {variantProductClass.map((value, index) => (
+              <MenuItem key={index} value={value}>
+                {value}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-        <BoxForFields>
-          <CustomInput
-            name="height"
-            onChange={handleChangeProduct}
-            placeholder="Высота"
-            type="number"
-            required
-          />
+        <ErrorMessageBox>
+          {errors.product_class && (
+            <ErrorMessage>{errors.product_class.message}</ErrorMessage>
+          )}
+        </ErrorMessageBox>
 
-          <CustomInput
-            onChange={handleChangeProduct}
-            placeholder="Длинна"
-            type="number"
-            required
-            name="length"
-          />
+        {/* <InputLabel>Выберите изображения товара</InputLabel> */}
 
-          <CustomInput
-            onChange={handleChangeProduct}
-            placeholder="глубина"
-            type="number"
-            required
-            name="depth"
-          />
-        </BoxForFields>
-
-        <ImagesContainer>
-          {productImages?.map((file, index) => (
-            <Image key={index}>
-              <img
-                name={file.name}
-                src={file}
-                alt={file.name}
-                key={index}
-                width={'80px'}
-                height={'80px'}
-                loading="lazy"
-                style={{ borderRadius: '10px' }}
-              />
-
-              <IconButton
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                }}
-              >
-                <CloseRounded
-                  onClick={() => handleDeleteImage(file)}
-                  color="delete"
-                  fontSize="large"
-                />
-              </IconButton>
-            </Image>
-          ))}
-          <AddImages htmlFor="fileInput">
-            <AddRounded
-              fontSize="large"
-              sx={{
-                color: 'red',
-              }}
-            />
-          </AddImages>
+        {/* <ImagesContainer>
           <input
-            style={{ display: 'none' }}
-            id="fileInput"
+            onChange={handleAddImages}
+            id="product_images"
             type="file"
             multiple
-            onChange={handleAddImages}
+            style={{ display: 'none' }}
           />
-        </ImagesContainer>
-
-        <CustomInput
-          onChange={handleChangeProduct}
-          placeholder="Цена продукта"
-          type="number"
-          name="price"
-          required
-        />
-        <CustomInput
-          onChange={handleChangeProduct}
-          placeholder="Количество"
-          type="number"
-          required
-          name="quntity"
-        />
-        <CustomInput
-          onChange={handleChangeProduct}
-          placeholder="Скидка на продукт"
-          type="number"
-          required
-          name="discount"
-        />
-
-        <BoxForFields>
-          <CustomInput fullWidth select placeholder="Выберите материал">
-            <InputLabel>Выберите материал</InputLabel>
-
-            {materials.map(({ id, name }) => (
-              <MenuItem
-                key={id}
-                value={name}
-                onClick={() => setMaterialData({ id: id, name: name })}
-              >
-                {name}
-              </MenuItem>
-            ))}
-          </CustomInput>
-
-          <ImagesContainer>
-            <Image materialImage={materialImage.image}>
+          {productData.productImages?.map((image, index) => (
+            <ImageBox key={index}>
               <img
-                name={materialData.name}
-                src={materialImage.image}
-                alt={materialData.name}
+                name={image.name}
+                key={index}
+                src={image}
+                alt={image.name}
                 width={'80px'}
                 height={'80px'}
-                loading="lazy"
-                style={{ borderRadius: '10px' }}
+                style={{
+                  borderRadius: '5px',
+                }}
               />
 
               <IconButton
+                onClick={() => handleRemoveImages(image)}
                 sx={{
                   position: 'absolute',
                   top: '50%',
@@ -421,76 +334,142 @@ const AdminAddProductForm = () => {
                   transform: 'translate(-50%, -50%)',
                 }}
               >
-                <CloseRounded
-                  onClick={() => handleDeleteMaterialData()}
-                  color="delete"
-                  fontSize="large"
-                />
+                <CloseRounded fontSize="large" />
               </IconButton>
-            </Image>
-            <AddImages
-              style={{ outline: '1px solid #000' }}
-              htmlFor="fileInputMaterial"
-            >
-              <AddRounded
-                fontSize="large"
-                sx={{
-                  color: '#000',
+            </ImageBox>
+          ))}
+
+          <AddImages htmlFor="product_images">
+            <AddRounded fontSize="large" />
+          </AddImages>
+        </ImagesContainer> */}
+
+        {categories.length > 0 && subcategories.length > 0 && (
+          <>
+            <FormControl fullWidth>
+              <InputLabel id="categories_select">
+                Выберите категорию товара
+              </InputLabel>
+              <Select
+                labelId="categories_select"
+                {...register('category', {
+                  required: 'Это поле обязательное',
+                })}
+              >
+                {categories?.map(({ id, name }) => (
+                  <MenuItem
+                    onClick={handleChangeCategories(id, name)}
+                    key={id}
+                    value={name}
+                  >
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <ErrorMessageBox>
+              {errors.category && (
+                <ErrorMessage>{errors.category.message}</ErrorMessage>
+              )}
+            </ErrorMessageBox>
+
+            <FormControl fullWidth>
+              <InputLabel id="subcategories_select">
+                Выберите подкатегорию товара
+              </InputLabel>
+
+              <Select
+                required
+                labelId="subcategories_select"
+                onChange={handleChangeSubcategory}
+              >
+                {subcategories
+                  ?.filter(
+                    (subcategory) => subcategory.category === bindCategories
+                  )
+                  .map(({ id: subId, name: subName }) => (
+                    <MenuItem key={subId} value={{ id: subId, name: subName }}>
+                      {subName}
+                    </MenuItem>
+                  ))}
+              </Select>
+
+              <SubcategoriesContainer>
+                <Breadcrumbs aria-label="breadcrumb">
+                  {productData.productSubcategories.values?.map(
+                    (subcategorySelected, index) => {
+                      const id = productData.productSubcategories.ids?.[index];
+                      return (
+                        <Chip
+                          key={id}
+                          label={subcategorySelected}
+                          onDelete={() =>
+                            handleBreadcrumbsDelete(subcategorySelected, id)
+                          }
+                          sx={{ margin: '5px' }}
+                        />
+                      );
+                    }
+                  )}
+                </Breadcrumbs>
+              </SubcategoriesContainer>
+            </FormControl>
+          </>
+        )}
+
+        <InputLabel>Выберите цвет или материал товара</InputLabel>
+
+        {colors?.map(({ id, name, image }) => (
+          <ImageBox onClick={() => handleSelectedColors(id)}>
+            {colorVisibility ? <Done /> : <></>}
+          </ImageBox>
+        ))}
+
+        {/* <ImagesContainer>
+          <input
+            onChange={handleAddImagesColors}
+            id="product_colors_images"
+            type="file"
+            multiple
+            style={{ display: 'none' }}
+          />
+          {productData.productColors?.map((image, index) => (
+            <ImageBox key={index}>
+              <img
+                name={image.name}
+                key={index}
+                src={image}
+                alt={image.name}
+                width={'80px'}
+                height={'80px'}
+                style={{
+                  borderRadius: '5px',
                 }}
               />
-            </AddImages>
-            <input
-              style={{ display: 'none' }}
-              id="fileInputMaterial"
-              type="file"
-              multiple
-              onChange={handleAddMaterialImage}
-            />
-          </ImagesContainer>
-        </BoxForFields>
 
-        <BoxForFields>
-          <CustomInput
-            InputLabelProps={{
-              style: { display: 'flex' },
-            }}
-            select
-            required
-          >
-            <InputLabel>Выберите цвет</InputLabel>
-            {colors.map(({ id, name, color }) => (
-              <MenuItem
-                key={id}
-                value={name}
-                onClick={() =>
-                  setColorData({ id: id, name: name, color: color })
-                }
+              <IconButton
+                onClick={() => handleRemoveImagesColors(image)}
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                }}
               >
-                <ListItemIcon>
-                  <div
-                    style={{
-                      backgroundColor: color,
-                      width: '20px',
-                      height: '20px',
-                    }}
-                  />
-                </ListItemIcon>
-                <Typography variant="inherit">{name}</Typography>
-              </MenuItem>
-            ))}
-          </CustomInput>
-        </BoxForFields>
+                <CloseRounded fontSize="large" />
+              </IconButton>
+            </ImageBox>
+          ))}
 
-        <CustomInput
-          onChange={handleChangeProduct}
-          placeholder="Артикл"
-          type="number"
-          name="article"
-          required
-        />
-        <ButtonSubmit type="submit">Создать продукт</ButtonSubmit>
-      </FormAddProduct>
-    </AddProductContainer>
+          <AddImages htmlFor="product_colors_images">
+            <AddRounded fontSize="large" />
+          </AddImages>
+        </ImagesContainer> */}
+
+        <ButtonSubmit type="submit">Создать товар</ButtonSubmit>
+      </Form>
+    </Container>
   );
 };
 

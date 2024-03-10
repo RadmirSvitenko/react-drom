@@ -1,18 +1,26 @@
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
+import theme from 'theme';
 
 export const Container = styled(Box)(() => ({
   width: '100%',
-  height: '500px',
   display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-evenly',
+  backgroundColor: '#FAFAFA',
+  flexDirection: 'center',
+  justifyContent: 'center',
 }));
 
-export const LoadingBox = styled(Box)(() => ({
-  width: '100%',
-  height: '500px',
+export const TitleBox = styled(Box)(() => ({
   display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  justifyContent: 'flex-start',
+  alignItems: 'flex-start',
+  padding: '50px 60px',
+
+  [theme.breakpoints.down('sm')]: {
+    display: 'none',
+  },
+
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
+  },
 }));
