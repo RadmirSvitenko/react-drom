@@ -3,15 +3,16 @@ import { Box, Button, TextField } from '@mui/material';
 import theme from 'theme';
 
 export const AuthorizationContainer = styled(Box)(() => ({
-  minWidth: '300px',
-  minHeight: '300px',
   display: 'flex',
   flexDirection: 'column',
   flexWrap: 'wrap',
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '50px',
-  outline: '1px solid #000',
+
+  [theme.breakpoints.down('sm')]: {
+    padding: '50px 10px',
+  },
 }));
 
 export const AuthorizationTitle = styled(Box)(() => ({
@@ -42,30 +43,31 @@ export const AuthorizationForm = styled('form')(() => ({
 }));
 
 export const AuthorizationField = styled(TextField)(() => ({
-  color: '#fff',
+  color: '#000',
   background: theme.palette.secondary.main,
   fontSize: '11px',
   transition: '0.5s',
+  letterSpacing: '1.5px',
+  borderRadius: '10px',
 
   '& .MuiOutlinedInput-root': {
     color: '#000',
-    letterSpacing: '1.5px',
     padding: '0px 10px 0px 5px',
     fontFamily: theme.typography.fontFamily[1],
+    letterSpacing: '1.5px',
     fontWeight: '800',
-    borderRadius: '5px',
 
     '& fieldset': {
       color: '#000',
       transition: '0.5s',
       letterSpacing: '1.5px',
-      borderRadius: '5px',
     },
     '&:hover fieldset': {
       color: '#000',
       transition: '0.5s',
     },
     '&.Mui-focused fieldset': {
+      color: '#000',
       transition: '0.5s',
       border: '1px solid #000',
     },
@@ -96,6 +98,7 @@ export const AuthorizationHelperBox = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'space-evenly',
   alignItems: 'center',
+  flexWrap: 'wrap',
 }));
 
 export const AuthorizationHelperText = styled(Box)(() => ({

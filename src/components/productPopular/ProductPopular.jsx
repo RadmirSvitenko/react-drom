@@ -48,11 +48,10 @@ const ProductPopular = ({ onClose }) => {
 
       <Swiper
         slidesPerView={sm ? 1 : 3}
-        centeredSlides={true}
+        centeredSlides
         autoplay={{
           delay: '5000',
         }}
-        spaceBetween={-70}
         pagination={{
           clickable: true,
         }}

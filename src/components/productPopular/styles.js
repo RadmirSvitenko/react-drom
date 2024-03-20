@@ -7,6 +7,7 @@ export const Container = styled(Box)(() => ({
   display: 'flex',
   backgroundColor: '#FAFAFA',
   flexDirection: 'center',
+  alignItems: 'center',
   justifyContent: 'center',
 }));
 

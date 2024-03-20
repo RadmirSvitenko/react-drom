@@ -101,17 +101,9 @@ export const getFavorites = createAsyncThunk('getFavorites/get', async () => {
 export const addProductCart = createAsyncThunk(
   'addProductToCart/post',
   async (params) => {
-    const response = await API.post(
-      `/products/${params.id}/add/`,
-      {
-        data: params.color,
-      }
-      // {
-      //   headers: {
-      //     'Access-Control-Allow-Origin': '*',
-      //   },
-      // }
-    );
+    const response = await API.post(`/products/${params.id}/add/`, {
+      color: params.data,
+    });
     return response.data;
   }
 );

@@ -125,6 +125,16 @@ export const TextStyle = styled(Box)(() => ({
   fontWeight: '550',
   letterSpacing: '2px',
   color: '#000',
+
+  [theme.breakpoints.down('md')]: {
+    textAlign: 'center',
+    width: '100%',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    textAlign: 'center',
+    width: '100%',
+  },
 }));
 
 export const TextTitleStyle = styled(Box)(() => ({
@@ -134,17 +144,32 @@ export const TextTitleStyle = styled(Box)(() => ({
   letterSpacing: '2px',
   color: '#000',
   textTransform: 'uppercase',
+
+  [theme.breakpoints.down('md')]: {
+    textAlign: 'center',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    textAlign: 'center',
+  },
 }));
 
 export const TextMergeBox = styled(Box)(() => ({
   width: '100%',
-  // justifyContent: 'space-between',
   justifyContent: 'flex-start',
   display: 'flex',
   alignItems: 'center',
   flexWrap: 'wrap',
   gap: '20px',
   borderRadius: '5px',
+
+  [theme.breakpoints.down('md')]: {
+    justifyContent: 'center',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    justifyContent: 'center',
+  },
 }));
 
 export const ButtonAddCart = styled(Button)(() => ({

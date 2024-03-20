@@ -48,6 +48,7 @@ import { removeTokensFromCookies } from 'cookies';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCart, getFavorites, getProducts } from 'reducers/productSlice';
 import ModalFavorites from 'components/modalFavorites/ModalFavorites';
+import theme from 'theme';
 
 const Header = ({
   authSwitch,

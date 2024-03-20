@@ -3,9 +3,7 @@ import { Box, Button } from '@mui/material';
 import theme from 'theme';
 
 export const CartContainer = styled(Box)(() => ({
-  width: '500px',
   flexWrap: 'wrap',
-  minWidth: '500px',
   minHeight: '100vh',
   height: 'auto',
   display: 'flex',

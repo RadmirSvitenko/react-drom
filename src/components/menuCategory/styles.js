@@ -19,6 +19,13 @@ export const Container = styled(Box)(() => ({
   width: '100%',
   height: '100%',
   display: 'flex',
+  position: 'relative',
+  padding: '20px 0px',
+
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+    justifyContent: 'center',
+  },
 }));
 
 export const CustomUl = styled(Box)(() => ({

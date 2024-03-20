@@ -20,6 +20,7 @@ import {
   IconButton,
   SwipeableDrawer,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,6 +42,8 @@ const ModalCart = ({ open, onClose }) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const sm = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleAddProductCart = async (id, color) => {
     await dispatch(addProductCart({ id: id, color: color }));
@@ -77,6 +80,16 @@ const ModalCart = ({ open, onClose }) => {
       anchor={'right'}
       open={open}
       onClose={onClose}
+      sx={{
+        ...(sm && {
+          width: '100%',
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: '100%',
+            boxSizing: 'border-box',
+          },
+        }),
+      }}
     >
       <CartContainer>
         <TitleBox>
@@ -86,8 +99,8 @@ const ModalCart = ({ open, onClose }) => {
           </IconButton>
         </TitleBox>
 
-        {!cartData ||
-          (cartData.length < 0 && (
+        {!cart ||
+          (cart.length < 0 && (
             <Box
               display={'flex'}
               width={'100%'}
@@ -120,7 +133,7 @@ const ModalCart = ({ open, onClose }) => {
               </Button>
             </Box>
           ))}
-        {cartData?.map(({ product, quantity, color }, index) => (
+        {cart?.map(({ product, quantity, color }, index) => (
           <ContentBox key={index}>
             <ProductContainer>
               <ProductImageBox preview={product?.images[0]?.image} />
@@ -166,7 +179,7 @@ const ModalCart = ({ open, onClose }) => {
                   <img
                     src={plus}
                     alt="plus"
-                    onClick={() => handleAddProductCart(product.id, color)}
+                    onClick={() => handleAddProductCart(product.id, color.id)}
                   />
                 </Box>
               </ProductInfoBox>

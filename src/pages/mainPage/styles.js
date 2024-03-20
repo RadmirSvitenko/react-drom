@@ -35,6 +35,7 @@ export const MobileBoxImage = styled(Box)(() => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   display: 'none',
   width: '100%',
   height: '500px',
@@ -48,11 +49,8 @@ export const MobileImage = styled(Box)(() => ({
   backgroundRepeat: 'no-repeat',
 }));
 
-export const Container = styled(Box)(() => ({}));
-
 export const SliderContainer = styled(Box)(() => ({
   width: '100%',
-  height: '80vh',
 }));
 
 export const CategoryContainer = styled(Box)(() => ({
@@ -67,6 +65,23 @@ export const CategoryContainer = styled(Box)(() => ({
 
   [theme.breakpoints.down('md')]: {
     display: 'none',
+  },
+}));
+
+export const CategoryContainerMobile = styled(Box)(() => ({
+  width: '100%',
+  minHeight: '100vh',
+  height: 'auto',
+  display: 'none',
+  flexWrap: 'wrap',
+  gap: '20px',
+  justifyContent: 'center',
+  [theme.breakpoints.down('sm')]: {
+    display: 'flex',
+  },
+
+  [theme.breakpoints.down('md')]: {
+    display: 'flex',
   },
 }));
 
@@ -197,16 +212,24 @@ export const TitleBox = styled(Box)(() => ({
 export const SlideCategory = styled(Box)(({ image }) => ({
   width: '320px',
   height: '320px',
+  display: 'flex',
+  justifyContent: 'center',
   backgroundImage: `url(${image})`,
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
   position: 'relative',
   padding: '0px',
   margin: '0px',
+  marginBottom: '150px',
+
+  [theme.breakpoints.down('md')]: {
+    width: '240px',
+    height: '240px',
+  },
 
   [theme.breakpoints.down('sm')]: {
-    height: '200px',
-    width: '200px',
+    width: '240px',
+    height: '240px',
   },
 }));
 

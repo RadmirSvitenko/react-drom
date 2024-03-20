@@ -3,13 +3,16 @@ import { Box, Button, TextField } from '@mui/material';
 import theme from 'theme';
 
 export const RegistrationContainer = styled(Box)(() => ({
-  minWidth: '300px',
   display: 'flex',
   flexDirection: 'column',
   flexWrap: 'wrap',
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '50px',
+
+  [theme.breakpoints.down('sm')]: {
+    padding: '50px 10px',
+  },
 }));
 
 export const RegistrationTitle = styled(Box)(() => ({
@@ -115,7 +118,7 @@ export const RegistrationHelperButton = styled(Button)(() => ({
 }));
 
 export const InputMessage = styled('span')(() => ({
-  color: '#fff',
+  color: 'red',
   letterSpacing: '1px',
   textAlign: 'center',
 }));

@@ -55,6 +55,7 @@ const Registration = ({ toggleAuthSwitch }) => {
       <RegistrationContent>
         <RegistrationForm onSubmit={handleSubmit(onSubmit)}>
           <RegistrationField
+            fullWidth
             {...register('email', {
               required: t('authMessageErrorRequire'),
               pattern: {
@@ -86,6 +87,7 @@ const Registration = ({ toggleAuthSwitch }) => {
           </InputMessageBox>
 
           <RegistrationField
+            fullWidth
             {...register('password', {
               required: t('authMessageErrorRequire'),
               validate: (value) =>
@@ -131,6 +133,7 @@ const Registration = ({ toggleAuthSwitch }) => {
           </InputMessageBox>
 
           <RegistrationField
+            fullWidth
             {...register('passwordRepeat', {
               required: t('authMessageErrorRequire'),
               validate: (value) =>

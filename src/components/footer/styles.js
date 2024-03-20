@@ -55,13 +55,13 @@ export const FooterIconBox = styled(Box)(() => ({
   display: 'flex',
   width: '100%',
   justifyContent: 'space-between',
+  alignItems: 'center',
   flexDirection: 'column',
   gap: '20px',
   padding: '10px 0px',
 
   [theme.breakpoints.down('sm')]: {
     justifyContent: 'center',
-    gap: '50px',
   },
 }));
 

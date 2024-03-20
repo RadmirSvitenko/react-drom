@@ -13,6 +13,7 @@ export const HeaderAppBar = styled('header')(() => ({
   zIndex: '1000',
   [theme.breakpoints.down('sm')]: {
     width: '100%',
+    height: 'auto',
   },
 }));
 
@@ -36,7 +37,10 @@ export const HeaderIconBox = styled(Box)(() => ({
   justifyContent: 'space-between',
 
   [theme.breakpoints.down('md')]: {
-    display: 'none',
+    justifyContent: 'center',
+    width: '100%',
+    gap: '10px',
+    padding: '10px 0px',
   },
 }));
 
@@ -44,7 +48,7 @@ export const HeaderBox = styled(Box)(() => ({
   display: 'flex',
   width: '100%',
   height: '100%',
-
+  flexWrap: 'wrap',
   justifyContent: 'space-between',
   alignItems: 'center',
   boxSizing: 'border-box',
@@ -152,7 +156,7 @@ export const SearchField = styled(TextField)(() => ({
   },
 
   [theme.breakpoints.down('sm')]: {
-    width: '200px',
+    width: '220px',
   },
 }));
 

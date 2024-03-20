@@ -4,6 +4,7 @@ import {
   IconButton,
   SwipeableDrawer,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import React, { useCallback, useEffect } from 'react';
 import {
@@ -26,6 +27,8 @@ import { addProductFavorites, getFavorites } from 'reducers/productSlice';
 const ModalFavorites = ({ open, onClose }) => {
   const favorites =
     useSelector((state) => state.productReducer.favorites) || [];
+
+  const sm = useMediaQuery(theme.breakpoints.down('sm'));
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,6 +57,16 @@ const ModalFavorites = ({ open, onClose }) => {
       anchor={'right'}
       open={open}
       onClose={onClose}
+      sx={{
+        ...(sm && {
+          width: '100%',
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: '100%',
+            boxSizing: 'border-box',
+          },
+        }),
+      }}
     >
       <FavoritesContainer>
         <TitleBox>

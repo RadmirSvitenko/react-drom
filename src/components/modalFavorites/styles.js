@@ -3,9 +3,7 @@ import { Box } from '@mui/material';
 import theme from 'theme';
 
 export const FavoritesContainer = styled(Box)(() => ({
-  width: '500px',
   flexWrap: 'wrap',
-  minWidth: '500px',
   height: 'auto',
   display: 'flex',
 }));

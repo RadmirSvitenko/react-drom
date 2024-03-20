@@ -18,11 +18,11 @@
 @media screen and (max-width: 600px) {
   .slide {
     width: 100%;
-    height: 60vh;
+    height: 120vh;
   }
 
   .swiper {
-    height: 40vh;
+    height: 50vh;
     padding: 0px;
     padding: 0px;
   }

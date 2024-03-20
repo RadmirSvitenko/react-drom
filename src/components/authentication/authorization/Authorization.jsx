@@ -63,6 +63,7 @@ const Authorization = ({ toggleAuthSwitch, onClose }) => {
       <AuthorizationContent>
         <AuthorizationForm onSubmit={handleSubmit(onSubmit)}>
           <AuthorizationField
+            fullWidth
             {...register('email', {
               required: t('authMessageErrorRequire'),
               pattern: {
@@ -94,6 +95,7 @@ const Authorization = ({ toggleAuthSwitch, onClose }) => {
           </InputMessageBox>
 
           <AuthorizationField
+            fullWidth
             {...register('password', {
               required: t('authMessageErrorRequire'),
               minLength: {

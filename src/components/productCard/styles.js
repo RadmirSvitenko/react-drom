@@ -8,11 +8,7 @@ export const ProductCardContainer = styled(Box)(() => ({
   display: 'flex',
   flexDirection: 'column',
   flexWrap: 'wrap',
-
-  [theme.breakpoints.down('sm')]: {
-    height: '200px',
-    width: '200px',
-  },
+  alignItems: 'center',
 }));
 
 export const ProductCardDetails = styled(Box)(() => ({

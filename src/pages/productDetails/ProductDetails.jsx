@@ -44,6 +44,7 @@ const ProductDetails = () => {
   );
 
   const { id } = useParams();
+  console.log('id: ', id);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const ProductDetails = () => {
   const [colorSelected, setColorSelected] = useState({
     design: false,
     name: '',
-    value: '',
+    value: 1,
   });
   const [counter, setCounter] = useState(0);
   const [breadcrumbs, setBreadcrumbs] = useState([
@@ -73,10 +74,7 @@ const ProductDetails = () => {
     await dispatch(
       addProductCart({
         id: product.id,
-        data: colorSelected.value
-          ? colorSelected.value
-          : product?.colors[0]?.id,
-        quantity: counter > 0 ? counter : 1,
+        data: colorSelected.value,
       })
     );
     dispatch(getCart());
@@ -230,7 +228,7 @@ const ProductDetails = () => {
 
               <Box display={'flex'} justifyContent={'space-between'}>
                 <TextMergeBox>
-                  <TextStyle paddingRight={'80px'}>${product.price}</TextStyle>
+                  <TextStyle>${product.price}</TextStyle>
 
                   <Box display={'flex'} alignItems={'center'} gap={'15px'}>
                     <div onClick={() => handleChangeCounter('-')}>

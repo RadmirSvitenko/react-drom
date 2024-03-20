@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   CategoryContainer,
+  CategoryContainerMobile,
+  CategoryProductMobile,
   ImageAd,
   ImagesGrid,
   SlideCategory,
@@ -26,14 +28,17 @@ import slide1 from 'assets/images/slide1.png';
 import slide2 from 'assets/images/slide2.png';
 import slide3 from 'assets/images/slide3.png';
 
+import mobileImage1 from 'assets/images/mobileImage1.png';
+import mobileImage2 from 'assets/images/mobileImage2.png';
+import mobileImage3 from 'assets/images/mobileImage3.png';
+
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPopularProducts, getProducts } from 'reducers/productSlice';
 import Title from 'components/titles/Title';
-import { Box, useMediaQuery } from '@mui/material';
+import { Box, CircularProgress, useMediaQuery } from '@mui/material';
 import { getTokenFromCookies } from 'cookies';
 
-import Loading from 'components/loading/Loading';
 import ProductPopular from 'components/productPopular/ProductPopular';
 import theme from 'theme';
 
@@ -45,12 +50,13 @@ const MainPage = () => {
 
   const isLoading = useSelector((state) => state.productReducer.isLoading);
   const sm = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const md = useMediaQuery(theme.breakpoints.down('md'));
   const [products, setProducts] = useState();
   const [categoriesId, setCategoriesId] = useState({});
 
+  console.log('products: ', products);
   const sliderImages = [slide1, slide2, slide3];
+  const mobileImages = [mobileImage1, mobileImage2, mobileImage3];
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -59,37 +65,22 @@ const MainPage = () => {
     navigate(`/catalog/product/${id}`);
   };
 
-  const toggleDrawer = (value) => {
-    setOpenDrawer(value);
-  };
-
   const handleGetData = useCallback(async () => {
     let categoryOneId;
     let categoryTwoId;
     let categoryThreeId;
 
-    const categoryOne = categories.find(
-      (value) => value.name.toLowerCase() === 'стеновые панели'.toLowerCase()
-    );
+    const categoryOne = categories[0];
+    const categoryTwo = categories[1];
+    const categoryThree = categories[3];
 
     if (categoryOne) {
       categoryOneId = categoryOne.id;
     }
 
-    const categoryTwo = categories.find(
-      (value) =>
-        value.name.toLowerCase() === 'напольная поверхность'.toLowerCase()
-    );
-
     if (categoryTwo) {
       categoryTwoId = categoryTwo.id;
     }
-
-    const categoryThree = categories.find(
-      (value) =>
-        value.name.toLowerCase() ===
-        'декоративные настенные панели'.toLowerCase()
-    );
 
     if (categoryThree) {
       categoryThreeId = categoryThree.id;
@@ -116,7 +107,6 @@ const MainPage = () => {
     );
 
     await dispatch(getPopularProducts());
-
     const payloadProducts = { productsOne, productsTwo, productsThree };
     await setProducts(payloadProducts);
   }, [dispatch]);
@@ -151,7 +141,7 @@ const MainPage = () => {
                 <div
                   style={{
                     backgroundImage: `url(${slide})`,
-                    backgroundSize: '100% 100%',
+                    backgroundSize: sm ? '150% 100%' : '100% 100%',
                     backgroundRepeat: 'no-repeat',
                   }}
                   className="slide"
@@ -162,7 +152,6 @@ const MainPage = () => {
           </SliderContainer>
         </Swiper>
       </Box>
-
       <Box
         sx={{
           outline: '1px solid #A49989',
@@ -178,16 +167,15 @@ const MainPage = () => {
             }
           />
         </TitleBox>
-
         {isLoading || !products ? (
           <Box
             display={'flex'}
             justifyContent={'center'}
             alignItems={'center'}
             width={'100%'}
-            height={'100%'}
+            height={'500px'}
           >
-            <Loading width={'800px'} height={'550px'} />
+            <CircularProgress size={60} sx={{ color: 'red' }} />
           </Box>
         ) : (
           <CategoryContainer
@@ -211,7 +199,13 @@ const MainPage = () => {
                 >
                   Подробнее
                 </span>
-                <img src={testImage1} alt="testImage2" />
+                <img
+                  src={
+                    products?.productsOne?.payload[0]?.images[0]?.image ||
+                    testImage1
+                  }
+                  alt="testImage1"
+                />
               </ImageAd>
 
               <ImageAd>
@@ -223,7 +217,13 @@ const MainPage = () => {
                 >
                   Подробнее
                 </span>
-                <img src={testImage2} alt="testImage2" />
+                <img
+                  src={
+                    products?.productsOne?.payload[1]?.images[0]?.image ||
+                    testImage2
+                  }
+                  alt="testImage2"
+                />
               </ImageAd>
             </ImagesGrid>
 
@@ -242,7 +242,13 @@ const MainPage = () => {
                 >
                   Подробнее
                 </span>
-                <img src={testImage3} alt="testImage3" />
+                <img
+                  src={
+                    products?.productsOne?.payload[2]?.images[0]?.image ||
+                    testImage3
+                  }
+                  alt="testImage3"
+                />
               </ImageAd>
 
               <ImageAd>
@@ -254,7 +260,13 @@ const MainPage = () => {
                 >
                   Подробнее
                 </span>
-                <img src={testImage4} alt="testImage4" />
+                <img
+                  src={
+                    products?.productsOne?.payload[3]?.images[0]?.image ||
+                    testImage4
+                  }
+                  alt="testImage4"
+                />
               </ImageAd>
             </ImagesGrid>
 
@@ -273,7 +285,13 @@ const MainPage = () => {
                 >
                   Подробнее
                 </span>
-                <img alt="testImage5" src={testImage5} />
+                <img
+                  src={
+                    products?.productsOne?.payload[4]?.images[0]?.image ||
+                    testImage5
+                  }
+                  alt="testImage3"
+                />
               </ImageAd>
 
               <ImagesGrid
@@ -291,7 +309,13 @@ const MainPage = () => {
                   >
                     Подробнее
                   </span>
-                  <img src={testImage6} alt="testImage6" />
+                  <img
+                    src={
+                      products?.productsOne?.payload[5]?.images[0]?.image ||
+                      testImage6
+                    }
+                    alt="testImage6"
+                  />
                 </ImageAd>
 
                 <ImageAd>
@@ -303,7 +327,13 @@ const MainPage = () => {
                   >
                     Подробнее
                   </span>
-                  <img src={testImage7} alt="testImage7" />
+                  <img
+                    src={
+                      products?.productsOne?.payload[6]?.images[0]?.image ||
+                      testImage7
+                    }
+                    alt="testImage6"
+                  />
                 </ImageAd>
               </ImagesGrid>
             </ImagesGrid>
@@ -312,6 +342,22 @@ const MainPage = () => {
       </Box>
 
       <ProductPopular />
+      {sm || md ? (
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+          }}
+        >
+          {mobileImages.map((image) => (
+            <img src={image} alt="image" />
+          ))}
+        </div>
+      ) : (
+        <></>
+      )}
 
       <Box
         sx={{
@@ -329,145 +375,232 @@ const MainPage = () => {
             }
           />
         </TitleBox>
-
-        <CategoryContainer
-          sx={{
-            gridTemplateColumns: '35% 20% 45%',
-            gridTemplateRows: '800px',
-          }}
-        >
-          <ImagesGrid
+        {isLoading || !products ? (
+          <Box
+            display={'flex'}
+            justifyContent={'center'}
+            alignItems={'center'}
+            width={'100%'}
+            height={'500px'}
+          >
+            <CircularProgress size={60} sx={{ color: 'red' }} />
+          </Box>
+        ) : (
+          <CategoryContainer
             sx={{
-              gridTemplateRows: '50% 1fr 1fr',
-              gridTemplateColumns: '100%',
+              gridTemplateColumns: '35% 20% 45%',
+              gridTemplateRows: '800px',
             }}
           >
-            <ImageAd>
-              <div />
-              <span
-                onClick={() => toDetails(products?.productsTwo?.payload[0]?.id)}
-              >
-                Подробнее
-              </span>
-              <img src={testImage1} alt="testImage1" />
-            </ImageAd>
-
-            <ImageAd>
-              <div />
-              <span
-                onClick={() => toDetails(products?.productsTwo?.payload[1]?.id)}
-              >
-                Подробнее
-              </span>
-              <img src={testImage2} alt="testImage2" />
-            </ImageAd>
-
-            <ImageAd>
-              <div />
-              <span
-                onClick={() => toDetails(products?.productsTwo?.payload[2]?.id)}
-              >
-                Подробнее
-              </span>
-              <img src={testImage3} alt="testImage3" />
-            </ImageAd>
-          </ImagesGrid>
-
-          <ImagesGrid
-            sx={{
-              gridTemplateRows: '50% 1fr 1fr',
-              gridTemplateColumns: '100%',
-            }}
-          >
-            <ImageAd>
-              <div />
-              <span
-                onClick={() => toDetails(products?.productsTwo?.payload[3]?.id)}
-              >
-                Подробнее
-              </span>
-              <img src={testImage4} alt="testImage4" />
-            </ImageAd>
-
-            <ImageAd>
-              <div />
-              <span
-                onClick={() => toDetails(products?.productsTwo?.payload[4]?.id)}
-              >
-                Подробнее
-              </span>
-              <img src={testImage5} alt="testImage5" />
-            </ImageAd>
-
-            <ImageAd>
-              <div />
-              <span
-                onClick={() => toDetails(products?.productsTwo?.payload[5]?.id)}
-              >
-                Подробнее
-              </span>
-              <img src={testImage6} alt="testImage6" />
-            </ImageAd>
-          </ImagesGrid>
-
-          <ImagesGrid
-            sx={{
-              gridTemplateRows: '30% 30% 1fr',
-              gridTemplateColumns: '100%',
-            }}
-          >
-            <ImageAd>
-              <div />
-              <span
-                onClick={() => toDetails(products?.productsTwo?.payload[6]?.id)}
-              >
-                Подробнее
-              </span>
-              <img src={testImage7} alt="testImage7" />
-            </ImageAd>
-
             <ImagesGrid
               sx={{
-                gridTemplateColumns: '40% 1fr',
-                gridTemplateRows: '100%',
+                gridTemplateRows: '50% 1fr 1fr',
+                gridTemplateColumns: '100%',
               }}
             >
               <ImageAd>
                 <div />
                 <span
                   onClick={() =>
-                    toDetails(products?.productsTwo?.payload[7]?.id)
+                    toDetails(products?.productsTwo?.payload[0]?.id)
                   }
                 >
                   Подробнее
                 </span>
-                <img src={testImage7} alt="testImage6" />
+                <img
+                  src={
+                    products?.productTwo?.payload[0]?.images[0]?.image ||
+                    testImage1
+                  }
+                  alt="testImage1"
+                />
               </ImageAd>
 
               <ImageAd>
                 <div />
                 <span
                   onClick={() =>
-                    toDetails(products?.productsTwo?.payload[8]?.id)
+                    toDetails(products?.productsTwo?.payload[1]?.id)
                   }
                 >
                   Подробнее
                 </span>
-                <img src={testImage7} alt="testImage6" />
+                <img
+                  src={
+                    products?.productTwo?.payload[1]?.images[0]?.image ||
+                    testImage2
+                  }
+                  alt="testImage2"
+                />
+              </ImageAd>
+
+              <ImageAd>
+                <div />
+                <span
+                  onClick={() =>
+                    toDetails(products?.productsTwo?.payload[2]?.id)
+                  }
+                >
+                  Подробнее
+                </span>
+                <img
+                  src={
+                    products?.productTwo?.payload[2]?.images[0]?.image ||
+                    testImage2
+                  }
+                  alt="testImage3"
+                />
               </ImageAd>
             </ImagesGrid>
 
-            <ImageAd>
-              <div />
-              <span
-                onClick={() => toDetails(products?.productsTwo?.payload[9]?.id)}
+            <ImagesGrid
+              sx={{
+                gridTemplateRows: '50% 1fr 1fr',
+                gridTemplateColumns: '100%',
+              }}
+            >
+              <ImageAd>
+                <div />
+                <span
+                  onClick={() =>
+                    toDetails(products?.productsTwo?.payload[3]?.id)
+                  }
+                >
+                  Подробнее
+                </span>
+                <img
+                  src={
+                    products?.productTwo?.payload[3]?.images[0]?.image ||
+                    testImage3
+                  }
+                  alt="testImage3"
+                />
+              </ImageAd>
+
+              <ImageAd>
+                <div />
+                <span
+                  onClick={() =>
+                    toDetails(products?.productsTwo?.payload[4]?.id)
+                  }
+                >
+                  Подробнее
+                </span>
+                <img
+                  src={
+                    products?.productTwo?.payload[4]?.images[0]?.image ||
+                    testImage4
+                  }
+                  alt="testImage4"
+                />
+              </ImageAd>
+
+              <ImageAd>
+                <div />
+                <span
+                  onClick={() =>
+                    toDetails(products?.productsTwo?.payload[5]?.id)
+                  }
+                >
+                  Подробнее
+                </span>
+                <img
+                  src={
+                    products?.productTwo?.payload[5]?.images[0]?.image ||
+                    testImage5
+                  }
+                  alt="testImage5"
+                />
+              </ImageAd>
+            </ImagesGrid>
+
+            <ImagesGrid
+              sx={{
+                gridTemplateRows: '30% 30% 1fr',
+                gridTemplateColumns: '100%',
+              }}
+            >
+              <ImageAd>
+                <div />
+                <span
+                  onClick={() =>
+                    toDetails(products?.productsTwo?.payload[6]?.id)
+                  }
+                >
+                  Подробнее
+                </span>
+                <img
+                  src={
+                    products?.productTwo?.payload[6]?.images[0]?.image ||
+                    testImage6
+                  }
+                  alt="testImage5"
+                />
+              </ImageAd>
+
+              <ImagesGrid
+                sx={{
+                  gridTemplateColumns: '40% 1fr',
+                  gridTemplateRows: '100%',
+                }}
               >
-                Подробнее
-              </span>
-              <img src={testImage7} alt="testImage6" />
-            </ImageAd>
-          </ImagesGrid>
-        </CategoryContainer>
+                <ImageAd>
+                  <div />
+                  <span
+                    onClick={() =>
+                      toDetails(products?.productsTwo?.payload[7]?.id)
+                    }
+                  >
+                    Подробнее
+                  </span>
+                  <img
+                    src={
+                      products?.productTwo?.payload[7]?.images[0]?.image ||
+                      testImage7
+                    }
+                    alt="testImage7"
+                  />
+                </ImageAd>
+
+                <ImageAd>
+                  <div />
+                  <span
+                    onClick={() =>
+                      toDetails(products?.productsTwo?.payload[8]?.id)
+                    }
+                  >
+                    Подробнее
+                  </span>
+                  <img
+                    src={
+                      products?.productTwo?.payload[8]?.images[0]?.image ||
+                      testImage7
+                    }
+                    alt="testImage7"
+                  />
+                </ImageAd>
+              </ImagesGrid>
+
+              <ImageAd>
+                <div />
+                <span
+                  onClick={() =>
+                    toDetails(products?.productsTwo?.payload[9]?.id)
+                  }
+                >
+                  Подробнее
+                </span>
+                <img
+                  src={
+                    products?.productTwo?.payload[9]?.images[0]?.image ||
+                    testImage5
+                  }
+                  alt="testImage5"
+                />
+              </ImageAd>
+            </ImagesGrid>
+          </CategoryContainer>
+        )}
       </Box>
 
       <Box
@@ -493,8 +626,7 @@ const MainPage = () => {
 
         <Swiper
           slidesPerView={sm ? 1 : 3}
-          loop={true}
-          spaceBetween={-90}
+          loop
           navigation={true}
           modules={[Navigation, Autoplay]}
           autoplay={{

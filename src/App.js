@@ -34,9 +34,9 @@ function App() {
               <Route path="/catalog/product/:id" element={<ProductDetails />} />
             </Route>
 
-            <Route element={<AdminLayout />}>
+            {/* <Route element={<AdminLayout />}>
               <Route path="/admin" element={<Admin />} />
-            </Route>
+            </Route> */}
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

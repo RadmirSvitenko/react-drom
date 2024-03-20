@@ -8,11 +8,11 @@ import {
   CustomUl,
   CustomUlSubMenu,
 } from './styles';
-import { EastRounded } from '@mui/icons-material';
-import { Collapse } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { getProducts } from 'reducers/productSlice';
+import { CloseRounded, EastRounded } from '@mui/icons-material';
+import { Collapse, IconButton, useMediaQuery } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import theme from 'theme';
 
 const MenuCategory = ({ open, onClose, visibility, setVisibility }) => {
   const categories =
@@ -21,6 +21,7 @@ const MenuCategory = ({ open, onClose, visibility, setVisibility }) => {
   const subcategories =
     useSelector((state) => state.subcategoryReducer.subcategories) || [];
 
+  const sm = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
 
   const toCatalog = (name, id) => {
@@ -44,8 +45,24 @@ const MenuCategory = ({ open, onClose, visibility, setVisibility }) => {
         anchor={'left'}
         open={open}
         onClose={onClose}
+        sx={{
+          ...(sm && {
+            width: '100%',
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: '100%',
+              boxSizing: 'border-box',
+            },
+          }),
+        }}
       >
         <Container>
+          <IconButton
+            onClick={onClose}
+            sx={{ position: 'absolute', right: '0', top: '0' }}
+          >
+            <CloseRounded />
+          </IconButton>
           <CustomUl>
             {categories?.map(({ id, name }) => (
               <React.Fragment key={id}>
@@ -71,9 +88,10 @@ const MenuCategory = ({ open, onClose, visibility, setVisibility }) => {
           </CustomUl>
 
           <Collapse
-            orientation="horizontal"
+            orientation={sm ? 'vertical' : 'horizontal'}
             timeout={2000}
             in={visibility.bind}
+            sx={sm && { display: 'none' }}
           >
             <CustomUlSubMenu design={visibility.design} type="tables">
               {subcategories

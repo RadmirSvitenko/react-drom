@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   CardButton,
   CardContainer,
@@ -8,8 +8,7 @@ import {
   ProductClassBox,
 } from './styles';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getImages } from 'reducers/imageSlice';
+import { useDispatch } from 'react-redux';
 import { IconButton } from '@mui/material';
 
 import favorite_icon from 'assets/images/favorite_icon.png';
