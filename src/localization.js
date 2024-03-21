@@ -59,13 +59,13 @@ i18n.use(initReactI18next).init({
         detailsButttonAdd: 'Добавить в корзину',
         authMessageErrorRequire: 'необходимо заполнить!',
         authMessageErrorPasswordMatch: 'пароли не совпадают',
-        authMessageErrorMail: 'вы забыли указать "@mail.ru"',
+        authMessageErrorMail: 'вы забыли указать почту',
         authMessageErrorMinLength:
           'пароль должен состоять не менее чем из 8 символов',
         authMessageErrorMaxLength:
           'пароль должен состоять не более чем из 14 символов',
         authMessageErrorStringAndInt:
-          'Пароль должен содержать как минимум одну букву и одну цифру',
+          'Пароль должен содержать как минимум одну латинскую букву и одну цифру, без использования специальных символов',
         accountMenuProfile: 'профиль',
         accountMenuLogout: 'выйти',
       },
@@ -139,7 +139,7 @@ i18n.use(initReactI18next).init({
         authMessageErrorMaxLength:
           'Password must be at most 14 characters long',
         authMessageErrorStringAndInt:
-          'Password must contain at least one letter and one digit',
+          'The password must contain at least one Latin letter and one number, without using special characters',
         accountMenuProfile: 'profile',
         accountMenuLogout: 'logout',
       },

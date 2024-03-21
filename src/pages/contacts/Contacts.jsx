@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 import {
   ContactsPageContainer,
   ContactsPageInfoBox,
   ContactsPageMapBox,
   ContactsPageText,
-} from "./styles";
+} from './styles';
 
 const Contacts = () => {
   return (

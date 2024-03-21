@@ -67,12 +67,11 @@ const Authorization = ({ toggleAuthSwitch, onClose }) => {
             {...register('email', {
               required: t('authMessageErrorRequire'),
               pattern: {
-                value: /@mail\.ru$/,
                 message: t('authMessageErrorMail'),
               },
             })}
             aria-invalid={errors.email ? 'true' : 'false'}
-            type="email"
+            type="text"
             id={'email'}
             variant="outlined"
             placeholder={t('AuthorizationLabelMail')}

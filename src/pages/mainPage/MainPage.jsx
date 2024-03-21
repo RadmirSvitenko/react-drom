@@ -160,12 +160,7 @@ const MainPage = () => {
         flexDirection={'column'}
       >
         <TitleBox sx={{ backgroundColor: '#F5F3EE' }}>
-          <Title
-            title={
-              (categories[0] === 'Стеновые панели' && categories[0].name) ||
-              'Стеновые панели'
-            }
-          />
+          <Title title={categories[0]?.name} />
         </TitleBox>
         {isLoading || !products ? (
           <Box
@@ -367,13 +362,7 @@ const MainPage = () => {
         flexDirection={'column'}
       >
         <TitleBox sx={{ backgroundColor: '#F5F3EE' }}>
-          <Title
-            title={
-              (categories[0] === 'Напольная поверхность' &&
-                categories[1].name) ||
-              'Напольная поверхность'
-            }
-          />
+          <Title title={categories[1]?.name} />
         </TitleBox>
         {isLoading || !products ? (
           <Box
@@ -615,13 +604,7 @@ const MainPage = () => {
             color: '#000',
           }}
         >
-          <Title
-            title={
-              (categories[0] === 'Декоративные настенные панели' &&
-                categories[1].name) ||
-              'Декоративные настенные панели'
-            }
-          />
+          <Title title={categories[1]?.name} />
         </TitleBox>
 
         <Swiper

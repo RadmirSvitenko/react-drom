@@ -44,9 +44,7 @@ const Registration = ({ toggleAuthSwitch }) => {
   const onSubmit = async (d) => {
     console.log(JSON.stringify(d));
     await dispatch(userRegister({ data: d }));
-    if (TOKEN && TOKEN !== 'undefined') {
-      await dispatch(userAuthorization({ data: d }));
-    }
+    toggleAuthSwitch(true);
   };
 
   return (
@@ -59,12 +57,11 @@ const Registration = ({ toggleAuthSwitch }) => {
             {...register('email', {
               required: t('authMessageErrorRequire'),
               pattern: {
-                value: /@mail\.ru$/,
                 message: t('authMessageErrorMail'),
               },
             })}
             aria-invalid={errors.email ? 'true' : 'false'}
-            type="email"
+            type="text"
             id={'email'}
             margin="dense"
             variant="outlined"
