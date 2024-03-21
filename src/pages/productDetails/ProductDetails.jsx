@@ -106,6 +106,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     handleGetData();
+    // product.images && handleChangeSlide(product.images[0].image);
   }, [handleGetData, id]);
 
   return (
@@ -160,7 +161,7 @@ const ProductDetails = () => {
                     height: isSmallScreen ? 300 : 450,
                   },
                   largeImage: {
-                    src: currentSlide,
+                    src: currentSlide || product?.images[0]?.image,
                     alt: 'Product Image',
                     width: isSmallScreen ? 600 : 900,
                     height: isSmallScreen ? 600 : 900,
