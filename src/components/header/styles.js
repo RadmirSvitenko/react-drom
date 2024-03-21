@@ -79,7 +79,7 @@ export const HeaderAccount = styled(Box)(() => ({
   alignItems: 'center',
 
   [theme.breakpoints.down('md')]: {
-    display: 'none',
+    padding: '15px',
   },
 }));
 

@@ -46,12 +46,12 @@ const ModalCart = ({ open, onClose }) => {
   const sm = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleAddProductCart = async (id, color) => {
-    await dispatch(addProductCart({ id: id, color: color }));
+    await dispatch(addProductCart({ id: id, data: color }));
     await handleGetCart();
   };
 
   const handleRemoveProductCart = async (id, color) => {
-    await dispatch(removeProductCart({ id: id, color: color }));
+    await dispatch(removeProductCart({ id: id, data: color }));
     await handleGetCart();
   };
 
@@ -99,8 +99,8 @@ const ModalCart = ({ open, onClose }) => {
           </IconButton>
         </TitleBox>
 
-        {!cart ||
-          (cart.length < 0 && (
+        {!cartData ||
+          (cartData?.length < 0 && (
             <Box
               display={'flex'}
               width={'100%'}
@@ -133,7 +133,7 @@ const ModalCart = ({ open, onClose }) => {
               </Button>
             </Box>
           ))}
-        {cart?.map(({ product, quantity, color }, index) => (
+        {cartData?.map(({ product, quantity, color }, index) => (
           <ContentBox key={index}>
             <ProductContainer>
               <ProductImageBox preview={product?.images[0]?.image} />
@@ -160,7 +160,9 @@ const ModalCart = ({ open, onClose }) => {
                   <img
                     src={minus}
                     alt="minus"
-                    onClick={() => handleRemoveProductCart(product.id, color)}
+                    onClick={() =>
+                      handleRemoveProductCart(product.id, color.id)
+                    }
                   />
 
                   <Counter>

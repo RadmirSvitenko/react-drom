@@ -7,6 +7,7 @@ import {
   ButtonAddCart,
   CardContainer,
   ColorBox,
+  ColorMessageBox,
   DescriptionContainer,
   DetailsContainer,
   InfoBox,
@@ -44,7 +45,6 @@ const ProductDetails = () => {
   );
 
   const { id } = useParams();
-  console.log('id: ', id);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,7 +55,8 @@ const ProductDetails = () => {
   const [colorSelected, setColorSelected] = useState({
     design: false,
     name: '',
-    value: 1,
+    value: '',
+    message: false,
   });
   const [counter, setCounter] = useState(0);
   const [breadcrumbs, setBreadcrumbs] = useState([
@@ -71,13 +72,21 @@ const ProductDetails = () => {
 
   const handleAddProductCart = async (e) => {
     e.preventDefault();
-    await dispatch(
-      addProductCart({
-        id: product.id,
-        data: colorSelected.value,
-      })
-    );
-    dispatch(getCart());
+    if (colorSelected.value !== '') {
+      await dispatch(
+        addProductCart({
+          id: product.id,
+          data: colorSelected.value,
+        })
+      );
+    } else {
+      setColorSelected((prevValue) => ({
+        ...prevValue,
+        message: true,
+      }));
+    }
+
+    await dispatch(getCart());
   };
 
   const handleChangeLinks = (link) => () => {
@@ -91,8 +100,6 @@ const ProductDetails = () => {
   };
 
   const handleSelectColor = (id, name) => {
-    console.log('name: ', name);
-    console.log('id: ', id);
     setColorSelected({ design: id, value: id, name: name });
   };
 
@@ -224,6 +231,12 @@ const ProductDetails = () => {
                       </React.Fragment>
                     ))}
                   </TextMergeBox>
+
+                  <ColorMessageBox
+                    display={colorSelected.message ? 'flex' : 'none'}
+                  >
+                    Вы не выбрали цвет.
+                  </ColorMessageBox>
                 </Box>
               </Box>
 

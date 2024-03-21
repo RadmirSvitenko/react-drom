@@ -23,6 +23,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { userAuthorization } from 'reducers/authSlice';
 import { getTokenFromCookies } from 'cookies';
+import axios from 'axios';
 
 const Authorization = ({ toggleAuthSwitch, onClose }) => {
   const message = useSelector((state) => state.authReducer.account);
@@ -45,7 +46,7 @@ const Authorization = ({ toggleAuthSwitch, onClose }) => {
   };
 
   const onSubmit = async (d) => {
-    await dispatch(userAuthorization({ data: d }));
+    await dispatch(userAuthorization({ formData: d }));
     const TOKEN = getTokenFromCookies();
     setToken(TOKEN);
 

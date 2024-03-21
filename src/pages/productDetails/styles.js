@@ -215,6 +215,22 @@ export const BreadcrumbsBox = styled(Box)(() => ({
   alignItems: 'center',
 }));
 
+export const ColorMessageBox = styled(Box)(() => ({
+  width: '100%',
+  margin: '5px 0px',
+  padding: '5px 0px',
+  justifyContent: 'center',
+  alignItems: 'center',
+  fontFamily: theme.typography.fontFamily[0],
+  fontSize: '14px',
+  fontWeight: '600',
+  letterSpacing: '1px',
+  transition: '0.6s',
+  borderRadius: '5px',
+  blur: '5px',
+  opacity: '0.8',
+}));
+
 export const Link = styled(Typography)(() => ({
   fontFamily: theme.typography.fontFamily[1],
   fontSize: '14px',

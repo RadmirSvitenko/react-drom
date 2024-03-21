@@ -19,10 +19,16 @@ export const userAuthorization = createAsyncThunk(
   'userAuthorization/post',
   async (params) => {
     try {
-      const response = await API.post('login/', {
-        email: params.data.email,
-        password: params.data.password,
-      });
+      // const TOKEN = getTokenFromCookies();
+      const response = await API.post(
+        'login/',
+        params.formData
+        // {
+        //   headers: {
+        //     Autorization: `Bearer: ${TOKEN}`,
+        //   },
+        // }
+      );
 
       await setTokenFromCookies(response.data.access_token);
       await setRefreshTokenToCookies(response.data.refresh_token);
