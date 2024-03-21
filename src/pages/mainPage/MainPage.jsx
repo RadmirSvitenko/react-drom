@@ -196,7 +196,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productsOne?.payload[0]?.images[0]?.image ||
+                    products?.productsOne?.payload?.[0]?.images?.[0]?.image ||
                     testImage1
                   }
                   alt="testImage1"
@@ -214,7 +214,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productsOne?.payload[1]?.images[0]?.image ||
+                    products?.productsOne?.payload?.[1]?.images?.[0]?.image ||
                     testImage2
                   }
                   alt="testImage2"
@@ -239,7 +239,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productsOne?.payload[2]?.images[0]?.image ||
+                    products?.productsOne?.payload?.[2]?.images?.[0]?.image ||
                     testImage3
                   }
                   alt="testImage3"
@@ -257,7 +257,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productsOne?.payload[3]?.images[0]?.image ||
+                    products?.productsOne?.payload?.[3]?.images?.[0]?.image ||
                     testImage4
                   }
                   alt="testImage4"
@@ -282,7 +282,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productsOne?.payload[4]?.images[0]?.image ||
+                    products?.productsOne?.payload?.[4]?.images?.[0]?.image ||
                     testImage5
                   }
                   alt="testImage3"
@@ -306,7 +306,7 @@ const MainPage = () => {
                   </span>
                   <img
                     src={
-                      products?.productsOne?.payload[5]?.images[0]?.image ||
+                      products?.productsOne?.payload?.[5]?.images?.[0]?.image ||
                       testImage6
                     }
                     alt="testImage6"
@@ -324,7 +324,7 @@ const MainPage = () => {
                   </span>
                   <img
                     src={
-                      products?.productsOne?.payload[6]?.images[0]?.image ||
+                      products?.productsOne?.payload?.[6]?.images?.[0]?.image ||
                       testImage7
                     }
                     alt="testImage6"
@@ -398,7 +398,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productTwo?.payload[0]?.images[0]?.image ||
+                    products?.productTwo?.payload?.[0]?.images?.[0]?.image ||
                     testImage1
                   }
                   alt="testImage1"
@@ -416,7 +416,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productTwo?.payload[1]?.images[0]?.image ||
+                    products?.productTwo?.payload?.[1]?.images?.[0]?.image ||
                     testImage2
                   }
                   alt="testImage2"
@@ -434,7 +434,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productTwo?.payload[2]?.images[0]?.image ||
+                    products?.productTwo?.payload?.[2]?.images?.[0]?.image ||
                     testImage2
                   }
                   alt="testImage3"
@@ -459,7 +459,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productTwo?.payload[3]?.images[0]?.image ||
+                    products?.productTwo?.payload?.[3]?.images?.[0]?.image ||
                     testImage3
                   }
                   alt="testImage3"
@@ -477,7 +477,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productTwo?.payload[4]?.images[0]?.image ||
+                    products?.productTwo?.payload?.[4]?.images?.[0]?.image ||
                     testImage4
                   }
                   alt="testImage4"
@@ -495,7 +495,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productTwo?.payload[5]?.images[0]?.image ||
+                    products?.productTwo?.payload?.[5]?.images?.[0]?.image ||
                     testImage5
                   }
                   alt="testImage5"
@@ -520,7 +520,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productTwo?.payload[6]?.images[0]?.image ||
+                    products?.productTwo?.payload?.[6]?.images?.[0]?.image ||
                     testImage6
                   }
                   alt="testImage5"
@@ -544,7 +544,7 @@ const MainPage = () => {
                   </span>
                   <img
                     src={
-                      products?.productTwo?.payload[7]?.images[0]?.image ||
+                      products?.productTwo?.payload?.[7]?.images?.[0]?.image ||
                       testImage7
                     }
                     alt="testImage7"
@@ -562,7 +562,7 @@ const MainPage = () => {
                   </span>
                   <img
                     src={
-                      products?.productTwo?.payload[8]?.images[0]?.image ||
+                      products?.productTwo?.payload?.[8]?.images?.[0]?.image ||
                       testImage7
                     }
                     alt="testImage7"
@@ -581,7 +581,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productTwo?.payload[9]?.images[0]?.image ||
+                    products?.productTwo?.payload?.[9]?.images?.[0]?.image ||
                     testImage5
                   }
                   alt="testImage5"
