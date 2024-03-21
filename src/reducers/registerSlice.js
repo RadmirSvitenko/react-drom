@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getTokenFromCookies } from 'cookies';
 import { setRefreshTokenToCookies } from 'cookies';
 import { API } from 'requester';
+
+const token = getTokenFromCookies();
 
 const initialState = {
   user: null,
