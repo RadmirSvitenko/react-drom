@@ -56,40 +56,24 @@ export const getProduct = createAsyncThunk('getProduct/get', async (params) => {
 export const createProduct = createAsyncThunk(
   'createProduct/post',
   async (params) => {
-    const response = await API.post(
-      `products/`,
-      {
-        title: params.data.title,
-        description: params.data.description,
-        price: params.data.price,
-        discount: params.data.discount,
-        in_stock: params.data.in_stock,
-        product_class: params.data.product_class,
-        images: params.data.productImages,
-        colors: params.data.productColors,
-        category: params.data.categoryId,
-        subcategory: params.data.productSubcategoriesId,
-      },
-
-      {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-        },
-      }
-    );
+    const response = await API.post(`products/`, {
+      title: params.data.title,
+      description: params.data.description,
+      price: params.data.price,
+      discount: params.data.discount,
+      in_stock: params.data.in_stock,
+      product_class: params.data.product_class,
+      images: params.data.productImages,
+      colors: params.data.productColors,
+      category: params.data.categoryId,
+      subcategory: params.data.productSubcategoriesId,
+    });
     return response.data;
   }
 );
 
 export const getCart = createAsyncThunk('getCart/get', async () => {
-  const response = await API.get(
-    `/cart/`
-    // {
-    //   headers: {
-    //     'Access-Control-Allow-Origin': '*',
-    //   },
-    // }
-  );
+  const response = await API.get(`/cart/`);
   return response.data;
 });
 
@@ -112,17 +96,9 @@ export const removeProductCart = createAsyncThunk(
   'removeProductCart/post',
   async (params) => {
     console.log('params: ', params);
-    const response = await API.post(
-      `/products/${params.id}/remove/`,
-      {
-        color: params.data,
-      }
-      // {
-      //   headers: {
-      //     'Access-Control-Allow-Origin': '*',
-      //   },
-      // }
-    );
+    const response = await API.post(`/products/${params.id}/remove/`, {
+      color: params.data,
+    });
     return response.data;
   }
 );

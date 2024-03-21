@@ -4,8 +4,6 @@ import { setRefreshTokenToCookies } from 'cookies';
 import { setTokenFromCookies } from 'cookies';
 import { API } from 'requester';
 
-const token = getTokenFromCookies();
-
 const initialState = {
   account: null,
   isLoading: false,
@@ -21,18 +19,10 @@ export const userAuthorization = createAsyncThunk(
   'userAuthorization/post',
   async (params) => {
     try {
-      const response = await API.post(
-        'login/',
-        {
-          email: params.data.email,
-          password: params.data.password,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await API.post('login/', {
+        email: params.data.email,
+        password: params.data.password,
+      });
 
       await setTokenFromCookies(response.data.access_token);
       await setRefreshTokenToCookies(response.data.refresh_token);
