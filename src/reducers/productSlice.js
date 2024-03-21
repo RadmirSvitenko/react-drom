@@ -103,6 +103,14 @@ export const removeProductCart = createAsyncThunk(
   }
 );
 
+export const removeProductCartAllQuantity = createAsyncThunk(
+  'removeProductCartAllQuantity/post',
+  async (params) => {
+    const response = await API.post(`/cart/${params.id}/remove_item_cart/`);
+    return response.data;
+  }
+);
+
 export const addProductFavorites = createAsyncThunk(
   'addProductFavorites/post',
   async (params) => {
@@ -214,6 +222,20 @@ const productSlice = createSlice({
     });
     builder.addCase(addProductFavorites.rejected, (state, action) => {
       state.isLoadingFavorites = false;
+      state.error = action.error;
+    });
+
+    // removeProductCartAllQuantity
+
+    builder.addCase(removeProductCartAllQuantity.pending, (state) => {
+      state.isLoadingCart = true;
+    });
+    builder.addCase(removeProductCartAllQuantity.fulfilled, (state, action) => {
+      state.isLoadingCart = false;
+      state.cart = action.payload;
+    });
+    builder.addCase(removeProductCartAllQuantity.rejected, (state, action) => {
+      state.isLoadingCart = false;
       state.error = action.error;
     });
 

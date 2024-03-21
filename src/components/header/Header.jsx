@@ -60,6 +60,7 @@ const Header = ({
 
   const products = useSelector((state) => state.productReducer.catalog) || [];
   const cartCounter = useSelector((state) => state.productReducer.cart);
+  console.log('cartCounter: ', cartCounter);
   const favoritesCounter =
     useSelector((state) => state.productReducer.favorites) || [];
 
@@ -185,10 +186,12 @@ const Header = ({
   let totalQuantityCart = 0;
 
   if (Array.isArray(cartCounter)) {
-    totalQuantityCart = cartCounter.reduce(
-      (acc, { quantity }) => acc + quantity,
-      0
-    );
+    // totalQuantityCart = cartCounter.reduce(
+    //   (acc, { quantity }) => acc + quantity,
+    //   0
+    // );
+
+    totalQuantityCart = cartCounter?.length;
   }
 
   let totalQuantityFavorites = 0;

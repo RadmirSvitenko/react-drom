@@ -28,6 +28,7 @@ import {
   addProductCart,
   getCart,
   removeProductCart,
+  removeProductCartAllQuantity,
 } from 'reducers/productSlice';
 
 import minus from 'assets/images/minus.png';
@@ -52,6 +53,11 @@ const ModalCart = ({ open, onClose }) => {
 
   const handleRemoveProductCart = async (id, color) => {
     await dispatch(removeProductCart({ id: id, data: color }));
+    await handleGetCart();
+  };
+
+  const handleAllRemoveProductCart = async (id) => {
+    await dispatch(removeProductCartAllQuantity({ id: id }));
     await handleGetCart();
   };
 
@@ -188,6 +194,7 @@ const ModalCart = ({ open, onClose }) => {
 
               <FunctionBox>
                 <Box
+                  onClick={() => handleAllRemoveProductCart(product.id)}
                   sx={{
                     '&:hover': {
                       transition: '0.5s',
@@ -196,7 +203,7 @@ const ModalCart = ({ open, onClose }) => {
                     },
                   }}
                 >
-                  удалить
+                  {t('titleDelete')}
                 </Box>
               </FunctionBox>
             </ProductContainer>
