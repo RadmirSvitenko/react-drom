@@ -37,7 +37,7 @@ export const CatalogBox = styled(Box)(() => ({
   justifyContent: 'space-evenly',
   alignItems: 'center',
   flexWrap: 'wrap',
-  gap: '40px',
+  gap: '20px',
 }));
 
 export const CatalogFilterBar = styled(Box)(() => ({
@@ -51,6 +51,7 @@ export const CatalogFilterBar = styled(Box)(() => ({
 export const CatalogFilterBox = styled(Box)(() => ({
   display: 'flex',
   gap: '20px',
+  minWidth: '100%',
   flexWrap: 'nowrap',
   justifyContent: 'center',
 

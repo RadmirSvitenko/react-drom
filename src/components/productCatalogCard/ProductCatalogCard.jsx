@@ -65,7 +65,7 @@ const ProductCatalogCard = ({ product, id }) => {
           viasableButton={viasableButton}
           onClick={toDetails(product.id)}
         >
-          подробнее
+          {t('titleAboutProduct')}
         </CardButton>
       </CardImageBox>
       <CardInfoBox>

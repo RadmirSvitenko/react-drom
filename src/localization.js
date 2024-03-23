@@ -5,6 +5,7 @@ i18n.use(initReactI18next).init({
     ru: {
       translation: {
         footerAbouUS: 'О нас',
+        titleAboutProduct: 'Подробнее',
         footerContacts: 'Контакты',
         titleCompany: 'Компания',
         titlePhone: 'Телефон',
@@ -74,6 +75,8 @@ i18n.use(initReactI18next).init({
 
     en: {
       translation: {
+        footerAbouUS: 'About us',
+        titleAboutProduct: 'About',
         footerAboutUsOurStory: 'Our story',
         footerReviews: 'Reviews',
         footerContacts: 'Contacts',

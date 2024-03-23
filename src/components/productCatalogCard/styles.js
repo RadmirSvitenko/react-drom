@@ -3,8 +3,8 @@ import { Box, Paper } from '@mui/material';
 import theme from 'theme';
 
 export const CardContainer = styled(Paper)(() => ({
-  width: '300px',
-  height: '450px',
+  width: '350px',
+  height: '350px',
   display: 'flex',
   flexDirection: 'column',
   borderRadius: '10px',
@@ -13,6 +13,16 @@ export const CardContainer = styled(Paper)(() => ({
   backgroundColor: '#FAFAFA',
   outline: '1px solid #000',
   boxShadow: '0px 5px 6px 0px rgba(34, 60, 80, 0.32)',
+
+  [theme.breakpoints.down('md')]: {
+    width: '200px',
+    height: '300px',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    width: '130px',
+    height: '250px',
+  },
 }));
 
 export const CardImageBox = styled(Box)(({ image }) => ({
@@ -59,7 +69,10 @@ export const CardText = styled(Box)(() => ({
   fontSize: '14px',
   letterSpacing: '1px',
   boxSizing: 'border-box',
-  width: '100%',
+  width: '100px',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
 }));
 
 export const CardButton = styled(Box)(({ viasableButton }) => ({
@@ -78,6 +91,14 @@ export const CardButton = styled(Box)(({ viasableButton }) => ({
   opacity: viasableButton ? '1' : '0',
   padding: viasableButton ? '9px 15px' : '0px',
   transition: '0.5s',
+
+  [theme.breakpoints.down('md')]: {
+    fontSize: '10px',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '6px',
+  },
 
   '&:hover': {
     backgroundColor: '#5D5146',
