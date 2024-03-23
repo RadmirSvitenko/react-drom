@@ -10,6 +10,7 @@ export const FiltersContainer = styled(Box)(({ filterDrawer }) => ({
   flexWrap: 'wrap',
   justifyContent: 'space-between',
   alignItems: 'center',
+  zIndex: '100',
   flexDirection: 'column',
 }));
 

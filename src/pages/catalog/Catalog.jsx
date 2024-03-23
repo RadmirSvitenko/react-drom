@@ -115,7 +115,7 @@ const Catalog = () => {
             <Pagination
               onChange={handleChangePage}
               page={currentPage}
-              count={Math.floor(products.length / 20) || 1}
+              count={Math.ceil(products.length / 20) || 1}
               color="secondary"
               showFirstButton
               showLastButton

@@ -23,6 +23,7 @@ import {
   MenuItem,
   Tabs,
   Tooltip,
+  useMediaQuery,
 } from '@mui/material';
 import {
   Close,
@@ -48,8 +49,8 @@ import { removeTokensFromCookies } from 'cookies';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCart, getFavorites, getProducts } from 'reducers/productSlice';
 import ModalFavorites from 'components/modalFavorites/ModalFavorites';
+import mobileLogo from 'assets/images/mobile-logo-to-main.svg';
 import theme from 'theme';
-
 const Header = ({
   authSwitch,
   toggleAuthSwitch,
@@ -63,6 +64,9 @@ const Header = ({
   console.log('cartCounter: ', cartCounter);
   const favoritesCounter =
     useSelector((state) => state.productReducer.favorites) || [];
+
+  const sm = useMediaQuery(theme.breakpoints.down('sm'));
+  const md = useMediaQuery(theme.breakpoints.down('md'));
 
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -265,6 +269,18 @@ const Header = ({
           </HeaderContentBox>
 
           <HeaderIconBox>
+            {sm && (
+              <Box
+                padding={'0px 20px'}
+                sx={{ '&:hover': { cursor: 'pointer' } }}
+              >
+                <img
+                  src={mobileLogo}
+                  alt="mobile-logo"
+                  onClick={() => navigate('/')}
+                />
+              </Box>
+            )}
             <Tooltip title={t('titleFavorite')}>
               <IconButton onClick={toggleModalFavorites}>
                 <Badge badgeContent={totalQuantityFavorites} color="secondary">

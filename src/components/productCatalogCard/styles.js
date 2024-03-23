@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import theme from 'theme';
 
 export const CardContainer = styled(Paper)(() => ({

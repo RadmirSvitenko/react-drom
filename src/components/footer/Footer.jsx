@@ -161,7 +161,12 @@ const Footer = ({
       />
 
       <hr style={{ border: '1px solid #BFBAB6', width: '80%' }} />
-      <Box width={'100%'} display={'flex'} justifyContent={'center'}>
+      <Box
+        width={'100%'}
+        display={'flex'}
+        justifyContent={'center'}
+        onClick={() => navigate('/')}
+      >
         <img src={logotype} alt="logotype" width={'100px'} />
       </Box>
     </FooterContainer>

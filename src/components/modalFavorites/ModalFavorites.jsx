@@ -62,7 +62,7 @@ const ModalFavorites = ({ open, onClose }) => {
           width: '100%',
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            // width: '100%',
+            width: '100%',
             boxSizing: 'border-box',
           },
         }),

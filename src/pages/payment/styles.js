@@ -17,6 +17,32 @@ export const Container = styled(Box)(() => ({
   },
 }));
 
+export const BreadcrumbsBox = styled(Box)(() => ({
+  padding: '20px 0px 20px 0px',
+  width: '100%',
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+    gap: '20px',
+  },
+}));
+
+export const Link = styled(Typography)(() => ({
+  fontFamily: theme.typography.fontFamily[1],
+  fontSize: '14px',
+  fontWeight: '500',
+  letterSpacing: '1px',
+
+  '&:hover': {
+    textDecoration: 'underline',
+    cursor: 'pointer',
+  },
+}));
+
 export const DeleteAllBox = styled(Box)(() => ({
   width: '100%',
   height: '60px',

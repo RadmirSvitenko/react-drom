@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getCart } from 'reducers/productSlice';
+import { addPayment, getCart } from 'reducers/productSlice';
 import {
+  BreadcrumbsBox,
   Container,
   DeleteAllBox,
   DeleteAllButton,
@@ -13,6 +14,7 @@ import {
   InfoBox,
   InfoContainer,
   Input,
+  Link,
   OrderButton,
   OrderContainer,
   PriceBox,
@@ -21,16 +23,25 @@ import {
   Text,
 } from './styles';
 import { t } from 'i18next';
-import { Box, Typography, useMediaQuery } from '@mui/material';
+import { Box, Breadcrumbs, Typography } from '@mui/material';
 
 import carIcon from 'assets/images/payment_date_car.svg';
 import deleteIcon from 'assets/images/delete_payment.svg';
 import { useForm } from 'react-hook-form';
-import theme from 'theme';
+import ModalPayment from 'components/modalPayment/ModalPayment';
 
 const Payment = () => {
   const cart = useSelector((state) => state.productReducer.cart) || [];
-  console.log('cart: ', cart);
+  const [breadcrumbs, setBreadcrumbs] = useState([
+    { name: 'Home', value: '/' },
+    { name: 'Catalog', value: '/catalog' },
+  ]);
+
+  const [modalPayment, setModalPayment] = useState(false);
+  const [messagePayment, setMessagePayment] = useState({
+    success: 'Всё прошло успешно!',
+    details: 'С вами свяжутся в течении 1 - 2 дней',
+  });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,9 +55,23 @@ const Payment = () => {
     await dispatch(getCart());
   }, [dispatch]);
 
-  const orderSubmit = (d) => {
-    console.log(d);
-    navigate('/thanks');
+  const handleChangeLinks = (link) => () => {
+    navigate(link);
+  };
+
+  const orderSubmit = async (d) => {
+    try {
+      await addPayment({ mobile: d.phone, name: `${d.name} ${d.surname}` });
+    } catch (error) {
+      setMessagePayment({
+        success: 'Что-то пошло не так',
+        details: 'попробуйте повторить операцию ещё раз',
+      });
+    }
+  };
+
+  const togglePayment = () => {
+    setModalPayment((open) => !open);
   };
 
   useEffect(() => {
@@ -54,6 +79,14 @@ const Payment = () => {
   }, [handleGetData]);
   return (
     <Container>
+      <BreadcrumbsBox>
+        <Breadcrumbs aria-label="breadcrumb">
+          {breadcrumbs?.map(({ name, value }) => (
+            <Link onClick={handleChangeLinks(value)}>{name}</Link>
+          ))}
+        </Breadcrumbs>
+      </BreadcrumbsBox>
+
       <DeleteAllBox>
         <DeleteAllButton>удалить</DeleteAllButton>
       </DeleteAllBox>
@@ -192,9 +225,14 @@ const Payment = () => {
             )}
           </Text>
           <OrderButton type="submit">{t('titleOrder')}</OrderButton>
-          <p></p>
         </Form>
       </OrderContainer>
+
+      <ModalPayment
+        open={modalPayment}
+        onClose={togglePayment}
+        message={messagePayment}
+      />
     </Container>
   );
 };

@@ -89,7 +89,6 @@ export const addProductCart = createAsyncThunk(
 export const removeProductCart = createAsyncThunk(
   'removeProductCart/post',
   async (params) => {
-    console.log('params: ', params);
     const response = await API.post(`/products/${params.id}/remove/`, {
       color: params.data,
     });
@@ -108,9 +107,19 @@ export const removeProductCartAllQuantity = createAsyncThunk(
 export const addProductFavorites = createAsyncThunk(
   'addProductFavorites/post',
   async (params) => {
-    console.log('params: ', params);
     const response = await API.post(`/products/${params.id}/favorite_add/`, {
       data: params.data,
+    });
+    return response.data;
+  }
+);
+
+export const addPayment = createAsyncThunk(
+  'addPayment/post',
+  async (params) => {
+    const response = await API.post(`/orders/new_order/`, {
+      mobile: params.mobile,
+      name: params.name,
     });
     return response.data;
   }

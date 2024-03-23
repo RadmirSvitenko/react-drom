@@ -20,24 +20,17 @@ import { getProducts } from 'reducers/productSlice';
 import { getCategories } from 'reducers/categorySlice';
 import { getSubcategories } from 'reducers/subcategorySlice';
 import { getColors } from 'reducers/colorsSlice';
-import Loading from 'components/loading/Loading';
-import { useNavigate } from 'react-router-dom';
 
 const CatalogFilterDrawer = ({ filterDrawer, isLoading }) => {
   const categories =
     useSelector((state) => state.categoryReducer.categories) || [];
-
   const subcategories =
     useSelector((state) => state.subcategoryReducer.subcategories) || [];
   const colors = useSelector((state) => state.colorReducer.colors) || [];
 
   const [priceValue, setPriceValue] = useState([1, 100000]);
   const [filtersData, setFiltersData] = useState({});
-  const [filtersChecked, setFiltersChecked] = useState({
-    category: [],
-    name: '',
-  });
-  console.log('filtersChecked: ', filtersChecked);
+  const [filtersChecked, setFiltersChecked] = useState({});
 
   const dispatch = useDispatch();
 
@@ -62,46 +55,46 @@ const CatalogFilterDrawer = ({ filterDrawer, isLoading }) => {
 
   const handleChangePrice = async (event, newValue) => {
     setPriceValue(newValue);
-    console.log('priceValue: ', priceValue);
   };
 
   const handleFiltersReset = async () => {
-    console.log('zsszszsz');
     await dispatch(getProducts({ category: '' }));
+    setFiltersChecked({});
+    setFiltersData({});
+    window.location.reload();
   };
 
   const handleFiltersChange = async (event, valueName) => {
     const { name, checked, value } = event.target;
-    console.log('name: ', name);
-    console.log('value: ', value);
-    console.log('checked: ', checked);
 
-    let updateFiltersData;
+    const currentCategoryValues = filtersData[name] || [];
 
-    if (checked || priceValue) {
-      updateFiltersData = {
-        ...filtersData,
-        [name]: value,
-        min_price: priceValue[0],
-        max_price: priceValue[1],
-      };
-      await setFiltersData(updateFiltersData);
-
-      await setFiltersChecked((prevData) => ({
-        category: [...prevData.name, name],
-        name: valueName,
-      }));
-
-      await dispatch(getProducts(updateFiltersData));
+    let updatedCategoryValues;
+    if (checked) {
+      updatedCategoryValues = [...currentCategoryValues, value];
     } else {
-      updateFiltersData = {
-        ...filtersData,
-        [name]: '',
-      };
-      setFiltersData(updateFiltersData);
-      await dispatch(getProducts(updateFiltersData));
+      updatedCategoryValues = currentCategoryValues.filter(
+        (category) => category !== value
+      );
     }
+
+    const updatedFiltersData = {
+      ...filtersData,
+      [name]: updatedCategoryValues,
+      min_price: priceValue[0],
+      max_price: priceValue[1],
+    };
+
+    await setFiltersData(updatedFiltersData);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(getProducts(filtersData));
+    };
+
+    fetchData();
+  }, [filtersData, dispatch]);
 
   const handleGetProductData = useCallback(async () => {
     await dispatch(getCategories());
