@@ -72,7 +72,7 @@ const MainPage = () => {
 
     const categoryOne = categories[0];
     const categoryTwo = categories[1];
-    const categoryThree = categories[3];
+    const categoryThree = categories[2];
 
     if (categoryOne) {
       categoryOneId = categoryOne.id;
@@ -398,7 +398,7 @@ const MainPage = () => {
                 </span>
                 <img
                   src={
-                    products?.productTwo?.payload?.[0]?.images?.[0]?.image ||
+                    products?.productsTwo?.payload?.[0]?.images?.[0]?.image ||
                     testImage1
                   }
                   alt="testImage1"

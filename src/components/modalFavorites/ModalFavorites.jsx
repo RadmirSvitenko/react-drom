@@ -53,7 +53,7 @@ const ModalFavorites = ({ open, onClose }) => {
 
   return (
     <SwipeableDrawer
-      transitionDuration={700}
+      transitionDuration={300}
       anchor={'right'}
       open={open}
       onClose={onClose}
@@ -62,7 +62,7 @@ const ModalFavorites = ({ open, onClose }) => {
           width: '100%',
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            width: '100%',
+            // width: '100%',
             boxSizing: 'border-box',
           },
         }),

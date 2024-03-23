@@ -41,7 +41,7 @@ const MenuCategory = ({ open, onClose, visibility, setVisibility }) => {
   return (
     <>
       <CustomSwipeableDrawer
-        transitionDuration={700}
+        transitionDuration={300}
         anchor={'left'}
         open={open}
         onClose={onClose}

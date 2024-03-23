@@ -79,6 +79,7 @@ const ProductDetails = () => {
           data: colorSelected.value,
         })
       );
+      await dispatch(getCart());
     } else {
       setColorSelected((prevValue) => ({
         ...prevValue,
