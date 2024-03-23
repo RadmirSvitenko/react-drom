@@ -1,11 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getTokenFromCookies } from 'cookies';
 import { API } from 'requester';
-import Cookies from 'universal-cookie';
-
-const TOKEN = getTokenFromCookies();
-
-const cookies = new Cookies();
 
 const initialState = {
   catalog: [],

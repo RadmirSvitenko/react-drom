@@ -113,7 +113,6 @@ const ProductDetails = () => {
 
   useEffect(() => {
     handleGetData();
-    // product.images && handleChangeSlide(product.images[0].image);
   }, [handleGetData, id]);
 
   return (

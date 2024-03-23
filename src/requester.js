@@ -3,6 +3,7 @@ import { getTokenFromCookies } from 'cookies';
 
 export const API = axios.create({
   baseURL: 'https://backend.dromstor.com/',
+  withCredentials: true,
 });
 
 API.interceptors.request.use(

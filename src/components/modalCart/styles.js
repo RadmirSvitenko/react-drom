@@ -13,6 +13,7 @@ export const TitleBox = styled(Box)(() => ({
   height: '80px',
   padding: '0px 30px',
   display: 'flex',
+  justifyContent: 'space-between',
   alignItems: 'center',
   fontFamily: theme.typography.fontFamily[1],
   fontSize: '18px',
