@@ -60,14 +60,14 @@ const Payment = () => {
   };
 
   const orderSubmit = async (d) => {
-    try {
-      await addPayment({ mobile: d.phone, name: `${d.name} ${d.surname}` });
-    } catch (error) {
-      setMessagePayment({
-        success: 'Что-то пошло не так',
-        details: 'попробуйте повторить операцию ещё раз',
-      });
-    }
+    // try {
+    await addPayment({ mobile: d.phone, name: `${d.name} ${d.surname}` });
+    // } catch (error) {
+    //   setMessagePayment({
+    //     success: 'Что-то пошло не так',
+    //     details: 'попробуйте повторить операцию ещё раз',
+    //   });
+    // }
   };
 
   const togglePayment = () => {

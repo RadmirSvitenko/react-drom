@@ -1,10 +1,16 @@
-import { Box } from '@mui/material';
+import { Box, Zoom } from '@mui/material';
 import React from 'react';
 import { CustomDialog, CustomText } from './styles';
 
 const ModalPayment = ({ open, onClose, message }) => {
   return (
-    <CustomDialog transitionDuration={300} open={open} onClose={onClose}>
+    <CustomDialog
+      transitionDuration={300}
+      open={open}
+      onClose={onClose}
+      TransitionComponent={Zoom}
+      keepMounted
+    >
       <Box
         sx={{
           width: '100%',
