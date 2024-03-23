@@ -6,6 +6,8 @@ export const FavoritesContainer = styled(Box)(() => ({
   flexWrap: 'wrap',
   height: 'auto',
   display: 'flex',
+  minWidth: '320px',
+  maxWidth: '500px',
 }));
 
 export const TitleBox = styled(Box)(() => ({

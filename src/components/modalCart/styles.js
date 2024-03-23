@@ -6,6 +6,8 @@ export const CartContainer = styled(Box)(() => ({
   flexWrap: 'wrap',
   height: 'auto',
   display: 'flex',
+  minWidth: '320px',
+  maxWidth: '500px',
 }));
 
 export const TitleBox = styled(Box)(() => ({
@@ -42,6 +44,11 @@ export const ProductContainer = styled(Box)(() => ({
   width: '100%',
   height: '120px',
   display: 'flex',
+  [theme.breakpoints.down('sm')]: {
+    // flexDirection: 'column',
+    height: 'auto',
+    gap: '10px',
+  },
 }));
 
 export const ProductImageBox = styled(Box)(({ preview }) => ({
@@ -50,6 +57,11 @@ export const ProductImageBox = styled(Box)(({ preview }) => ({
   backgroundImage: `url(${preview})`,
   backgroundSize: '100% 100%',
   outline: '1px solid #000',
+  [theme.breakpoints.down('sm')]: {
+    width: '120px',
+    height: '120px',
+    margin: '10px 0px',
+  },
 }));
 
 export const ProductInfoBox = styled(Box)(() => ({
@@ -60,6 +72,11 @@ export const ProductInfoBox = styled(Box)(() => ({
   flexWrap: 'wrap',
   justifyContent: 'space-between',
   padding: '0px 16px',
+  [theme.breakpoints.down('sm')]: {
+    height: 'auto',
+    padding: '0px',
+    gap: '20px',
+  },
 }));
 
 export const Counter = styled(Box)(() => ({

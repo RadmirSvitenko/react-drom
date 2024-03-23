@@ -228,7 +228,7 @@ const ProductDetails = () => {
                   {isLoading || !product ? (
                     <Loading width={'200px'} height={'50px'} />
                   ) : (
-                    <TextStyle>${product.price}</TextStyle>
+                    <TextStyle>{product.price} с.</TextStyle>
                   )}
                 </Box>
 
@@ -276,7 +276,7 @@ const ProductDetails = () => {
 
               <Box display={'flex'} justifyContent={'space-between'}>
                 <TextMergeBox>
-                  <TextStyle>${product.price}</TextStyle>
+                  <TextStyle>{product.price} с.</TextStyle>
 
                   <Box display={'flex'} alignItems={'center'} gap={'15px'}>
                     <div onClick={() => handleChangeCounter('-')}>

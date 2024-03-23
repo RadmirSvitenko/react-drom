@@ -149,56 +149,59 @@ const ModalCart = ({ open, onClose }) => {
         {cartData?.map(({ id, product, quantity, color }, index) => (
           <ContentBox key={index}>
             <ProductContainer>
-              <ProductImageBox preview={product?.images[0]?.image} />
-              <ProductInfoBox>
-                <div>
-                  <Typography>Наименование: {product.title}</Typography>
-                  <Typography>Цена: ${product.price * quantity}</Typography>
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <ProductImageBox preview={product?.images[0]?.image} />
+                <ProductInfoBox>
+                  <div>
+                    <Typography sx={{ textWrap: 'wrap' }}>
+                      Наименование: {product.title}
+                    </Typography>
+                    <Typography>Цена: {product.price * quantity} с.</Typography>
+                    <Box display={'flex'}>
+                      <Typography marginRight={'10px'}>Цвет: </Typography>
+
+                      <img
+                        style={{
+                          borderRadius: '5px',
+                        }}
+                        src={color?.image}
+                        alt="color"
+                        width={'40px'}
+                        height={'40px'}
+                      />
+                    </Box>
+                  </div>
+
                   <Box display={'flex'}>
-                    <Typography marginRight={'10px'}>Цвет: </Typography>
+                    <img
+                      src={minus}
+                      alt="minus"
+                      onClick={() =>
+                        handleRemoveProductCart(product.id, color.id)
+                      }
+                    />
+
+                    <Counter>
+                      {isLoading ? (
+                        <CircularProgress
+                          size={16}
+                          sx={{
+                            color: '#000',
+                          }}
+                        />
+                      ) : (
+                        quantity
+                      )}
+                    </Counter>
 
                     <img
-                      style={{
-                        borderRadius: '5px',
-                      }}
-                      src={color?.image}
-                      alt="color"
-                      width={'40px'}
-                      height={'40px'}
+                      src={plus}
+                      alt="plus"
+                      onClick={() => handleAddProductCart(product.id, color.id)}
                     />
                   </Box>
-                </div>
-
-                <Box display={'flex'}>
-                  <img
-                    src={minus}
-                    alt="minus"
-                    onClick={() =>
-                      handleRemoveProductCart(product.id, color.id)
-                    }
-                  />
-
-                  <Counter>
-                    {isLoading ? (
-                      <CircularProgress
-                        size={16}
-                        sx={{
-                          color: '#000',
-                        }}
-                      />
-                    ) : (
-                      quantity
-                    )}
-                  </Counter>
-
-                  <img
-                    src={plus}
-                    alt="plus"
-                    onClick={() => handleAddProductCart(product.id, color.id)}
-                  />
-                </Box>
-              </ProductInfoBox>
-
+                </ProductInfoBox>
+              </div>
               <FunctionBox>
                 <Box
                   onClick={() => handleAllRemoveProductCart(id)}
@@ -219,11 +222,12 @@ const ModalCart = ({ open, onClose }) => {
 
         <FooterBox>
           <span>
-            {t('titleSumm')}: $
+            {t('titleSumm')}:{' '}
             {cartData?.reduce(
               (acc, { quantity, product }) => acc + quantity * product.price,
               0
-            )}
+            )}{' '}
+            с.
           </span>
           <OrderButton
             disabled={cartData && cartData.length > 0 ? false : true}

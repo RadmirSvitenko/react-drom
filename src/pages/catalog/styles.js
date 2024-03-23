@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import theme from 'theme';
 
 export const CatalogContainer = styled(Box)(() => ({
@@ -38,6 +38,14 @@ export const CatalogBox = styled(Box)(() => ({
   alignItems: 'center',
   flexWrap: 'wrap',
   gap: '20px',
+
+  [theme.breakpoints.down('md')]: {
+    gap: '16px',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    gap: '16px',
+  },
 }));
 
 export const CatalogFilterBar = styled(Box)(() => ({

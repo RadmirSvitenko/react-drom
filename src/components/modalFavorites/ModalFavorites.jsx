@@ -57,16 +57,6 @@ const ModalFavorites = ({ open, onClose }) => {
       anchor={'right'}
       open={open}
       onClose={onClose}
-      sx={{
-        ...(sm && {
-          width: '100%',
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: '100%',
-            boxSizing: 'border-box',
-          },
-        }),
-      }}
     >
       <FavoritesContainer>
         <TitleBox>
@@ -114,13 +104,15 @@ const ModalFavorites = ({ open, onClose }) => {
           favorites?.map((product, index) => (
             <ContentBox key={index}>
               <ProductContainer>
-                <ProductImageBox preview={product?.images[0]?.image} />
-                <ProductInfoBox>
-                  <div>
-                    <Typography>{product.title}</Typography>
-                    <Typography>${product.price}</Typography>
-                  </div>
-                </ProductInfoBox>
+                <div>
+                  <ProductImageBox preview={product?.images[0]?.image} />
+                  <ProductInfoBox>
+                    <div>
+                      <Typography>{product.title}</Typography>
+                      <Typography>{product.price} с.</Typography>
+                    </div>
+                  </ProductInfoBox>
+                </div>
 
                 <FunctionBox>
                   <Box
@@ -133,7 +125,7 @@ const ModalFavorites = ({ open, onClose }) => {
                       },
                     }}
                   >
-                    удалить
+                    {t('titleDelete')}
                   </Box>
                 </FunctionBox>
               </ProductContainer>

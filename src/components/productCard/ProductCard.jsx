@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
       <ProductCardImageBox image={product?.images[0]?.image}>
         <ProductCardDetails>
           <Typography>{product?.title}</Typography>
-          <Typography>${product?.price}</Typography>
+          <Typography>{product?.price} .с</Typography>
           <Typography>Подробнее</Typography>
         </ProductCardDetails>
       </ProductCardImageBox>

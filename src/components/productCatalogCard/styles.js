@@ -4,7 +4,7 @@ import theme from 'theme';
 
 export const CardContainer = styled(Paper)(() => ({
   width: '350px',
-  height: '350px',
+  height: '400px',
   display: 'flex',
   flexDirection: 'column',
   borderRadius: '10px',
@@ -16,12 +16,14 @@ export const CardContainer = styled(Paper)(() => ({
 
   [theme.breakpoints.down('md')]: {
     width: '200px',
-    height: '300px',
+    height: '270px',
+    gap: '13px',
   },
 
   [theme.breakpoints.down('sm')]: {
     width: '130px',
     height: '250px',
+    gap: '13px',
   },
 }));
 
@@ -70,6 +72,7 @@ export const CardText = styled(Box)(() => ({
   letterSpacing: '1px',
   boxSizing: 'border-box',
   width: '100px',
+  padding: '5px 0px',
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',

@@ -166,8 +166,8 @@ const Payment = () => {
                   </InfoBox>
                   <PriceBox>
                     <Box>
-                      <Text>${product.price}</Text>
-                      <Text>${product.price * quantity}</Text>
+                      <Text>{product.price} .с</Text>
+                      <Text>{product.price * quantity} .с</Text>
                       <Text></Text>
                     </Box>
 
@@ -258,11 +258,12 @@ const Payment = () => {
           </ErrorMessageBox>
 
           <Text>
-            {t('titleTotal')}: $
+            {t('titleTotal')}:{' '}
             {cartData?.reduce(
               (acc, { product, quantity }) => acc + product.price * quantity,
               0
-            )}
+            )}{' '}
+            .с
           </Text>
           <OrderButton type="submit">{t('titleOrder')}</OrderButton>
         </Form>

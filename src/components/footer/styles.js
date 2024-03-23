@@ -92,10 +92,12 @@ export const TextMessenger = styled(Box)(() => ({
 export const BoxMessanger = styled('a')(({ anim }) => ({
   textDecoration: 'none',
   color: '#000',
+  padding: '0px 10px',
   backgroundColor: '#F5F3EE',
   width: '150px',
   display: 'flex',
-  justifyContent: 'space-evenly',
+  justifyContent: 'flex-start',
+  gap: '10px',
   alignItems: 'center',
   borderRadius: '10px',
   letterSpacing: '1px',
