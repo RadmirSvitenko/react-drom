@@ -44,6 +44,7 @@ export const ProductContainer = styled(Box)(() => ({
   width: '100%',
   height: '120px',
   display: 'flex',
+  justifyContent: 'space-between',
 }));
 
 export const ProductImageBox = styled(Box)(({ preview }) => ({
