@@ -4,10 +4,8 @@ import {
   HeaderAccount,
   HeaderAppBar,
   HeaderBox,
-  HeaderCategoryBox,
   HeaderContentBox,
   HeaderIconBox,
-  HeaderTextStyle,
   HeaderToolbar,
   LogoBox,
   SearchField,
@@ -21,7 +19,6 @@ import {
   ListItemText,
   Menu,
   MenuItem,
-  Tabs,
   Tooltip,
   useMediaQuery,
 } from '@mui/material';
@@ -61,7 +58,6 @@ const Header = ({
 
   const products = useSelector((state) => state.productReducer.catalog) || [];
   const cartCounter = useSelector((state) => state.productReducer.cart);
-  console.log('cartCounter: ', cartCounter);
   const favoritesCounter =
     useSelector((state) => state.productReducer.favorites) || [];
 
@@ -87,11 +83,6 @@ const Header = ({
     design: false,
     icon: false,
   });
-
-  // let totalQuantityFavorites = favoritesCounter.reduce(
-  //   (acc, { quantity }) => acc + quantity,
-  //   0
-  // );
 
   const handleLogout = () => {
     removeTokensFromCookies();

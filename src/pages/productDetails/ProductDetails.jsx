@@ -1,7 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addProductCart, getCart, getProduct } from 'reducers/productSlice';
+import {
+  addProductCart,
+  addProductFavorites,
+  getCart,
+  getFavorites,
+  getProduct,
+} from 'reducers/productSlice';
 import {
   BreadcrumbsBox,
   ButtonAddCart,
@@ -24,6 +30,7 @@ import { t } from 'i18next';
 import {
   Box,
   Breadcrumbs,
+  IconButton,
   Tabs,
   Typography,
   useMediaQuery,
@@ -35,11 +42,13 @@ import { toUpPage } from 'globalFunction';
 import minus from 'assets/images/minus.png';
 import plus from 'assets/images/plus.png';
 import { Done } from '@mui/icons-material';
+import favorite_icon from 'assets/images/favorite_icon.png';
 import './styles';
 import theme from 'theme';
 
 const ProductDetails = () => {
   const product = useSelector((state) => state.productReducer.product);
+  const cartCounter = useSelector((state) => state.productReducer.cart);
   const isLoading = useSelector(
     (state) => state.productReducer.isLoadingProducts
   );
@@ -70,6 +79,10 @@ const ProductDetails = () => {
     toUpPage();
   }, [dispatch]);
 
+  const handleGetCart = useCallback(async () => {
+    await dispatch(getCart());
+  }, [dispatch]);
+
   const handleAddProductCart = async (e) => {
     e.preventDefault();
     if (colorSelected.value !== '') {
@@ -79,7 +92,7 @@ const ProductDetails = () => {
           data: colorSelected.value,
         })
       );
-      await dispatch(getCart());
+      handleGetCart();
     } else {
       setColorSelected((prevValue) => ({
         ...prevValue,
@@ -110,6 +123,11 @@ const ProductDetails = () => {
     } else if (value === '+') {
       setCounter(counter + 1);
     }
+  };
+
+  const handleAddToFavorites = async (data, id) => {
+    await dispatch(addProductFavorites({ data: data, id: id }));
+    await dispatch(getFavorites());
   };
 
   useEffect(() => {
@@ -183,6 +201,22 @@ const ProductDetails = () => {
 
           <InfoContainer>
             <InfoBox>
+              <IconButton
+                sx={{
+                  position: 'absolute',
+                  margin: '10px 0px',
+                  top: '0',
+                  right: '0',
+                }}
+                onClick={() => handleAddToFavorites(product, product.id)}
+              >
+                <img
+                  src={favorite_icon}
+                  alt={t('titleCart')}
+                  width={'26px'}
+                  height={'26px'}
+                />
+              </IconButton>
               <Box display={'flex'} flexDirection={'column'} gap={'50px'}>
                 <Box lineHeight={'30px'}>
                   {isLoading || !product ? (

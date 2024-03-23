@@ -115,7 +115,14 @@ const CatalogFilterDrawer = ({ filterDrawer, isLoading }) => {
           </AccordionSummary>
 
           {array?.map((value, index) => (
-            <FiltersTextStyle key={index}>
+            <FiltersTextStyle
+              key={index}
+              sx={{
+                width: '280px',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
               <Checkbox
                 checked={
                   filtersChecked?.category?.includes(filterName) &&

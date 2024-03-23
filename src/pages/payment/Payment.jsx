@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   addPayment,
+  addProductCart,
   getCart,
+  removeProductCart,
   removeProductCartAllQuantity,
 } from 'reducers/productSlice';
 import {
@@ -42,7 +44,7 @@ const Payment = () => {
   ]);
 
   const [modalPayment, setModalPayment] = useState(false);
-  const [cartId, setCartId] = useState();
+  const [cartData, setCartData] = useState([]);
   const [messagePayment, setMessagePayment] = useState({
     success: 'Всё прошло успешно!',
     details: 'С вами свяжутся в течении 1 - 2 дней',
@@ -57,7 +59,8 @@ const Payment = () => {
   } = useForm();
 
   const handleGetData = useCallback(async () => {
-    await dispatch(getCart());
+    const cartList = await dispatch(getCart());
+    setCartData(cartList?.payload);
   }, [dispatch]);
 
   const handleChangeLinks = (link) => () => {
@@ -70,8 +73,6 @@ const Payment = () => {
   };
 
   const orderSubmit = async (d) => {
-    console.log('d: ', d);
-
     try {
       await dispatch(addPayment({ mobile: d.phone, name: d.name }));
       setModalPayment(true);
@@ -92,6 +93,7 @@ const Payment = () => {
   useEffect(() => {
     handleGetData();
   }, [handleGetData]);
+
   return (
     <Container>
       <BreadcrumbsBox>
@@ -102,68 +104,90 @@ const Payment = () => {
         </Breadcrumbs>
       </BreadcrumbsBox>
 
-      <DeleteAllBox>
+      {/* <DeleteAllBox>
         <DeleteAllButton onClick={() => handleAllClear(cartId)}>
           {t('titleDelete')}
         </DeleteAllButton>
-      </DeleteAllBox>
+      </DeleteAllBox> */}
 
       <OrderContainer>
         <InfoContainer>
           <ProductsContainer>
-            {cart?.map(({ id, color, product, quantity }, index) => (
-              <ProductBox>
-                <Image image={product?.images[0]?.image} />
-                <InfoBox>
-                  <Text>{product.title}</Text>
-                  <Box display={'flex'} gap={'20px'}>
-                    <Text>Цвет: </Text>
+            {cartData.length === 0 ? (
+              <Box
+                sx={{
+                  width: '700px',
+                  height: '500px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textWrap: 'wrap',
+                }}
+              >
+                <Text>Вы ничего не выбрали</Text>
+              </Box>
+            ) : (
+              cartData?.map(({ id, color, product, quantity }, index) => (
+                <ProductBox>
+                  <Image image={product?.images[0]?.image} />
+                  <InfoBox>
+                    <Text>{product.title}</Text>
+                    <Box display={'flex'} gap={'20px'}>
+                      <Text>Цвет: </Text>
+                      <img
+                        width={'50px'}
+                        height={'50px'}
+                        src={color?.image}
+                        alt={product.title}
+                        style={{
+                          borderRadius: '10px',
+                          outline: '1px solid #000',
+                        }}
+                      />
+                    </Box>
+
+                    <Box display={'flex'} gap={'10px'} alignItems={'center'}>
+                      <img src={carIcon} alt="carIcon" />
+
+                      <Typography
+                        variant="span"
+                        sx={{
+                          fontSize: '12px',
+                          color: '#006EBE',
+                        }}
+                      >
+                        {t('textSafeguards')}
+                      </Typography>
+                    </Box>
+
+                    <Text>
+                      {t('titleQuantity')}: {quantity}
+                    </Text>
+                  </InfoBox>
+                  <PriceBox>
+                    <Box>
+                      <Text>${product.price}</Text>
+                      <Text>${product.price * quantity}</Text>
+                      <Text></Text>
+                    </Box>
+
                     <img
-                      width={'50px'}
-                      height={'50px'}
-                      src={color?.image}
-                      alt={product.title}
+                      onClick={() => handleAllClear(id)}
+                      width={'40px'}
+                      height={'40px'}
+                      src={deleteIcon}
+                      alt="deleteIcon"
                       style={{
-                        borderRadius: '10px',
-                        outline: '1px solid #000',
+                        cursor: 'pointer',
+                        '&:hover': {
+                          opacity: 0.7,
+                        },
                       }}
                     />
-                  </Box>
-
-                  <Box display={'flex'} gap={'10px'} alignItems={'center'}>
-                    <img src={carIcon} alt="carIcon" />
-
-                    <Typography
-                      variant="span"
-                      sx={{
-                        fontSize: '12px',
-                        color: '#006EBE',
-                      }}
-                    >
-                      {t('textSafeguards')}
-                    </Typography>
-                  </Box>
-
-                  <Text>
-                    {t('titleQuantity')}: {quantity}
-                  </Text>
-                </InfoBox>
-                <PriceBox>
-                  <Box>
-                    <Text>${product.price}</Text>
-                    <Text>${product.price * quantity}</Text>
-                    <Text></Text>
-                  </Box>
-
-                  <img
-                    width={'40px'}
-                    height={'40px'}
-                    src={deleteIcon}
-                    alt="deleteIcon"
-                  />
-                </PriceBox>
-              </ProductBox>
-            ))}
+                  </PriceBox>
+                </ProductBox>
+              ))
+            )}
           </ProductsContainer>
         </InfoContainer>
 
@@ -235,7 +259,7 @@ const Payment = () => {
 
           <Text>
             {t('titleTotal')}: $
-            {cart?.reduce(
+            {cartData?.reduce(
               (acc, { product, quantity }) => acc + product.price * quantity,
               0
             )}

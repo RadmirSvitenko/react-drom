@@ -111,6 +111,7 @@ export const InfoBox = styled(Box)(() => ({
   flexWrap: 'wrap',
   flexDirection: 'column',
   gap: '30px',
+  position: 'relative',
   padding: '20px 50px',
   boxSizing: 'border-box',
 

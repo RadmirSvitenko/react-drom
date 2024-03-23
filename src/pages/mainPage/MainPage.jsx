@@ -337,6 +337,7 @@ const MainPage = () => {
       </Box>
 
       <ProductPopular />
+
       {sm || md ? (
         <div
           style={{

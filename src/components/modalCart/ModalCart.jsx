@@ -69,6 +69,7 @@ const ModalCart = ({ open, onClose }) => {
   const toPayment = () => {
     navigate('/payment');
     onClose();
+    window.location.reload();
   };
 
   const handleGetCart = useCallback(async () => {
@@ -79,6 +80,12 @@ const ModalCart = ({ open, onClose }) => {
   useEffect(() => {
     handleGetCart();
   }, [handleGetCart]);
+
+  useEffect(() => {
+    if (open) {
+      handleGetCart();
+    }
+  }, [open, handleGetCart]);
 
   return (
     <SwipeableDrawer
