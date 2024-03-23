@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addPayment, getCart } from 'reducers/productSlice';
+import {
+  addPayment,
+  getCart,
+  removeProductCartAllQuantity,
+} from 'reducers/productSlice';
 import {
   BreadcrumbsBox,
   Container,
@@ -38,6 +42,7 @@ const Payment = () => {
   ]);
 
   const [modalPayment, setModalPayment] = useState(false);
+  const [cartId, setCartId] = useState();
   const [messagePayment, setMessagePayment] = useState({
     success: 'Всё прошло успешно!',
     details: 'С вами свяжутся в течении 1 - 2 дней',
@@ -59,15 +64,25 @@ const Payment = () => {
     navigate(link);
   };
 
+  const handleAllClear = async (id) => {
+    await dispatch(removeProductCartAllQuantity({ id: id }));
+    await handleGetData();
+  };
+
   const orderSubmit = async (d) => {
-    // try {
-    await addPayment({ mobile: d.phone, name: `${d.name} ${d.surname}` });
-    // } catch (error) {
-    //   setMessagePayment({
-    //     success: 'Что-то пошло не так',
-    //     details: 'попробуйте повторить операцию ещё раз',
-    //   });
-    // }
+    console.log('d: ', d);
+
+    try {
+      await dispatch(addPayment({ mobile: d.phone, name: d.name }));
+      setModalPayment(true);
+      await dispatch(getCart());
+    } catch (error) {
+      setModalPayment(true);
+      setMessagePayment({
+        success: 'Что-то пошло не так',
+        details: 'попробуйте повторить операцию ещё раз',
+      });
+    }
   };
 
   const togglePayment = () => {
@@ -88,13 +103,15 @@ const Payment = () => {
       </BreadcrumbsBox>
 
       <DeleteAllBox>
-        <DeleteAllButton>удалить</DeleteAllButton>
+        <DeleteAllButton onClick={() => handleAllClear(cartId)}>
+          {t('titleDelete')}
+        </DeleteAllButton>
       </DeleteAllBox>
 
       <OrderContainer>
         <InfoContainer>
           <ProductsContainer>
-            {cart?.map(({ color, product, quantity }, index) => (
+            {cart?.map(({ id, color, product, quantity }, index) => (
               <ProductBox>
                 <Image image={product?.images[0]?.image} />
                 <InfoBox>
@@ -131,7 +148,6 @@ const Payment = () => {
                     {t('titleQuantity')}: {quantity}
                   </Text>
                 </InfoBox>
-
                 <PriceBox>
                   <Box>
                     <Text>${product.price}</Text>

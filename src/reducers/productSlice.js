@@ -117,6 +117,7 @@ export const addProductFavorites = createAsyncThunk(
 export const addPayment = createAsyncThunk(
   'addPayment/post',
   async (params) => {
+    console.log('params: ', params);
     const response = await API.post(`/orders/new_order/`, {
       mobile: params.mobile,
       name: params.name,

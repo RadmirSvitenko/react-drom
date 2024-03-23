@@ -139,7 +139,7 @@ const ModalCart = ({ open, onClose }) => {
               </Button>
             </Box>
           ))}
-        {cartData?.map(({ product, quantity, color }, index) => (
+        {cartData?.map(({ id, product, quantity, color }, index) => (
           <ContentBox key={index}>
             <ProductContainer>
               <ProductImageBox preview={product?.images[0]?.image} />
@@ -194,7 +194,7 @@ const ModalCart = ({ open, onClose }) => {
 
               <FunctionBox>
                 <Box
-                  onClick={() => handleAllRemoveProductCart(product.id)}
+                  onClick={() => handleAllRemoveProductCart(id)}
                   sx={{
                     '&:hover': {
                       transition: '0.5s',
