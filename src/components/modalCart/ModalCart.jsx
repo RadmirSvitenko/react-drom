@@ -149,12 +149,19 @@ const ModalCart = ({ open, onClose }) => {
         {cartData?.map(({ id, product, quantity, color }, index) => (
           <ContentBox key={index}>
             <ProductContainer>
-              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                 <ProductImageBox preview={product?.images[0]?.image} />
                 <ProductInfoBox>
                   <div>
-                    <Typography sx={{ textWrap: 'wrap' }}>
-                      Наименование: {product.title}
+                    <Typography
+                      noWrap
+                      style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        width: '200px',
+                      }}
+                    >
+                      {product.title}
                     </Typography>
                     <Typography>Цена: {product.price * quantity} с.</Typography>
                     <Box display={'flex'}>

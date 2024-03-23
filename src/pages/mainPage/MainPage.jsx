@@ -28,6 +28,10 @@ import slide1 from 'assets/images/slide1.png';
 import slide2 from 'assets/images/slide2.png';
 import slide3 from 'assets/images/slide3.png';
 
+import mobile1 from 'assets/images/mobile-main-image-1.png';
+import mobile2 from 'assets/images/mobile-main-image-2.png';
+import mobile3 from 'assets/images/mobile-main-image-3.png';
+
 import mobileImage1 from 'assets/images/mobileImage1.png';
 import mobileImage2 from 'assets/images/mobileImage2.png';
 import mobileImage3 from 'assets/images/mobileImage3.png';
@@ -56,7 +60,7 @@ const MainPage = () => {
 
   console.log('products: ', products);
   const sliderImages = [slide1, slide2, slide3];
-  const mobileImages = [mobileImage1, mobileImage2, mobileImage3];
+  const mobileImages = [mobile1, mobile2, mobile3];
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -136,19 +140,33 @@ const MainPage = () => {
           className="main-page-slider"
         >
           <SliderContainer>
-            {sliderImages?.map((slide, index) => (
-              <SwiperSlide key={index}>
-                <div
-                  style={{
-                    backgroundImage: `url(${slide})`,
-                    backgroundSize: sm ? '150% 100%' : '100% 100%',
-                    backgroundRepeat: 'no-repeat',
-                  }}
-                  className="slide"
-                  alt="slide"
-                />
-              </SwiperSlide>
-            ))}
+            {sm
+              ? mobileImages?.map((slide, index) => (
+                  <SwiperSlide key={index}>
+                    <div
+                      style={{
+                        backgroundImage: `url(${slide})`,
+                        backgroundSize: '100% 70%',
+                        backgroundRepeat: 'no-repeat',
+                      }}
+                      className="slide"
+                      alt="slide"
+                    />
+                  </SwiperSlide>
+                ))
+              : sliderImages?.map((slide, index) => (
+                  <SwiperSlide key={index}>
+                    <div
+                      style={{
+                        backgroundImage: `url(${slide})`,
+                        backgroundSize: sm ? '150% 100%' : '100% 100%',
+                        backgroundRepeat: 'no-repeat',
+                      }}
+                      className="slide"
+                      alt="slide"
+                    />
+                  </SwiperSlide>
+                ))}
           </SliderContainer>
         </Swiper>
       </Box>
