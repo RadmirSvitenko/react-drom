@@ -235,7 +235,6 @@ const Header = ({
                       style: { outline: '1px solid #000' },
                       ...params.InputProps,
                       type: 'search',
-                      clearIcon: false,
                       endAdornment: (
                         <Box sx={{ display: 'flex' }}>
                           <IconButton type="submit">

@@ -56,6 +56,7 @@ const ModalFavorites = ({ open, onClose }) => {
       transitionDuration={300}
       anchor={'right'}
       open={open}
+      onOpen={onClose}
       onClose={onClose}
     >
       <FavoritesContainer>

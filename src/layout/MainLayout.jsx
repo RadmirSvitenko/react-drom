@@ -80,7 +80,7 @@ const MainLayout = ({ window }) => {
         toggleModalAuth={toggleModalAuth}
       />
       <HeaderCategoryBox>
-        <Tabs centered variant="scrollable" sx={{ alignItems: 'center' }}>
+        <Tabs variant="scrollable" sx={{ alignItems: 'center' }}>
           {categories?.map(({ id, name }) => (
             <HeaderTextStyle key={id} onClick={() => toCatalog('category', id)}>
               {name}

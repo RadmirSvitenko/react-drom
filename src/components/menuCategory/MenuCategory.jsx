@@ -45,6 +45,7 @@ const MenuCategory = ({ open, onClose, visibility, setVisibility }) => {
         anchor={'left'}
         open={open}
         onClose={onClose}
+        onOpen={onClose}
         sx={{
           ...(sm && {
             width: '100%',
@@ -65,8 +66,9 @@ const MenuCategory = ({ open, onClose, visibility, setVisibility }) => {
           </IconButton>
           <CustomUl>
             {categories?.map(({ id, name }) => (
-              <React.Fragment key={id}>
+              <>
                 <CustomCategoryBox
+                  key={id}
                   name={name}
                   checkedNameCategory={visibility.checkedNameCategory}
                   design={visibility.design}
@@ -83,7 +85,7 @@ const MenuCategory = ({ open, onClose, visibility, setVisibility }) => {
                     </CustomListBoxIcon>
                   )}
                 </CustomCategoryBox>
-              </React.Fragment>
+              </>
             ))}
           </CustomUl>
 
@@ -91,7 +93,7 @@ const MenuCategory = ({ open, onClose, visibility, setVisibility }) => {
             orientation={sm ? 'vertical' : 'horizontal'}
             timeout={2000}
             in={visibility.bind}
-            sx={sm && { display: 'none' }}
+            sx={sm ? { display: 'none' } : { display: 'flex' }}
           >
             <CustomUlSubMenu design={visibility.design} type="tables">
               {subcategories

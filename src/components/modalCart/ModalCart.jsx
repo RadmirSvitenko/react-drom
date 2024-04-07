@@ -93,6 +93,7 @@ const ModalCart = ({ open, onClose }) => {
       anchor={'right'}
       open={open}
       onClose={onClose}
+      onOpen={onClose}
       sx={{
         ...(sm && {
           width: '100%',

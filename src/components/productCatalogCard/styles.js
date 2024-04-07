@@ -21,8 +21,8 @@ export const CardContainer = styled(Paper)(() => ({
   },
 
   [theme.breakpoints.down('sm')]: {
-    width: '130px',
-    height: '250px',
+    width: '220px',
+    height: '300px',
     gap: '13px',
   },
 }));
@@ -71,7 +71,7 @@ export const CardText = styled(Box)(() => ({
   fontSize: '14px',
   letterSpacing: '1px',
   boxSizing: 'border-box',
-  width: '100px',
+  width: '100%',
   padding: '5px 0px',
   overflow: 'hidden',
   whiteSpace: 'nowrap',
@@ -100,7 +100,7 @@ export const CardButton = styled(Box)(({ viasableButton }) => ({
   },
 
   [theme.breakpoints.down('sm')]: {
-    fontSize: '6px',
+    fontSize: '10px',
   },
 
   '&:hover': {

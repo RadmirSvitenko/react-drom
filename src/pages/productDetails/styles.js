@@ -170,6 +170,7 @@ export const TextMergeBox = styled(Box)(() => ({
 
   [theme.breakpoints.down('sm')]: {
     justifyContent: 'center',
+    width: 'auto',
   },
 }));
 

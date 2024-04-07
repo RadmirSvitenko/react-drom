@@ -67,7 +67,7 @@ const ProductPopular = ({ onClose }) => {
               </SwiperSlide>
             ))
           : products?.map((product) => (
-              <SwiperSlide>
+              <SwiperSlide key={product.id}>
                 <ProductCard product={product} />
               </SwiperSlide>
             ))}
