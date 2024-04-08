@@ -93,11 +93,19 @@ const ProductDetails = () => {
         })
       );
       handleGetCart();
+    } else if (product?.colors && product?.colors.length === 0) {
+      await dispatch(
+        addProductCart({
+          id: product.id,
+          data: '',
+        })
+      );
     } else {
       setColorSelected((prevValue) => ({
         ...prevValue,
         message: true,
       }));
+      return; // Остановить выполнение функции, чтобы избежать отправки пустых кавычек и получения корзины
     }
 
     await dispatch(getCart());
@@ -308,15 +316,7 @@ const ProductDetails = () => {
             </InfoBox>
           </InfoContainer>
           <DescriptionContainer>
-            <Box>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Assumenda et aut, similique doloremque odio provident facilis
-              animi non consequatur omnis ipsam vitae tempora fuga eligendi
-              quidem iure adipisci reprehenderit possimus. Lorem ipsum dolor sit
-              amet consectetur adipisicing elit. Aliquid ipsum, corporis nam
-              odio nesciunt eaque laboriosam, quae error temporibus deleniti,
-              mollitia soluta in recusandae eos quaerat iure vero dolores at?
-            </Box>
+            <Box>{product?.description}</Box>
           </DescriptionContainer>
         </CardContainer>
       </form>
