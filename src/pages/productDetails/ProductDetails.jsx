@@ -279,13 +279,19 @@ const ProductDetails = () => {
                   <TextStyle>{product.price} с.</TextStyle>
 
                   <Box display={'flex'} alignItems={'center'} gap={'15px'}>
-                    <div onClick={() => handleChangeCounter('-')}>
+                    <div
+                      style={{ alignItems: 'center' }}
+                      onClick={() => handleChangeCounter('-')}
+                    >
                       <img src={minus} alt="-" />
                     </div>
 
                     <Typography>{counter}</Typography>
 
-                    <div onClick={() => handleChangeCounter('+')}>
+                    <div
+                      style={{ alignItems: 'center' }}
+                      onClick={() => handleChangeCounter('+')}
+                    >
                       <img src={plus} alt="-" />
                     </div>
                   </Box>

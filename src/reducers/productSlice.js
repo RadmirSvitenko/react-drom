@@ -26,6 +26,8 @@ export const getProducts = createAsyncThunk(
     if (params.subcategory) queryParams.subcategory = params.subcategory;
     if (params.min_price) queryParams.min_price = params.min_price;
     if (params.max_price) queryParams.max_price = params.max_price;
+    if (params.page) queryParams.page = params.page;
+    if (params.offset) queryParams.offset = params.offset;
 
     const queryString = new URLSearchParams(queryParams).toString();
 

@@ -33,6 +33,7 @@ const Catalog = () => {
   const { filter, value } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(3);
   const [filterDrawer, setFilterDrawer] = useState(false);
   const [visibilityUpButton, setVisibilityUpButton] = useState(false);
   const [breadcrumbs, setBreadcrumbs] = useState([
@@ -43,8 +44,14 @@ const Catalog = () => {
   const { t } = useTranslation();
 
   const handleGetProducts = useCallback(async () => {
-    await dispatch(getProducts({ [filter]: value }));
-  }, [dispatch, filter, value]);
+    await dispatch(
+      getProducts({
+        [filter]: value,
+        page: currentPage,
+        offset: pageSize,
+      })
+    );
+  }, [dispatch, filter, value, currentPage]);
 
   const handleChangePage = (e, page) => {
     setCurrentPage(page);
@@ -115,7 +122,7 @@ const Catalog = () => {
             <Pagination
               onChange={handleChangePage}
               page={currentPage}
-              count={Math.ceil(products.length / 20) || 1}
+              count={Math.ceil(products.length / pageSize) || 1}
               color="secondary"
               showFirstButton
               showLastButton

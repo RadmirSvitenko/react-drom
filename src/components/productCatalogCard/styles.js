@@ -10,6 +10,7 @@ export const CardContainer = styled(Paper)(() => ({
   borderRadius: '10px',
   justifyContent: 'space-between',
   padding: '20px',
+  gap: '13px',
   backgroundColor: '#FAFAFA',
   outline: '1px solid #000',
   boxShadow: '0px 5px 6px 0px rgba(34, 60, 80, 0.32)',
