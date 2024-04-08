@@ -637,15 +637,17 @@ const MainPage = () => {
           className="category-slider"
           centeredSlides={true}
         >
-          {products?.productsThree?.payload?.map((slide, index) => (
-            <SwiperSlide key={index} className="category-slider-slide">
-              <SlideCategory image={slide.images[0]?.image}>
-                <SlideCategoryDetails onClick={() => toDetails(slide.id)}>
-                  Подробнее
-                </SlideCategoryDetails>
-              </SlideCategory>
-            </SwiperSlide>
-          ))}
+          {Array.isArray(products)?.productsThree?.payload?.map(
+            (slide, index) => (
+              <SwiperSlide key={index} className="category-slider-slide">
+                <SlideCategory image={slide.images[0]?.image}>
+                  <SlideCategoryDetails onClick={() => toDetails(slide.id)}>
+                    Подробнее
+                  </SlideCategoryDetails>
+                </SlideCategory>
+              </SwiperSlide>
+            )
+          )}
         </Swiper>
       </Box>
     </>

@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Breadcrumbs, Pagination } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import ProductCatalogCard from 'components/productCatalogCard/ProductCatalogCard';
-import { getProducts } from 'reducers/productSlice';
+import { getProducts, getProductsCount } from 'reducers/productSlice';
 import { TuneRounded } from '@mui/icons-material';
 import CatalogFilterDrawer from 'components/catalogFilterDrawer/CatalogFilterDrawer';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,8 @@ import arrowUp from 'assets/images/ArrowUp.svg';
 
 const Catalog = () => {
   const products = useSelector((state) => state.productReducer.catalog);
+  const count = useSelector((state) => state.productReducer.productsCount);
+  console.log('count: ', count);
   const isLoading = useSelector(
     (state) => state.productReducer.isLoadingProducts
   );
@@ -33,7 +35,6 @@ const Catalog = () => {
   const { filter, value } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(3);
   const [filterDrawer, setFilterDrawer] = useState(false);
   const [visibilityUpButton, setVisibilityUpButton] = useState(false);
   const [breadcrumbs, setBreadcrumbs] = useState([
@@ -48,7 +49,6 @@ const Catalog = () => {
       getProducts({
         [filter]: value,
         page: currentPage,
-        offset: pageSize,
       })
     );
   }, [dispatch, filter, value, currentPage]);
@@ -80,6 +80,7 @@ const Catalog = () => {
 
   useEffect(() => {
     handleGetProducts();
+    dispatch(getProductsCount());
   }, [handleGetProducts]);
 
   return (
@@ -122,7 +123,7 @@ const Catalog = () => {
             <Pagination
               onChange={handleChangePage}
               page={currentPage}
-              count={Math.ceil(products.length / pageSize) || 1}
+              count={Math.ceil(count / 10) || 1}
               color="secondary"
               showFirstButton
               showLastButton

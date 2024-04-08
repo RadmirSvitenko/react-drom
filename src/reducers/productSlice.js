@@ -14,7 +14,6 @@ const initialState = {
   isLoadingFavorites: false,
   error: false,
 };
-
 export const getProducts = createAsyncThunk(
   'getProducts/get',
   async (params) => {
@@ -27,12 +26,19 @@ export const getProducts = createAsyncThunk(
     if (params.min_price) queryParams.min_price = params.min_price;
     if (params.max_price) queryParams.max_price = params.max_price;
     if (params.page) queryParams.page = params.page;
-    if (params.offset) queryParams.offset = params.offset;
 
     const queryString = new URLSearchParams(queryParams).toString();
 
     const response = await API.get(`products/?${queryString}`);
     return response.data.results;
+  }
+);
+
+export const getProductsCount = createAsyncThunk(
+  'getProductsCount/get',
+  async () => {
+    const response = await API.get(`products/`);
+    return response.data.count;
   }
 );
 
@@ -140,9 +146,24 @@ const productSlice = createSlice({
     });
     builder.addCase(getProducts.fulfilled, (state, action) => {
       state.isLoadingProducts = false;
+      state.productsCount = action.payload.count;
       state.catalog = action.payload;
     });
     builder.addCase(getProducts.rejected, (state, action) => {
+      state.isLoadingProducts = false;
+      state.error = action.error;
+    });
+
+    // getProductsCount
+
+    builder.addCase(getProductsCount.pending, (state) => {
+      state.isLoadingProducts = true;
+    });
+    builder.addCase(getProductsCount.fulfilled, (state, action) => {
+      state.isLoadingProducts = false;
+      state.productsCount = action.payload;
+    });
+    builder.addCase(getProductsCount.rejected, (state, action) => {
       state.isLoadingProducts = false;
       state.error = action.error;
     });
